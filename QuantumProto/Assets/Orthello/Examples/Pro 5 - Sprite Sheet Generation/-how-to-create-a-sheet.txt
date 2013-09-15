@@ -1,0 +1,23 @@
+
+
+  To use the create a spritesheet functionality,
+
+  1. Create an empty scene and add the OT main object
+     or open the CProExample5 unity scene.
+
+  2. Select the folder that contains all images you want to
+     put on the spritesheet.
+
+     IMPORTANT! in Unity4 the folder is only selected when you
+     select a file in that particular folder. So select one 
+     of the images when in Unity4
+
+  3. Accept this image path by clicking the 'Use Import Path' button
+
+  4. No configure the settings and click the 'Create Sprite Sheet' Button
+
+
+  More info can be found in the user manual on :
+
+  http://www.wyrmtale.com/orthello-pro/sprite-sheet-generation
+
