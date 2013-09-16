@@ -1,9 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Orthello/Standard Assets/OT/_Base/TintedAlpha.shader">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../../../../../Dropbox/Classwork/CS354S/Unity/PointAndClick/Scripts/script_enemy.cs">
     <Files>
       <File FileName="../../../../../Dropbox/Classwork/CS354S/Unity/PointAndClick/Scripts/script_enemy.cs" Line="60" Column="51" />
       <File FileName="Assets/Orthello/Standard Assets/OT/_Base/TintedAlpha.shader" Line="6" Column="1" />
+      <File FileName="Assets/Orthello/Examples/2 - Moving collidable sprites/CExample2.cs" Line="128" Column="9" />
+      <File FileName="Assets/Orthello/Examples/2 - Moving collidable sprites/CBlock2.cs" Line="1" Column="1" />
+      <File FileName="Assets/Orthello/Examples/2 - Moving collidable sprites/CStar2.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
