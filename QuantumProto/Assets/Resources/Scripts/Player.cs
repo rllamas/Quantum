@@ -39,6 +39,7 @@ public class Player : MonoBehaviour {
 		currentDirection = playerDirections.NONE;
 		currentlyJumping = false;
 		
+		// Don't allow rotations
 		rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | 
 								RigidbodyConstraints.FreezeRotationZ;
 		
@@ -59,11 +60,12 @@ public class Player : MonoBehaviour {
 		UpdateDirection();
 		UpdateState();
 		Move();
-
+		
+		HandleActions(); // Pick up sapling if you can
 	}
 	
 	
-	void UpdateDirection() {
+	private void UpdateDirection() {
 		// Handle changing directions right to left
 		if (Input.GetKey("left")) {
 			
@@ -82,7 +84,7 @@ public class Player : MonoBehaviour {
 	}
 	
 	
-	void UpdateState() {
+	private void UpdateState() {
 		// If in midair, ignore. state will be changed from jumping in collision detection handler. 
 		if (currentlyJumping) {
 			return;
@@ -102,7 +104,7 @@ public class Player : MonoBehaviour {
 	}
 	
 	
-	void Move() {
+	private void Move() {
 
 		// if starting a jump
 		if (Input.GetButton("Jump") && !currentlyJumping) {
@@ -130,6 +132,14 @@ public class Player : MonoBehaviour {
 			else if (currentDirection == playerDirections.RIGHT) {
 				this.transform.Translate( new Vector2(walkingVelocity * Time.deltaTime, 0) );
 			}
+		}
+	}
+	
+	
+	// Handle actions such as picking up a sapling
+	private void HandleActions() {
+		if (Input.GetButton("Fire1")) {
+				
 		}
 	}
 	
