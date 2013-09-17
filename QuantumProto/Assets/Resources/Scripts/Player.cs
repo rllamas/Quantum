@@ -5,7 +5,7 @@ public class Player : MonoBehaviour {
 	
 	#region public variables
 		public float walkingVelocity = 1000.0f;
-		public float jumpingVelocity = 15000.0f;
+		public float jumpingVelocity = 12000.0f;
 	#endregion
 	
 	#region private variables
@@ -83,7 +83,7 @@ public class Player : MonoBehaviour {
 	
 	
 	void UpdateState() {
-		// If in midair, ignore. state will be changed from jumping in collision detection. 
+		// If in midair, ignore. state will be changed from jumping in collision detection handler. 
 		if (currentlyJumping) {
 			return;
 		}
@@ -105,17 +105,28 @@ public class Player : MonoBehaviour {
 	void Move() {
 
 		// if starting a jump
-		if (currentState == playerStates.JUMPING && !currentlyJumping) {
+		if (Input.GetButton("Jump") && !currentlyJumping) {
 			currentlyJumping = true;
-			//this.rigidbody.AddForce( new Vector3(0, jumpingVelocity * Time.deltaTime, 0) );
-			this.transform.Translate( new Vector2(0, jumpingVelocity * Time.deltaTime) );
+			// jumping straight up
+			if (currentDirection == playerDirections.NONE) {
+				this.transform.Translate( new Vector2(0, jumpingVelocity * Time.deltaTime) );
+			}
+			// jumping left
+			else if (currentDirection == playerDirections.LEFT) {
+				this.transform.Translate( new Vector2(-1 * walkingVelocity * Time.deltaTime, jumpingVelocity * Time.deltaTime) );
+			}
+			// jumping right
+			else if (currentDirection == playerDirections.RIGHT) {
+				this.transform.Translate( new Vector2(walkingVelocity * Time.deltaTime, jumpingVelocity * Time.deltaTime) );
+			}
 		}
+		// If walking or falling
 		else if (currentState == playerStates.WALKING || currentState == playerStates.JUMPING) {
-			// if walking left
+			// if facing left
 			if (currentDirection == playerDirections.LEFT) {
 				this.transform.Translate( new Vector2(-1 * walkingVelocity * Time.deltaTime, 0) );
 			}
-			// if walking right
+			// if facing right
 			else if (currentDirection == playerDirections.RIGHT) {
 				this.transform.Translate( new Vector2(walkingVelocity * Time.deltaTime, 0) );
 			}
@@ -123,6 +134,7 @@ public class Player : MonoBehaviour {
 	}
 	
 	
+	// Unity collision detection handler
 	public void OnCollisionEnter(Collision collision) {
 		
 		Debug.Log (this.name + " is colliding with an Unity object!");
@@ -136,7 +148,7 @@ public class Player : MonoBehaviour {
 	}
 	
 	
-	// This method will be called when this block is hit.
+	// Orthello collision detection handler
 	public void OnCollision(OTObject owner) {
 		
 		Debug.Log (owner.name + " is colliding with an Orthello object!");
