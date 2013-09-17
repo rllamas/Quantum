@@ -2,7 +2,16 @@
 using System.Collections;
 
 public class Player : MonoBehaviour {
-
+	
+	#region public variables
+		public float walkingVelocity = 1000.0f;
+	#endregion
+	
+	#region private variables
+		OTSprite playerSprite;
+	#endregion
+	
+	
 	// Use this for initialization
 	void Start () {
 		Debug.Log ("Initializing player...");
@@ -11,16 +20,23 @@ public class Player : MonoBehaviour {
 		// ORTHELLO EXAMPLE CODE
 		
 		// Lookup this block's sprite
-	    OTSprite sprite = GetComponent<OTSprite>();
-		sprite.name = "Player";
+	    playerSprite = GetComponent<OTSprite>();
+		playerSprite.name = "Player";
 	    // Set this sprite's collision delegate 
 	    // HINT : We could use sprite.InitCallBacks(this) as well.
 	    // but because delegates are the C# way we will use this technique
-	    sprite.onCollision = OnCollision;  
+	    playerSprite.onCollision = OnCollision;  
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		
+		if (Input.GetKey("left")) {
+			this.transform.Translate( new Vector2(-1 * walkingVelocity * Time.deltaTime, 0) );
+		}
+		else if (Input.GetKey("right")) {
+			this.transform.Translate( new Vector2(walkingVelocity * Time.deltaTime, 0) );
+		}
 	
 	}
 	
