@@ -5,7 +5,7 @@ public class Player : MonoBehaviour {
 	
 	#region public variables
 		public float walkingVelocity = 1000.0f;
-		public float jumpHeight = 500.0f;
+		public float jumpingVelocity = 500.0f;
 	#endregion
 	
 	#region private variables
@@ -52,13 +52,11 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		// Update direction
+
 		UpdateDirection();
 		UpdateState();
 		Move();
-		// Update state
-		// move player based on state
-	
+
 	}
 	
 	
@@ -81,7 +79,7 @@ public class Player : MonoBehaviour {
 	void UpdateState() {
 		// If in midair, ignore. state will be changed from jumping in collision detection. 
 		if (currentlyJumping) {
-			return;	
+			return;
 		}
 		else if (Input.GetKey("left")) {
 			currentState = playerStates.WALKING;
@@ -102,6 +100,10 @@ public class Player : MonoBehaviour {
 		if (currentlyJumping) {
 			return;
 		}
+		else if (Input.GetButton("Jump") && !currentlyJumping) {
+			currentlyJumping = true;
+			this.transform.Translate( new Vector2(0, jumpingVelocity * Time.deltaTime) );
+		}
 		else if (Input.GetKey("left")) {
 			// if player should walk left
 			if (currentState == playerStates.WALKING) {
@@ -115,6 +117,7 @@ public class Player : MonoBehaviour {
 			}
 		}	
 	}
+	
 	
 	// This method will be called when this block is hit.
 	public void OnCollision(OTObject owner) {
