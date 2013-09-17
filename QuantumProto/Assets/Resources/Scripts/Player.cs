@@ -5,7 +5,7 @@ public class Player : MonoBehaviour {
 	
 	#region public variables
 		public float walkingVelocity = 1000.0f;
-		public float jumpingVelocity = 500.0f;
+		public float jumpingVelocity = 15000.0f;
 	#endregion
 	
 	#region private variables
@@ -18,6 +18,7 @@ public class Player : MonoBehaviour {
 		}
 	
 		public enum playerDirections { // public only for debugging
+			NONE,
 			LEFT,
 			RIGHT
 		}
@@ -35,9 +36,11 @@ public class Player : MonoBehaviour {
 		Debug.Log ("Initializing player...");
 		
 		currentState = playerStates.STANDING;
-		currentDirection = playerDirections.LEFT;
+		currentDirection = playerDirections.NONE;
 		currentlyJumping = false;
 		
+		rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | 
+								RigidbodyConstraints.FreezeRotationZ;
 		
 		// ORTHELLO EXAMPLE CODE
 		
@@ -63,16 +66,19 @@ public class Player : MonoBehaviour {
 	void UpdateDirection() {
 		// Handle changing directions right to left
 		if (Input.GetKey("left")) {
-			if (currentDirection == playerDirections.RIGHT) {
-				currentDirection = playerDirections.LEFT;	
-			}
+			
+			playerSprite.flipHorizontal = false; // Change the way the sprite is facing
+			currentDirection = playerDirections.LEFT;
 		}
 		// Handle changing directions left to right
 		else if (Input.GetKey("right")) {
-			if (currentDirection == playerDirections.LEFT) {
-				currentDirection = playerDirections.RIGHT;	
-			}
+			
+			playerSprite.flipHorizontal = true;	// Change the way the sprite is facing
+			currentDirection = playerDirections.RIGHT;
 		}	
+		else {
+			currentDirection = playerDirections.NONE;	
+		}
 	}
 	
 	
@@ -97,38 +103,43 @@ public class Player : MonoBehaviour {
 	
 	
 	void Move() {
-		if (currentlyJumping) {
-			return;
-		}
-		else if (Input.GetButton("Jump") && !currentlyJumping) {
+
+		// if starting a jump
+		if (currentState == playerStates.JUMPING && !currentlyJumping) {
 			currentlyJumping = true;
+			//this.rigidbody.AddForce( new Vector3(0, jumpingVelocity * Time.deltaTime, 0) );
 			this.transform.Translate( new Vector2(0, jumpingVelocity * Time.deltaTime) );
 		}
-		else if (Input.GetKey("left")) {
-			// if player should walk left
-			if (currentState == playerStates.WALKING) {
+		else if (currentState == playerStates.WALKING || currentState == playerStates.JUMPING) {
+			// if walking left
+			if (currentDirection == playerDirections.LEFT) {
 				this.transform.Translate( new Vector2(-1 * walkingVelocity * Time.deltaTime, 0) );
 			}
-		}
-		else if (Input.GetKey("right")) {
-			// if player should walk right
-			if (currentState == playerStates.WALKING) {
+			// if walking right
+			else if (currentDirection == playerDirections.RIGHT) {
 				this.transform.Translate( new Vector2(walkingVelocity * Time.deltaTime, 0) );
 			}
-		}	
+		}
+	}
+	
+	
+	public void OnCollisionEnter(Collision collision) {
+		
+		Debug.Log (this.name + " is colliding with an Unity object!");
+		
+		// If landing from a jump
+		if (currentlyJumping) {
+			currentState = playerStates.STANDING;	
+			currentlyJumping = false;
+		}
+		
 	}
 	
 	
 	// This method will be called when this block is hit.
 	public void OnCollision(OTObject owner) {
 		
-		Debug.Log (owner.name + " is colliding with something!");
-		
-		// If landing from a jump
-		if (currentState == playerStates.JUMPING) {
-			currentState = playerStates.STANDING;	
-			currentlyJumping = false;
-		}
+		Debug.Log (owner.name + " is colliding with an Orthello object!");
 		
 	}
 }
