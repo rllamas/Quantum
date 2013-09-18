@@ -6,17 +6,24 @@ public class Player : MonoBehaviour {
 	#region public variables
 		public float walkingVelocity = 1000.0f;
 		public float jumpingVelocity = 12000.0f;
+	
+	
+		public enum playerTimes { // accessed by portal scripts
+			PAST,
+			FUTURE
+		}
+		public playerTimes currentTime; // accessed by portal scripts
 	#endregion
 	
 	#region private variables
 		private OTSprite playerSprite;
+	
 	
 		public enum playerStates { // public only for debugging
 			STANDING,
 			WALKING,
 			JUMPING
 		}
-	
 		public enum playerDirections { // public only for debugging
 			NONE,
 			LEFT,
@@ -25,7 +32,8 @@ public class Player : MonoBehaviour {
 	
 		public playerStates currentState; // public only for debugging
 		public playerDirections currentDirection; // public only for debugging
-		public bool currentlyJumping;
+		
+		public bool currentlyJumping; // public only for debugging
 	#endregion
 	
 	
@@ -37,11 +45,16 @@ public class Player : MonoBehaviour {
 		
 		currentState = playerStates.STANDING;
 		currentDirection = playerDirections.NONE;
+		currentTime = playerTimes.PAST;
 		currentlyJumping = false;
+		
+		// Save state of player script when loading a level
+		Object.DontDestroyOnLoad(this.GetComponent<Player>());
 		
 		// Don't allow rotations
 		rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | 
 								RigidbodyConstraints.FreezeRotationZ;
+		
 		
 		// ORTHELLO EXAMPLE CODE
 		
