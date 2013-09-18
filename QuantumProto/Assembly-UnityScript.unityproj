@@ -82,6 +82,7 @@
      <None Include="Assets\Resources\Tilemaps\test_map_003.xml" />
      <None Include="Assets\Resources\Tilemaps\test_map_004.xml" />
      <None Include="Assets\Resources\Tilemaps\test_map_002.xml" />
+     <None Include="Assets\Resources\Tilemaps\Tutorial_Past\Tutorial_Past.xml" />
      <None Include="Assets\Orthello\Examples\0 - Simple Examples\TextSprites\Atlases\chalk.xml" />
      <None Include="Assets\Orthello\Examples\Pro 6 - TILED - TileMap Support\TiledSupport-2.xml" />
      <None Include="Assets\Orthello\Examples\0 - Simple Examples\Multi Resolution Art\atlas.xml" />

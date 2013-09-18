@@ -5,8 +5,9 @@ public class Player : MonoBehaviour {
 	
 	#region public variables
 		public float walkingVelocity = 1000.0f;
-		public float jumpingVelocity = 12000.0f;
-	
+		public float jumpingVelocity = 4000.0f;
+		public float playerWidth = 128.0f;
+		public float playerHeight = 128.0f;
 	
 		public enum playerTimes { // accessed by portal scripts
 			PAST,
@@ -34,6 +35,7 @@ public class Player : MonoBehaviour {
 		public playerDirections currentDirection; // public only for debugging
 		
 		public bool currentlyJumping; // public only for debugging
+		public bool justWarped; // public only for debugging
 	#endregion
 	
 	
@@ -47,13 +49,17 @@ public class Player : MonoBehaviour {
 		currentDirection = playerDirections.NONE;
 		currentTime = playerTimes.PAST;
 		currentlyJumping = false;
+		justWarped = false;
 		
-		// Save state of player script when loading a level
-		Object.DontDestroyOnLoad(this.GetComponent<Player>());
+		playerSprite = GetComponent<OTSprite>();
 		
 		// Don't allow rotations
 		rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | 
 								RigidbodyConstraints.FreezeRotationZ;
+		
+		
+		// Save state of player script when loading a level
+		Object.DontDestroyOnLoad(this);
 		
 		
 		// ORTHELLO EXAMPLE CODE
@@ -61,21 +67,36 @@ public class Player : MonoBehaviour {
 		// Lookup this block's sprite
 	    playerSprite = GetComponent<OTSprite>();
 		playerSprite.name = "Player";
+		playerSprite.size = new Vector2(playerWidth, playerHeight);
 	    // Set this sprite's collision delegate 
 	    // HINT : We could use sprite.InitCallBacks(this) as well.
 	    // but because delegates are the C# way we will use this technique
 	    playerSprite.onCollision = OnCollision;  
 	}
+		
+	
 	
 	// Update is called once per frame
 	void Update () {
-
+		
+		UpdateOrthello();
 		UpdateDirection();
 		UpdateState();
 		Move();
 		
 		HandleActions(); // Pick up sapling if you can
 	}
+	
+	
+	
+	private void UpdateOrthello() {
+		// Lock camera on to player
+		OT.view.movementTarget = this.gameObject;
+		
+		// Set player depth to be in front of backgrounds
+		playerSprite.depth = -10;	
+	}
+	
 	
 	
 	private void UpdateDirection() {
