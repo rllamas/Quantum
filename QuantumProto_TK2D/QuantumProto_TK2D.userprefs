@@ -1,0 +1,13 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/TK2DROOT/tk2d/Editor/Sprites/tk2dSpriteCollectionBuilder.cs">
+    <Files>
+      <File FileName="../QuantumProtoII/Assets/Resources/Scripts/GameState.cs" Line="22" Column="41" />
+      <File FileName="Assets/TK2DROOT/tk2d/Editor/Sprites/tk2dSpriteCollectionBuilder.cs" Line="458" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

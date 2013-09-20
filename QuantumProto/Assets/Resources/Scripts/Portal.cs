@@ -5,9 +5,14 @@ using System.Collections;
 
 public class Portal : MonoBehaviour {
 	
+	#region private variables
 	public Player player; // Reference to the player
 	public float activationDistance = 100.0f;
+	#endregion
 	
+	#region private variables
+	private bool inTrigger = false;
+	#endregion
 	
 	// Use this for initialization
 	void Start () {
@@ -21,23 +26,13 @@ public class Portal : MonoBehaviour {
 	void Update () {
 		
 		player = (Player)GameObject.Find("Player").GetComponent<Player>();
-		float playerDistanceFromPortal = Vector3.Distance(this.transform.position, player.transform.position);
 		
-		// Anytime you move out of activation range, marked player as not just warping.
-		if (playerDistanceFromPortal > activationDistance) {
-			player.justWarped = false;	
-		}
-		else {
-			// If within activation range but the player just warped, don't warp again.
-			if (player.justWarped) {
-				return;
-			}
-			// Warp player to other time period if he gets close to the portal
-			else {
-				Debug.Log ("Close enough to teleport.");
-				
-				// Warp from Past to Future
-				if (player.currentTime == Player.playerTimes.PAST) {
+		// If you're in range and hit up, teleport
+		if (inTrigger && Input.GetButton("Vertical")){
+			Debug.Log ("Teleport!");
+			
+			// Warp from Past to Future
+			if (player.currentTime == Player.playerTimes.PAST) {
 					Debug.Log ("In the Past, going to the Future.");
 					Application.LoadLevel("Tutorial_Future");
 					player.currentTime = Player.playerTimes.FUTURE;
@@ -51,8 +46,21 @@ public class Portal : MonoBehaviour {
 				else {
 					throw new Exception("Bad time period in '" + this.name + "'");	
 				}
-				player.justWarped = true;
-			}
 		}
+		
+		
 	}
+
+	// If you're in range of portal, set variable to true.
+	void OnTriggerEnter(Collider other) {
+		Debug.Log ("In range of portal");
+		inTrigger = true;
+    }
+	
+	// 
+	void OnTriggerExit(Collider other) {
+		Debug.Log ("Out of range of portal");
+		inTrigger = false;
+	}
+	
 }
