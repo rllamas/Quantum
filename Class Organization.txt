@@ -1,0 +1,7 @@
+
+Classes:
+GameState - Logic(), NextState(), ToString(), [OnEvent()]
+
+Interfaces:
+Renderable - Render()
+HasAudio - PlayAudio();
