@@ -1,0 +1,194 @@
+
+<!-- Contains animation frame data for Samus. -->
+
+<animation_data>
+
+
+	<!-- Location folder of these spritesheets. This path is relative to the Assets/Resources/ directory. -->
+  <spritesheet_folder>
+    <location>Spritesheets/Samus</location>   
+ </spritesheet_folder>
+  
+
+  <!-- Animation data begins here.  
+  
+  THIS IS THE FORMAT FOR EACH ANIMATION:
+	
+	<animation>
+
+		<name></name>
+		<filename>***WITHOUT_FILE_TYPE_EXTENSION***</filename>
+		<first_frame></first_frame>
+		<last_frame></last_frame>
+		<fps></fps>
+		<shader_name></shader_name>
+
+	</animation>
+	
+	-->
+  
+  
+	<animation>
+		<name>facingLeft</name>
+		<filename>spritesheet_samus_standing_left</filename>
+		<first_frame>0</first_frame>
+		<last_frame>2</last_frame>
+		<fps>4</fps>
+		<shader_name>"Unlit/Transparent"</shader_name>
+	</animation>
+
+
+	<animation>
+		<name>facingRight</name>
+		<filename>spritesheet_samus_standing_right</filename>
+		<first_frame>0</first_frame>
+		<last_frame>2</last_frame>
+		<fps>4</fps>
+		<shader_name>"Unlit/Transparent"</shader_name>
+	</animation>
+
+	
+	<animation>
+		<name>turningLeftToRight</name>
+		<filename>spritesheet_samus_turning_left_to_right</filename>
+		<first_frame>0</first_frame>
+		<last_frame>0</last_frame>
+		<fps>4</fps>
+		<shader_name>"Unlit/Transparent"</shader_name>
+	</animation>
+
+
+	<animation>
+		<name>turningRightToLeft</name>
+		<filename>spritesheet_samus_turning_right_to_left</filename>
+		<first_frame>0</first_frame>
+		<last_frame>0</last_frame>
+		<fps>4</fps>
+		<shader_name>"Unlit/Transparent"</shader_name>
+	</animation>
+	
+
+	<animation>
+		<name>walkingLeft</name>
+		<filename>spritesheet_samus_running_left</filename>
+		<first_frame>0</first_frame>
+		<last_frame>9</last_frame>
+		<fps>22</fps>
+		<shader_name>"Unlit/Transparent"</shader_name>
+	</animation>
+
+
+	<animation>
+		<name>walkingRight</name>
+		<filename>spritesheet_samus_running_right</filename>
+		<first_frame>0</first_frame>
+		<last_frame>9</last_frame>
+		<fps>22</fps>
+		<shader_name>"Unlit/Transparent"</shader_name>
+	</animation>
+
+
+	<animation>
+		<name>jumpingUpFacingLeftPreparing</name>
+		<filename>samus_jumping_up_facing_left</filename>
+		<first_frame>0</first_frame>
+		<last_frame>1</last_frame>
+		<fps>15</fps>
+		<shader_name>"Unlit/Transparent"</shader_name>
+	</animation>
+	
+	
+	<animation>
+		<name>jumpingUpFacingRightPreparing</name>
+		<filename>samus_jumping_up_facing_right</filename>
+		<first_frame>0</first_frame>
+		<last_frame>1</last_frame>
+		<fps>15</fps>
+		<shader_name>"Unlit/Transparent"</shader_name>
+	</animation>
+	
+	
+	<animation>
+		<name>jumpingUpFacingLeftRising</name>
+		<filename>samus_jumping_up_facing_left</filename>
+		<first_frame>2</first_frame>
+		<last_frame>2</last_frame>
+		<fps>15</fps>
+		<shader_name>"Unlit/Transparent"</shader_name>
+	</animation>
+	
+	
+	<animation>
+		<name>jumpingUpFacingRightRising</name>
+		<filename>samus_jumping_up_facing_right</filename>
+		<first_frame>2</first_frame>
+		<last_frame>2</last_frame>
+		<fps>15</fps>
+		<shader_name>"Unlit/Transparent"</shader_name>
+	</animation>
+
+	
+	<animation>
+		<name>jumpingUpFacingLeftApex</name>
+		<filename>samus_jumping_up_facing_left</filename>
+		<first_frame>3</first_frame>
+		<last_frame>6</last_frame>
+		<fps>15</fps>
+		<shader_name>"Unlit/Transparent"</shader_name>
+	</animation>
+	
+	
+	<animation>
+		<name>jumpingUpFacingRightApex</name>
+		<filename>samus_jumping_up_facing_right</filename>
+		<first_frame>3</first_frame>
+		<last_frame>6</last_frame>
+		<fps>15</fps>
+		<shader_name>"Unlit/Transparent"</shader_name>
+	</animation>
+	
+	
+	<animation>
+		<name>jumpingUpFacingLeftFalling</name>
+		<filename>samus_jumping_up_facing_left</filename>
+		<first_frame>7</first_frame>
+		<last_frame>7</last_frame>
+		<fps>15</fps>
+		<shader_name>"Unlit/Transparent"</shader_name>
+	</animation>
+	
+	
+	<animation>
+		<name>jumpingUpFacingRightFalling</name>
+		<filename>samus_jumping_up_facing_right</filename>
+		<first_frame>7</first_frame>
+		<last_frame>7</last_frame>
+		<fps>15</fps>
+		<shader_name>"Unlit/Transparent"</shader_name>
+	</animation>
+	
+	
+	<animation>
+		<name>jumpingUpFacingLeftLanding</name>
+		<filename>samus_jumping_up_facing_left</filename>
+		<first_frame>8</first_frame>
+		<last_frame>9</last_frame>
+		<fps>15</fps>
+		<shader_name>"Unlit/Transparent"</shader_name>
+	</animation>
+	
+	
+	<animation>
+		<name>jumpingUpFacingRightLanding</name>
+		<filename>samus_jumping_up_facing_right</filename>
+		<first_frame>8</first_frame>
+		<last_frame>9</last_frame>
+		<fps>15</fps>
+		<shader_name>"Unlit/Transparent"</shader_name>
+	</animation>
+	
+   
+	
+</animation_data>
+
+

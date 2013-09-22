@@ -1,0 +1,29 @@
+
+<!-- Contains PropertyState data for Samus. -->
+
+<property_state_data>
+
+
+  <!-- Namespace that contains the corresponding action state classes. -->
+  <namespace>GameFramework.States</namespace>
+  
+
+  <!-- PropertyState data begins here.  
+  
+  THIS IS THE FORMAT:
+	
+	<property_state>Direction</property_state>
+	<property_state>Health</property_state>
+	<property_state>Weapon</property_state>
+	
+	...
+
+	ect. ect. 
+
+	-->
+  
+  <property_state>Direction</property_state>
+
+</property_state_data>
+
+

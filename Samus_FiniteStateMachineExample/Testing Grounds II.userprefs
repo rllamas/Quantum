@@ -1,0 +1,69 @@
+﻿<Properties GitUserInfo="UsingGIT">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Codebase/Animation/SpriteAnimator.cs">
+    <Files>
+      <File FileName="Assets/Resources/Codebase/Animation/SpriteAnimation.cs" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Codebase/Animation/SpriteAnimator.cs" Line="205" Column="3" />
+      <File FileName="Assets/Resources/Codebase/States/EntityStates/CharacterStates/SamusState.cs" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Codebase/States/EntityStates/EntityState.cs" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Codebase/Entities/CharacterEntities/Samus.cs" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Codebase/States/ComponentStates/ActionStates/Standing.cs" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Codebase/States/ComponentStates/ActionStates/Turning.cs" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Codebase/States/ComponentStates/ActionStates/Walking.cs" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Codebase/States/ComponentStates/PropertyStates/Direction.cs" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Codebase/States/ComponentStates/ActionStates/Jumping/JumpingStraight.cs" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Codebase/States/ComponentStates/ActionStates/Jumping/JumpingStraightPreparing.cs" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Codebase/States/ComponentStates/ActionStates/Jumping/JumpingStraightLifting.cs" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Codebase/States/ComponentStates/ActionStates/Jumping/JumpingStraightApex.cs" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Codebase/States/ComponentStates/ActionStates/Jumping/JumpingStraightFalling.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="Assembly-CSharp" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="Resources" expanded="True">
+                <Node name="Codebase" expanded="True">
+                  <Node name="Animation" expanded="True">
+                    <Node name="SpriteAnimator.cs" selected="True" />
+                  </Node>
+                  <Node name="Entities" expanded="True">
+                    <Node name="CharacterEntities" expanded="True" />
+                  </Node>
+                  <Node name="States" expanded="True">
+                    <Node name="ComponentStates" expanded="True">
+                      <Node name="ActionStates" expanded="True">
+                        <Node name="Jumping" expanded="True" />
+                      </Node>
+                      <Node name="PropertyStates" expanded="True" />
+                    </Node>
+                    <Node name="EntityStates" expanded="True">
+                      <Node name="CharacterStates" expanded="True" />
+                    </Node>
+                  </Node>
+                  <Node name="Utils" expanded="True" />
+                </Node>
+                <Node name="Scripts" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+      <Pad Id="ConnectionManagerPad">
+        <State selected="True" />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/russelljahn/Development/Unity/Projects/Testing Grounds II/Assets/Resources/Codebase/States/Component States/Entity State Components/Property States/LocationComponent.cs" line="97" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
