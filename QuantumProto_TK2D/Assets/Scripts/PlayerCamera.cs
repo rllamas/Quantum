@@ -13,7 +13,9 @@ public class PlayerCamera : MonoBehaviour {
 		if (!attachedPlayer) {
 			throw new Exception("There is no Player attached to '" + this.name + "'!");	
 		}
-		originalDistanceFromPlayer = this.transform.position - attachedPlayer.transform.position;
+		else {
+			originalDistanceFromPlayer = this.transform.position - attachedPlayer.transform.position;
+		}
 	}
 	
 	// LateUpdate is called once per frame
