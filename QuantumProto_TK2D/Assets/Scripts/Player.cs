@@ -17,23 +17,26 @@ public class Player : MonoBehaviour {
 	
 	
 	
-	/* Current game state that the player is in. */
-	private GameState currentState;
-	public GameState CurrentState {
-		get {
-			return currentState;
-		}
-	}
 	
+	/* Current game state that the player is in. */
+	public GameState currentState;
+
+	/* Previous game state that the player was in. */
+	public GameState previousState;
 	
 	
 	/* Current direction that the player is in. */
-	private Direction currentDirection;
-	public Direction CurrentDirection {
-		get {
-			return currentDirection;
-		}
-	}
+	public Direction currentDirection;
+	
+	/* Last direction that the player was in. */
+	public Direction previousDirection;
+	
+	
+	
+	
+	/* The current sprite of the player. */
+	public tk2dSprite sprite;
+
 	
 	
 	
@@ -88,18 +91,36 @@ public class Player : MonoBehaviour {
 	
 	
 	
+	
 	void Start () {
 		currentDirection = Direction.LEFT;
-		currentState = new ProfessorStandingState();
+		previousDirection = Direction.LEFT;
+		
+		currentState = new ProfessorStandingState(this);
+		previousState = new ProfessorStandingState(this);
+		
+		sprite = GetComponent<tk2dSprite>();
+		if (!sprite) {
+			throw new Exception("No tk2dSprite was attached to the Player!!!");	
+		}
 	}
+	
 	
 	
 	
 	void Update () {
+		/* Update direction. */
+		previousDirection = currentDirection;
 		currentDirection = NextDirection();
+		
+		/* Update game state. */
+		previousState = currentState;
 		currentState = currentState.NextState();
+		
+		/* Let the current game state do what it needs to do. */
 		currentState.Logic();
 	}
+	
 	
 	
 }

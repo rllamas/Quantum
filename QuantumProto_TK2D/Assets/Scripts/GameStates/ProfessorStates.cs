@@ -7,13 +7,28 @@
  * 
  */
 
+using UnityEngine;
+
+
 namespace Quantum.States {
 	
 
-	public class ProfessorStandingState : GameState {
+	
+	public class ProfessorStandingState : PlayerState {
+		
+		/* Constructor. */
+		public ProfessorStandingState(Player player) : base(player) {
+			;		
+		}
 		
 		public override void Logic() {
-			// Need to draw professor to the screen
+			/* */
+			if (attachedPlayer.currentDirection == Player.Direction.LEFT) {
+				attachedPlayer.sprite.FlipX = false;
+			}
+			else if (attachedPlayer.currentDirection == Player.Direction.RIGHT) {
+				attachedPlayer.sprite.FlipX = true;
+			}
 		}
 		
 		public override GameState NextState() {
@@ -26,7 +41,12 @@ namespace Quantum.States {
 	
 	
 	
-	public class ProfessorWalkingState : GameState {
+	public class ProfessorWalkingState : PlayerState {
+		
+		/* Constructor. */
+		public ProfessorWalkingState(Player player) : base(player) {
+			;		
+		}
 		
 		public override void Logic() {
 			// Need to draw professor to the screen
@@ -42,7 +62,12 @@ namespace Quantum.States {
 	
 	
 	
-	public class ProfessorJumpingState : GameState {
+	public class ProfessorJumpingState : PlayerState {
+		
+		/* Constructor. */
+		public ProfessorJumpingState(Player player) : base(player) {
+			;		
+		}
 		
 		public override void Logic() {
 			// Need to draw professor to the screen
@@ -58,7 +83,12 @@ namespace Quantum.States {
 	
 	
 	
-	public class ProfessorFallingState : GameState {
+	public class ProfessorFallingState : PlayerState {
+		
+		/* Constructor. */
+		public ProfessorFallingState(Player player) : base(player) {
+			;		
+		}
 		
 		public override void Logic() {
 			// Need to draw professor to the screen

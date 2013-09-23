@@ -1,11 +1,16 @@
 /*  
- *  Game State Abstract Class
+ *  Game State Abstract Classes
  * 
  *  Written By: Russell Jahn
  * 
  */
 
+using UnityEngine;
+
+
+
 namespace Quantum.States {
+	
 	
 	/* A GameState can represent the state of any notion in the game, including
 	 * the state of character animations, AI, menu state, game options, ect. */
@@ -25,6 +30,57 @@ namespace Quantum.States {
 		public override string ToString() {
 			return "[GameState:" + this.GetType().Name + "]";
 		}
-	}
 		
+	} // end class GameState
+	
+	
+	
+	
+	/* A MonoBehaviorState has an attached MonoBehavior. It represents a state of the attached MonoBehavior. */
+	public abstract class MonoBehaviourState : GameState {
+	
+		/* MonoBehavior that is attached to this game state. */
+		protected MonoBehaviour attachedMonoBehaviour;
+		
+		/* Constructor. */
+		public MonoBehaviourState(MonoBehaviour behaviour) : base() {
+			attachedMonoBehaviour = behaviour;
+		}
+		
+		public override abstract void Logic();
+		public override abstract GameState NextState();
+		
+		/* Returns a string representation of the MonoBehaviourState. */
+		public override string ToString() {
+			return "[MonoBehaviourState:" + this.GetType().Name + "]";
+		}
+		
+	} // end class MonoBehaviourState
+	
+	
+	
+	
+	/* A PlayerState has an attached Player object. It represents a state of the attached Player. */
+	public abstract class PlayerState : MonoBehaviourState {
+	
+		/* Player that is attached to this game state. */
+		protected Player attachedPlayer;
+		
+		/* Constructor. */
+		public PlayerState(Player player) : base(player) {
+			attachedPlayer = player;
+		}
+		
+		public override abstract void Logic();
+		public override abstract GameState NextState();
+		
+		/* Returns a string representation of the PlayerState. */
+		public override string ToString() {
+			return "[PlayerState:" + this.GetType().Name + "]";
+		}
+		
+	} // end class PlayerState
+		
+	
+	
 }
