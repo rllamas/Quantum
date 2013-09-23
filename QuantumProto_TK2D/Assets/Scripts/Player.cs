@@ -25,6 +25,8 @@ public class Player : MonoBehaviour {
 	public GameState previousState;
 	
 	
+	
+	
 	/* Current direction that the player is in. */
 	public Direction currentDirection;
 	
@@ -36,11 +38,16 @@ public class Player : MonoBehaviour {
 	
 	/* The current sprite of the player. */
 	public tk2dSprite sprite;
+	
+	
+	
+	/* The walking speed of the player. */
+	public float walkingVelocity = 20.0f;
 
 	
 	
 	
-	/* Get the next direction that the player should */
+	/* Get the next direction that the player is going in. */
 	private Direction NextDirection() { 
 		
 		float horizontalAxis = Input.GetAxis("Horizontal");
