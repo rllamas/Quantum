@@ -126,7 +126,25 @@ public class Player : MonoBehaviour {
 		
 		/* Let the current game state do what it needs to do. */
 		currentState.Logic();
+		
+		handleOtherActions();
 	}
+	
+	
+	
+	
+	void handleOtherActions() {
+	
+		/* 
+		 *  if professor is next to anything pickupable
+		 * 		do professor-side pickup logic (attach object to prof)
+		 * 		on object, call onPickup()
+		 * 
+		 * 
+		 * */
+		
+	}
+	
 	
 	
 	

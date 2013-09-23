@@ -36,8 +36,12 @@ namespace Quantum.States {
 		public override GameState NextState() {
 			float horizontalAxis = Input.GetAxis("Horizontal");
 			
-			/* If the player is pressing left or right, then the next state is walking. */
-			if (horizontalAxis != 0) {
+			/* If player is hitting jump, then next state is jumping. */
+			if (Input.GetButton("Jump")) {
+				return new ProfessorJumpingState(attachedPlayer);
+			}
+			/* Otherwise if the player is pressing left or right, then the next state is walking. */
+			else if (horizontalAxis != 0) {
 				return new ProfessorWalkingState(attachedPlayer);	
 			}
 			else {
@@ -83,8 +87,12 @@ namespace Quantum.States {
 		public override GameState NextState() {
 			float horizontalAxis = Input.GetAxis("Horizontal");
 			
-			/* If the player is not pressing left or right, then the next state is standing. */
-			if (horizontalAxis == 0) {
+			/* If player is hitting jump, then next state is jumping. */
+			if (Input.GetButton("Jump")) {
+				return new ProfessorJumpingState(attachedPlayer);
+			}
+			/* Otherwise if the player is not pressing left or right, then the next state is standing. */
+			else if (horizontalAxis == 0) {
 				return new ProfessorStandingState(attachedPlayer);	
 			}
 			else {
@@ -105,7 +113,14 @@ namespace Quantum.States {
 		}
 		
 		public override void Logic() {
-			// Need to draw professor to the screen
+			Debug.Log (attachedPlayer);
+			/* If the last state was standing, then jump straight up. */
+			if (attachedPlayer.previousState.ToString() == "[PlayerState: ProfessorStandingState]") {
+				Debug.Log ("Jumping straight up.");
+			}
+			//else if (typeof(attachedPlayer.previousState) == typeof(ProfessorWalkingState)) {
+			//	Debug.Log ("Jumping at a diagonal.");
+			//}
 		}
 		
 		public override GameState NextState() {
