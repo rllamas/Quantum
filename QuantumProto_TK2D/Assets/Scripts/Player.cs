@@ -147,5 +147,26 @@ public class Player : MonoBehaviour {
 	
 	
 	
+	void OnCollisionEnter(Collision collision) {
+		Debug.Log ("Player: Entering collision with a pickup.");
+    }
+	
+	void OnCollisionExit(Collision collision) {
+		Debug.Log ("Player: Exiting collision with a pickup.");
+	}
+		
+	
+	
+	void OnTriggerEnter(Collider other) {
+		Debug.Log ("Player: Entering triggering range of pickup.");
+    }
+	
+	void OnTriggerStay(Collider other) {
+		Debug.Log ("Player: Currently in triggering range of pickup.");
+    }
+	
+	void OnTriggerExit(Collider other) {
+		Debug.Log ("Player: Leaving triggering range of pickup.");
+	}
 	
 }
