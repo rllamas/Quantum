@@ -5,6 +5,8 @@ using Quantum.States;
 
 public class Player : MonoBehaviour {
 	
+	public bool carry = false;
+	public GameObject carryItem;
 	
 	/* All possible directions the player can be in. */
 	public enum Direction {
@@ -127,24 +129,13 @@ public class Player : MonoBehaviour {
 		/* Let the current game state do what it needs to do. */
 		currentState.Logic();
 		
-		handleOtherActions();
+//		if (carry && Input.GetButton("Fire1")){
+//			Debug.Log ("Setting object");
+//			GameObject newObj = Instantiate(carryItem, transform.position, Quaternion.identity) as GameObject;
+//			// switch professor's sprite empty handed
+//			carry = false;
+//		}
 	}
-	
-	
-	
-	
-	void handleOtherActions() {
-	
-		/* 
-		 *  if professor is next to anything pickupable
-		 * 		do professor-side pickup logic (attach object to prof)
-		 * 		on object, call onPickup()
-		 * 
-		 * 
-		 * */
-		
-	}
-	
 	
 	
 	void OnCollisionEnter(Collision collision) {
@@ -157,16 +148,17 @@ public class Player : MonoBehaviour {
 		
 	
 	
-	void OnTriggerEnter(Collider other) {
-		Debug.Log ("Player: Entering triggering range of pickup.");
-    }
-	
 	void OnTriggerStay(Collider other) {
 		Debug.Log ("Player: Currently in triggering range of pickup.");
+		if (Input.GetButton("Fire1") && other.gameObject.tag == "Pickup"){
+			carryItem = other.gameObject;
+			Debug.Log ("Boom.");
+			Destroy(other.gameObject);
+			
+			// switch professor's sprite to carry object
+			carry = true;
+		}
     }
 	
-	void OnTriggerExit(Collider other) {
-		Debug.Log ("Player: Leaving triggering range of pickup.");
-	}
 	
 }

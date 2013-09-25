@@ -19,7 +19,8 @@ public class Pickup : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log (gameObject.name);
+		
+		
 	}
 	
 	/* The Player object is expected to call this to pick up this object. */
@@ -33,17 +34,17 @@ public class Pickup : MonoBehaviour {
 	
 	
 	
-	void OnTriggerEnter(Collider other) {
-		Debug.Log ("Pickup: Entering triggering range of player.");
-		inTrigger = true;
-    }
+//	void OnTriggerEnter(Collider other) {
+//		Debug.Log ("Pickup: Entering triggering range of player.");
+//		inTrigger = true;
+//    }
 	
-	void OnTriggerStay(Collider other) {
-		Debug.Log ("Pickup: Currently in triggering range of player.");
-    }
+//	void OnTriggerStay(Collider other) {
+//		Debug.Log ("Pickup: Currently in triggering range of player.");
+//    }
 	
-	void OnTriggerExit(Collider other) {
-		Debug.Log ("Pickup: Leaving triggering range of player.");
-		inTrigger = false;
-	}
+//	void OnTriggerExit(Collider other) {
+//		Debug.Log ("Pickup: Leaving triggering range of player.");
+//		inTrigger = false;
+//	}
 }
