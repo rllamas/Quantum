@@ -37,7 +37,7 @@ namespace Quantum.States {
 			float horizontalAxis = Input.GetAxis("Horizontal");
 			
 			/* If player is hitting jump, then next state is jumping. */
-			if (Input.GetButton("Jump")) {
+			if (Input.GetButtonDown("Jump")) {
 				return new ProfessorJumpingState(attachedPlayer);
 			}
 			/* Otherwise if the player is pressing left or right, then the next state is walking. */
@@ -88,7 +88,7 @@ namespace Quantum.States {
 			float horizontalAxis = Input.GetAxis("Horizontal");
 			
 			/* If player is hitting jump, then next state is jumping. */
-			if (Input.GetButton("Jump")) {
+			if (Input.GetButtonDown("Jump")) {
 				return new ProfessorJumpingState(attachedPlayer);
 			}
 			/* Otherwise if the player is not pressing left or right, then the next state is standing. */
@@ -112,20 +112,24 @@ namespace Quantum.States {
 			;		
 		}
 		
-		public override void Logic() {
-			Debug.Log (attachedPlayer);
+		public override void Logic() {			
+			Vector2 movement;
 			/* If the last state was standing, then jump straight up. */
-			if (attachedPlayer.previousState.ToString() == "[PlayerState: ProfessorStandingState]") {
+			if (attachedPlayer.previousState.ToString() == "[PlayerState:ProfessorStandingState]") {
 				Debug.Log ("Jumping straight up.");
+				movement = new Vector2(0, 200f * Time.smoothDeltaTime);
+				attachedPlayer.transform.Translate(movement);
 			}
-			//else if (typeof(attachedPlayer.previousState) == typeof(ProfessorWalkingState)) {
-			//	Debug.Log ("Jumping at a diagonal.");
-			//}
+			else if (attachedPlayer.previousState.ToString() == "[PlayerState:ProfessorWalkingState]") {
+				Debug.Log ("Jumping at a diagonal.");
+				movement = new Vector2(attachedPlayer.walkingVelocity * Time.deltaTime, 200f * Time.smoothDeltaTime);
+				attachedPlayer.transform.Translate(movement);
+			}
 		}
 		
 		public override GameState NextState() {
 			// Need to return the next state (possibly out of many)
-			return this;
+			return new ProfessorFallingState(attachedPlayer);
 		}
 		
 	} // end ProfesorJumpingState class
@@ -142,11 +146,13 @@ namespace Quantum.States {
 		
 		public override void Logic() {
 			// Need to draw professor to the screen
+			//Vector2 movement = new Vector2(0, -200f * Time.smoothDeltaTime);
+			//attachedPlayer.transform.Translate(movement);
 		}
 		
 		public override GameState NextState() {
 			// Need to return the next state (possibly out of many)
-			return this;
+			return new ProfessorStandingState(attachedPlayer);
 		}
 		
 	} // end ProfesorFallingState class

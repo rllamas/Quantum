@@ -45,6 +45,9 @@ public class Player : MonoBehaviour {
 	
 	/* The walking speed of the player. */
 	public float walkingVelocity = 20.0f;
+	
+	/* The jumping speed of the player. */
+	public float jumpingVelocity = 20.0f;
 
 	
 	
@@ -112,6 +115,10 @@ public class Player : MonoBehaviour {
 		if (!sprite) {
 			throw new Exception("No tk2dSprite was attached to the Player!!!");	
 		}
+		
+		/* Don't allow rotations. */
+		rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | 
+								RigidbodyConstraints.FreezeRotationZ;
 	}
 	
 	
