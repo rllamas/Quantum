@@ -129,12 +129,14 @@ public class Player : MonoBehaviour {
 		/* Let the current game state do what it needs to do. */
 		currentState.Logic();
 		
-//		if (carry && Input.GetButton("Fire1")){
-//			Debug.Log ("Setting object");
-//			GameObject newObj = Instantiate(carryItem, transform.position, Quaternion.identity) as GameObject;
-//			// switch professor's sprite empty handed
-//			carry = false;
-//		}
+		if (carry && Input.GetButton("Fire2")){
+			Debug.Log ("Setting object");
+			GameObject newObj = Instantiate(carryItem, transform.position, Quaternion.identity) as GameObject;
+			newObj.gameObject.SetActive(true);
+			Destroy(carryItem);
+			// switch professor's sprite to empty handed
+			carry = false;
+		}
 	}
 	
 	
@@ -152,9 +154,9 @@ public class Player : MonoBehaviour {
 		Debug.Log ("Player: Currently in triggering range of pickup.");
 		if (Input.GetButton("Fire1") && other.gameObject.tag == "Pickup"){
 			carryItem = other.gameObject;
-			Debug.Log ("Boom.");
-			Destroy(other.gameObject);
-			
+			Debug.Log ("Poof.");
+			//Destroy(other.gameObject);
+			other.gameObject.SetActive(false);
 			// switch professor's sprite to carry object
 			carry = true;
 		}
