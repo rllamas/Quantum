@@ -5,8 +5,7 @@ using Quantum.States;
 
 public class Player : MonoBehaviour {
 	
-	public bool carry = false;
-	public GameObject carryItem;
+	public Pickup heldPickup;
 	
 	/* All possible directions the player can be in. */
 	public enum Direction {
@@ -48,7 +47,146 @@ public class Player : MonoBehaviour {
 	
 	/* The jumping speed of the player. */
 	public float jumpingVelocity = 20.0f;
+	
+	
+	/* There's a cooldown time for both picking up and setting down pickups. */
+	public float pickupCooldown = 0.5f;
+	private float pickupCooldownTimeRemaining = 0.0f;
+	
+	
+	
+	
+	void Start () {
+		gameObject.tag = "Player";
+		
+		currentDirection = Direction.LEFT;
+		previousDirection = Direction.LEFT;
+		
+		currentState = new ProfessorStandingState(this);
+		previousState = new ProfessorStandingState(this);
+		
+		sprite = GetComponent<tk2dSprite>();
+		if (!sprite) {
+			throw new Exception("No tk2dSprite was attached to the Player!!!");	
+		}
+		
+		/* Don't allow rotations. */
+		rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | 
+								RigidbodyConstraints.FreezeRotationZ;
+	}
+	
+	
+	
+	
+	void Update () {
+		/* Update direction. */
+		previousDirection = currentDirection;
+		currentDirection = NextDirection();
+		
+		/* Update game state. */
+		previousState = currentState;
+		currentState = currentState.NextState();
+		
+		/* Let the current game state do what it needs to do. */
+		currentState.Logic();
+	
+		HandleExtraLogic();
+	}
+	
+	
+	
+	
+	void OnCollisionEnter(Collision collision) {
+		Debug.Log ("Player: Colliding with something.");
+    }
+	
+	
+	
+	
+	void OnCollisionExit(Collision collision) {
+		Debug.Log ("Player: No longer colliding with something.");
+	}
+		
+	
+	
+	
+	void OnTriggerStay(Collider other) {
+		
+		/* If hitting action button and other is the collider for something currently possible to pick up,
+		 * then pick it up. */
+		if (Input.GetButton("Action1") && IsPossibleToPickup(other.gameObject)) {
+			
+			Pickup triggeredPickup = other.gameObject.GetComponent<Pickup>();	
+			GetPickup(triggeredPickup);	
+		}
 
+    }
+	
+	
+	
+	
+	/* Handle any additional logic that the player may need to. */
+	private void HandleExtraLogic() {
+		
+		/* Drop pickup if hitting action button and holding one. */
+		if (Input.GetButton("Action1") && heldPickup && IsPossibleToDropHeldPickup()) {
+			DropPickup();	
+		}
+		
+		
+		/* Decrement cooldown time remaining for interacting with pickups. */
+		pickupCooldownTimeRemaining -= Time.deltaTime;
+		pickupCooldownTimeRemaining = Math.Max(0.0f, pickupCooldownTimeRemaining);
+	}
+	
+	
+	
+	
+	/* Can the player pick obj up? */
+	private bool IsPossibleToPickup(GameObject obj) {
+		 return obj.gameObject.CompareTag("Pickup") && !heldPickup && pickupCooldownTimeRemaining == 0;
+	}
+	
+	
+	
+	
+	/* Can the player drop the currently held pickup? */
+	private bool IsPossibleToDropHeldPickup() {
+		if (!heldPickup) {
+			throw new Exception("Calling IsPossibleToDropHeldPickup() when Player has no held pickup!");	
+		}
+		return pickupCooldownTimeRemaining == 0;	
+	}
+	
+	
+	
+	
+	/* Pick up pickup.*/
+	private void GetPickup(Pickup pickup) {
+		Debug.Log(this.name + ": Picking " + pickup.gameObject.name + " up.");
+		
+		heldPickup = pickup;
+		pickup.OnObtain(this);	
+		
+		pickupCooldownTimeRemaining = pickupCooldown;
+	}
+	
+	
+	
+	
+	/* Drop held pickup. */
+	private void DropPickup() {
+		
+		Debug.Log(this.name + ": Setting " + heldPickup.gameObject.name + " down.");
+		
+		heldPickup.OnRelease();
+		heldPickup.gameObject.transform.parent = null;	
+		heldPickup = null;
+		
+		pickupCooldownTimeRemaining = pickupCooldown;
+	}
+	
+	
 	
 	
 	
@@ -102,72 +240,6 @@ public class Player : MonoBehaviour {
 	} // end NextDirection()
 	
 	
-	
-	
-	void Start () {
-		currentDirection = Direction.LEFT;
-		previousDirection = Direction.LEFT;
-		
-		currentState = new ProfessorStandingState(this);
-		previousState = new ProfessorStandingState(this);
-		
-		sprite = GetComponent<tk2dSprite>();
-		if (!sprite) {
-			throw new Exception("No tk2dSprite was attached to the Player!!!");	
-		}
-		
-		/* Don't allow rotations. */
-		rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | 
-								RigidbodyConstraints.FreezeRotationZ;
-	}
-	
-	
-	
-	
-	void Update () {
-		/* Update direction. */
-		previousDirection = currentDirection;
-		currentDirection = NextDirection();
-		
-		/* Update game state. */
-		previousState = currentState;
-		currentState = currentState.NextState();
-		
-		/* Let the current game state do what it needs to do. */
-		currentState.Logic();
-		
-		if (carry && Input.GetButton("Fire2")){
-			Debug.Log ("Setting object");
-			GameObject newObj = Instantiate(carryItem, transform.position, Quaternion.identity) as GameObject;
-			newObj.gameObject.SetActive(true);
-			Destroy(carryItem);
-			// switch professor's sprite to empty handed
-			carry = false;
-		}
-	}
-	
-	
-	void OnCollisionEnter(Collision collision) {
-		Debug.Log ("Player: Entering collision with a pickup.");
-    }
-	
-	void OnCollisionExit(Collision collision) {
-		Debug.Log ("Player: Exiting collision with a pickup.");
-	}
-		
-	
-	
-	void OnTriggerStay(Collider other) {
-		Debug.Log ("Player: Currently in triggering range of pickup.");
-		if (Input.GetButton("Fire1") && other.gameObject.tag == "Pickup"){
-			carryItem = other.gameObject;
-			Debug.Log ("Poof.");
-			//Destroy(other.gameObject);
-			other.gameObject.SetActive(false);
-			// switch professor's sprite to carry object
-			carry = true;
-		}
-    }
 	
 	
 }
