@@ -25,7 +25,12 @@ public class Pickup : MonoBehaviour {
 	/* The Player object is expected to call this method when picking up this object. */
 	public void OnObtain(Player player) {
 		Debug.Log (this.name + ": OnObtain().");
-		this.collider.enabled = false;
+		
+		/* Disable collider triggering if the player picks this object up. We can't use 'isTrigger = false' 
+		 * on the collider, however, or the collider will immediately have physics turned back on, and the
+		 * player will immediately collide with this object. Instead, we just disable the collider altogether. */
+		this.collider.enabled = false; 
+		
 		this.transform.parent = player.transform;		
 	}
 	
@@ -34,7 +39,11 @@ public class Pickup : MonoBehaviour {
 	/* The Player object is expected to call this method when dropping this object. */
 	public void OnRelease() {
 		Debug.Log (this.name + ": OnRelease().");
+		
+		/* Re-enable collider triggering for this object when the player sets it down. */
 		this.collider.enabled = true;	
+		
+		this.transform.parent = null;
 	}
 	
 	

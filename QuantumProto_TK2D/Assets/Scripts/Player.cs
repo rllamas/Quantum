@@ -179,8 +179,7 @@ public class Player : MonoBehaviour {
 		
 		Debug.Log(this.name + ": Setting " + heldPickup.gameObject.name + " down.");
 		
-		heldPickup.OnRelease();
-		heldPickup.gameObject.transform.parent = null;	
+		heldPickup.OnRelease();	
 		heldPickup = null;
 		
 		pickupCooldownTimeRemaining = pickupCooldown;
