@@ -7,12 +7,13 @@
  * 
  */
 
+using System;
 using UnityEngine;
 
 
 namespace Quantum.States {
 	
-
+	
 	
 	public class ProfessorStandingState : PlayerState {
 		
@@ -112,24 +113,46 @@ namespace Quantum.States {
 			;		
 		}
 		
-		public override void Logic() {			
-			Vector2 movement;
-			/* If the last state was standing, then jump straight up. */
-			if (attachedPlayer.previousState.ToString() == "[PlayerState:ProfessorStandingState]") {
-				Debug.Log ("Jumping straight up.");
-				movement = new Vector2(0, 200f * Time.smoothDeltaTime);
-				attachedPlayer.transform.Translate(movement);
+		public override void Logic() {	
+			
+			/* If player is touching the ground. */
+			if (attachedPlayer.IsGrounded()) {
+				Vector2 movement;
+				/* If the last state was standing, then jump straight up. */
+				if (attachedPlayer.previousState.ToString() == "[PlayerState:ProfessorStandingState]") {
+					Debug.Log ("Jumping straight up.");
+					movement = new Vector2(0, attachedPlayer.jumpingVelocity);
+					attachedPlayer.rigidbody.AddForce(movement);
+				}
+				else if (attachedPlayer.IsMoving()) {
+					Debug.Log ("Jumping at a diagonal.");
+					movement = new Vector2(attachedPlayer.jumpingVelocity + attachedPlayer.walkingVelocity, attachedPlayer.jumpingVelocity);
+					attachedPlayer.rigidbody.AddForce(movement);
+				}
 			}
-			else if (attachedPlayer.previousState.ToString() == "[PlayerState:ProfessorWalkingState]") {
-				Debug.Log ("Jumping at a diagonal.");
-				movement = new Vector2(attachedPlayer.walkingVelocity * Time.deltaTime, 200f * Time.smoothDeltaTime);
-				attachedPlayer.transform.Translate(movement);
+			else {
+				/* Move the player based on direction. */
+				Vector2 movement = new Vector2(attachedPlayer.walkingVelocity * Time.deltaTime, 0);
+				
+				if (attachedPlayer.currentDirection == Player.Direction.LEFT) {
+					/* If going left, then make x translation negative. */
+					movement.x *= -1;
+					attachedPlayer.transform.Translate(movement);
+				}
+				else if (attachedPlayer.currentDirection == Player.Direction.RIGHT) {
+					attachedPlayer.transform.Translate(movement);
+				}
 			}
 		}
 		
 		public override GameState NextState() {
-			// Need to return the next state (possibly out of many)
-			return new ProfessorFallingState(attachedPlayer);
+			
+			if (attachedPlayer.IsFalling()) {
+				return new ProfessorFallingState(attachedPlayer);
+			}
+			else {
+				return this;	
+			}
 		}
 		
 	} // end ProfesorJumpingState class
@@ -144,15 +167,18 @@ namespace Quantum.States {
 			;		
 		}
 		
-		public override void Logic() {
-			// Need to draw professor to the screen
-			//Vector2 movement = new Vector2(0, -200f * Time.smoothDeltaTime);
-			//attachedPlayer.transform.Translate(movement);
+		public override void Logic () {
+			;
 		}
 		
 		public override GameState NextState() {
-			// Need to return the next state (possibly out of many)
-			return new ProfessorStandingState(attachedPlayer);
+			
+			if (attachedPlayer.IsGrounded()) {
+				return new ProfessorStandingState(attachedPlayer);
+			}
+			else {
+				return this;	
+			}
 		}
 		
 	} // end ProfesorFallingState class

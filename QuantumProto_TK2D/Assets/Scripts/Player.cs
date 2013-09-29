@@ -21,9 +21,11 @@ public class Player : MonoBehaviour {
 	
 	/* Current game state that the player is in. */
 	public GameState currentState;
+	public string currentStateString; // For debugging.
 
 	/* Previous game state that the player was in. */
 	public GameState previousState;
+	public string previousStateString; // For debugging.
 	
 	
 	
@@ -46,7 +48,7 @@ public class Player : MonoBehaviour {
 	public float walkingVelocity = 20.0f;
 	
 	/* The jumping speed of the player. */
-	public float jumpingVelocity = 20.0f;
+	public float jumpingVelocity = 500.0f;
 	
 	
 	/* There's a cooldown time for both picking up and setting down pickups. */
@@ -63,7 +65,9 @@ public class Player : MonoBehaviour {
 		previousDirection = Direction.LEFT;
 		
 		currentState = new ProfessorStandingState(this);
+		currentStateString = currentState.ToString();
 		previousState = new ProfessorStandingState(this);
+		previousStateString = previousState.ToString();
 		
 		sprite = GetComponent<tk2dSprite>();
 		if (!sprite) {
@@ -85,7 +89,9 @@ public class Player : MonoBehaviour {
 		
 		/* Update game state. */
 		previousState = currentState;
+		currentStateString = currentState.ToString();
 		currentState = currentState.NextState();
+		previousStateString = previousState.ToString();
 		
 		/* Let the current game state do what it needs to do. */
 		currentState.Logic();
@@ -183,6 +189,39 @@ public class Player : MonoBehaviour {
 		heldPickup = null;
 		
 		pickupCooldownTimeRemaining = pickupCooldown;
+	}
+	
+	
+	
+	
+	/* Returns true if the player is touching the ground. */
+	public bool IsGrounded() {
+		
+		/* Shoot a ray from the center of the player to slightly below the bottom of his collision box. 
+		 * If anything intersects this ray, then the player is considered touching the ground. */
+		float distanceToGround = this.collider.bounds.extents.y + .01f;	
+		return Physics.Raycast(this.transform.position, -Vector2.up, distanceToGround);
+	}
+	
+	
+	
+	
+	/* Returns true if the player is falling. */
+	public bool IsFalling() {
+		
+		return rigidbody.velocity.y <= 0 &&
+			(previousState.ToString() == "[PlayerState:ProfessorFallingState]" ||
+			 currentState.ToString()  == "[PlayerState:ProfessorFallingState]" ||
+			 previousState.ToString() == "[PlayerState:ProfessorJumpingState]" ||
+			 currentState.ToString()  == "[PlayerState:ProfessorJumpingState]");
+	}
+	
+	
+	
+	
+	/* Returns true if the player is moving. */
+	public bool IsMoving() {
+		return rigidbody.velocity.x != 0 || rigidbody.velocity.y != 0;
 	}
 	
 	
