@@ -17,7 +17,9 @@ public class Pickup : MonoBehaviour {
 	
 
 	void Update () {
-		
+		if (this.transform.parent != null) {
+			this.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+		}
 	}
 	
 	

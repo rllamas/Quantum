@@ -126,7 +126,14 @@ namespace Quantum.States {
 				}
 				else if (attachedPlayer.IsMoving()) {
 					Debug.Log ("Jumping at a diagonal.");
-					movement = new Vector2(attachedPlayer.jumpingVelocity + attachedPlayer.walkingVelocity, attachedPlayer.jumpingVelocity);
+					/* Jumping at a left diagonal. */
+					if (attachedPlayer.currentDirection == Player.Direction.LEFT) {
+						movement = new Vector2(-attachedPlayer.jumpingVelocity - attachedPlayer.walkingVelocity, attachedPlayer.jumpingVelocity);
+					}
+					/* Jumping at a right diagonal. */
+					else {
+						movement = new Vector2(attachedPlayer.jumpingVelocity + attachedPlayer.walkingVelocity, attachedPlayer.jumpingVelocity);
+					}
 					attachedPlayer.rigidbody.AddForce(movement);
 				}
 			}
