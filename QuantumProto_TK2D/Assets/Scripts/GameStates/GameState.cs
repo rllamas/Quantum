@@ -20,11 +20,13 @@ namespace Quantum.States {
 		 * aspects of the current state. */
 		public abstract void Logic();
 		
+		
 		/* Used to retrieve the state that follows the current one.  Only a finite number
 		 * of states can result from the current GameState, and the current GameState 
 		 * should know what these states are and determine the correct state to follow it.
 		 * The current state should be provided with enough information to do this. */
 		public abstract GameState NextState();
+		
 		
 		/* Returns a string representation of the GameState. */
 		public override string ToString() {
@@ -42,13 +44,16 @@ namespace Quantum.States {
 		/* MonoBehavior that is attached to this game state. */
 		protected MonoBehaviour attachedMonoBehaviour;
 		
+		
 		/* Constructor. */
 		public MonoBehaviourState(MonoBehaviour behaviour) : base() {
 			attachedMonoBehaviour = behaviour;
-		}
+		}	
+		
 		
 		public override abstract void Logic();
 		public override abstract GameState NextState();
+			
 		
 		/* Returns a string representation of the MonoBehaviourState. */
 		public override string ToString() {
@@ -66,16 +71,20 @@ namespace Quantum.States {
 		/* Player that is attached to this game state. */
 		protected Player attachedPlayer;
 		
+		
 		/* Constructor. */
 		public PlayerState(Player player) : base(player) {
 			attachedPlayer = player;
 		}
 		
+		
 		public override abstract void Logic();
 		public override abstract GameState NextState();
 		
+		
 		/* Sets the direction of the player's animation to the player's direction. */
 		protected void HandleAnimationDirection() {
+			
 			/* Animation should be facing left if player is moving left. */
 			if (attachedPlayer.currentDirection == Player.Direction.LEFT) {
 				attachedPlayer.animator.Sprite.FlipX = true;
@@ -84,7 +93,9 @@ namespace Quantum.States {
 			else if (attachedPlayer.currentDirection == Player.Direction.RIGHT) {
 				attachedPlayer.animator.Sprite.FlipX = false;
 			}	
+			
 		}
+		
 		
 		/* Returns a string representation of the PlayerState. */
 		public override string ToString() {

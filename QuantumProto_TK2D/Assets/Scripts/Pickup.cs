@@ -3,8 +3,12 @@ using System.Collections;
 
 public class Pickup : MonoBehaviour {
 	
+	/* Where the pickup should be positioned relative to the player picking it up. */
+	public Vector3 offsetFromPlayer;
 	
-
+	
+	
+	
 	void Start () {
 		collider.isTrigger = true;
 		gameObject.tag = "Pickup";
@@ -15,12 +19,16 @@ public class Pickup : MonoBehaviour {
 	}
 	
 	
-
+	
+	
 	void Update () {
+		
+		/* If you have a parent, then move to where you should be relative to him. */
 		if (this.transform.parent != null) {
-			this.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+			this.transform.localPosition = offsetFromPlayer;
 		}
 	}
+	
 	
 	
 	
@@ -38,6 +46,7 @@ public class Pickup : MonoBehaviour {
 	
 	
 	
+	
 	/* The Player object is expected to call this method when dropping this object. */
 	public void OnDrop() {
 		Debug.Log (this.name + ": OnDrop().");
@@ -48,21 +57,5 @@ public class Pickup : MonoBehaviour {
 		this.transform.parent = null;
 	}
 	
-	
-	
-	void OnTriggerEnter(Collider other) {
-		//Debug.Log (this.name + ": Entering triggering range of player.");
-    }
-	
-	
-	
-	void OnTriggerStay(Collider other) {
-		//Debug.Log (this.name + ": Currently in triggering range of player.");
-    }
-	
-	
-	
-	void OnTriggerExit(Collider other) {
-		//Debug.Log (this.name + ": Leaving triggering range of player.");
-	}
+
 }

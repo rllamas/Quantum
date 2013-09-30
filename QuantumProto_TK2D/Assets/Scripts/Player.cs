@@ -5,7 +5,8 @@ using Quantum.States;
 
 public class Player : MonoBehaviour {
 	
-	public Pickup carriedPickup;
+	
+	
 	
 	/* All possible directions the player can be in. */
 	public enum Direction {
@@ -44,12 +45,17 @@ public class Player : MonoBehaviour {
 	
 	
 	
+	
 	/* The walking speed of the player. */
 	public float walkingVelocity = 20.0f;
 	
 	/* The jumping speed of the player. */
 	public float jumpingVelocity = 500.0f;
 	
+	
+	
+	/* The current pickup that the player is carrying. */
+	public Pickup carriedPickup;
 	
 	/* There's a cooldown time for both picking up and setting down pickups. */
 	public float pickupCooldown = 0.5f;
