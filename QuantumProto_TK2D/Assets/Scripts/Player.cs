@@ -5,7 +5,7 @@ using Quantum.States;
 
 public class Player : MonoBehaviour {
 	
-	public Pickup heldPickup;
+	public Pickup carriedPickup;
 	
 	/* All possible directions the player can be in. */
 	public enum Direction {
@@ -121,7 +121,7 @@ public class Player : MonoBehaviour {
 		
 		/* If hitting action button and other is the collider for something currently possible to pick up,
 		 * then pick it up. */
-		if (Input.GetButton("Action1") && IsPossibleToPickup(other.gameObject)) {
+		if (Input.GetButton("Action1") && CanPickup(other.gameObject)) {
 			
 			Pickup triggeredPickup = other.gameObject.GetComponent<Pickup>();	
 			GetPickup(triggeredPickup);	
@@ -136,7 +136,7 @@ public class Player : MonoBehaviour {
 	private void HandleExtraLogic() {
 		
 		/* Drop pickup if hitting action button and holding one. */
-		if (Input.GetButton("Action1") && heldPickup && IsPossibleToDropHeldPickup()) {
+		if (Input.GetButton("Action1") && carriedPickup && CanDropCarriedPickup()) {
 			DropPickup();	
 		}
 		
@@ -150,17 +150,17 @@ public class Player : MonoBehaviour {
 	
 	
 	/* Can the player pick obj up? */
-	private bool IsPossibleToPickup(GameObject obj) {
-		 return obj.gameObject.CompareTag("Pickup") && !heldPickup && pickupCooldownTimeRemaining == 0;
+	private bool CanPickup(GameObject obj) {
+		 return obj.gameObject.CompareTag("Pickup") && !carriedPickup && pickupCooldownTimeRemaining == 0;
 	}
 	
 	
 	
 	
 	/* Can the player drop the currently held pickup? */
-	private bool IsPossibleToDropHeldPickup() {
-		if (!heldPickup) {
-			throw new Exception("Calling IsPossibleToDropHeldPickup() when Player has no held pickup!");	
+	private bool CanDropCarriedPickup() {
+		if (!carriedPickup) {
+			throw new Exception("Calling CanDropCarriedPickup() when Player has no held pickup!");	
 		}
 		return pickupCooldownTimeRemaining == 0;	
 	}
@@ -172,8 +172,8 @@ public class Player : MonoBehaviour {
 	private void GetPickup(Pickup pickup) {
 		Debug.Log(this.name + ": Picking " + pickup.gameObject.name + " up.");
 		
-		heldPickup = pickup;
-		pickup.OnObtain(this);	
+		carriedPickup = pickup;
+		pickup.OnPickup(this);	
 		
 		pickupCooldownTimeRemaining = pickupCooldown;
 	}
@@ -184,10 +184,10 @@ public class Player : MonoBehaviour {
 	/* Drop held pickup. */
 	private void DropPickup() {
 		
-		Debug.Log(this.name + ": Setting " + heldPickup.gameObject.name + " down.");
+		Debug.Log(this.name + ": Setting " + carriedPickup.gameObject.name + " down.");
 		
-		heldPickup.OnRelease();	
-		heldPickup = null;
+		carriedPickup.OnDrop();	
+		carriedPickup = null;
 		
 		pickupCooldownTimeRemaining = pickupCooldown;
 	}

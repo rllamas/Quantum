@@ -132,7 +132,7 @@ namespace Quantum.States {
 	public class ProfessorFallingState : PlayerState {
 		
 		/* How fast the player should be able to move left or right during falling in relation 
-		 * to the player's walking velocty. */
+		 * to the player's walking velocity. */
 		float fallingMovementRatio = 0.5f;
 		
 		/* Constructor. */
