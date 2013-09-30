@@ -28,6 +28,12 @@ namespace Quantum.States {
 		public abstract GameState NextState();
 		
 		
+		/* Returns true if this GameState and obj are equal by value. */
+		public override bool Equals(System.Object obj) {
+	        return this.GetType() == obj.GetType();
+	    }
+
+		
 		/* Returns a string representation of the GameState. */
 		public override string ToString() {
 			return "[GameState:" + this.GetType().Name + "]";

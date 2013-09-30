@@ -103,7 +103,6 @@ public class Player : MonoBehaviour {
 		currentState.Logic();
 	
 		HandleExtraLogic();
-		
 	}
 	
 	
@@ -231,10 +230,10 @@ public class Player : MonoBehaviour {
 	public bool IsFalling() {
 		
 		return rigidbody.velocity.y <= 0 &&
-			(previousState.ToString() == "[PlayerState:ProfessorFallingState]" ||
-			 currentState.ToString()  == "[PlayerState:ProfessorFallingState]" ||
-			 previousState.ToString() == "[PlayerState:ProfessorJumpingState]" ||
-			 currentState.ToString()  == "[PlayerState:ProfessorJumpingState]");
+			(previousState.Equals(new ProfessorFallingState(this)) ||
+			 currentState.Equals( new ProfessorFallingState(this)) ||
+			 previousState.Equals(new ProfessorJumpingState(this)) ||
+			 currentState.Equals( new ProfessorJumpingState(this)) );
 	}
 	
 	
