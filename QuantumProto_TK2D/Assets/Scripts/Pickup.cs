@@ -22,11 +22,7 @@ public class Pickup : MonoBehaviour {
 	
 	
 	void Update () {
-		
-		/* If you have a parent, then move to where you should be relative to him. */
-		if (this.transform.parent != null) {
-			this.transform.localPosition = offsetFromPlayer;
-		}
+		HandlePosition();
 	}
 	
 	
@@ -41,7 +37,8 @@ public class Pickup : MonoBehaviour {
 		 * player will immediately collide with this object. Instead, we just disable the collider altogether. */
 		this.collider.enabled = false; 
 		
-		this.transform.parent = player.transform;		
+		this.transform.parent = player.transform;	
+		HandlePosition();
 	}
 	
 	
@@ -57,5 +54,33 @@ public class Pickup : MonoBehaviour {
 		this.transform.parent = null;
 	}
 	
+	
+	
+	
+	/* Moves the pickup to the correct position relative to the player. */
+	public void HandlePosition() {
+		
+		/* If you have a parent, then move to where you should be relative to him. */
+		if (this.transform.parent != null) {
+			
+			/* If the player turns right, turn the pickup with the player. */
+			if (GetPlayer().currentDirection == Player.Direction.RIGHT) {
+				this.transform.localPosition = new Vector3(-1.0f*offsetFromPlayer.x, offsetFromPlayer.y, 
+					offsetFromPlayer.z);
+			}
+			/* Otherwise, keep pickup at the normal distance from the player. */
+			else {
+				this.transform.localPosition = offsetFromPlayer;
+			}
+		}
+	}
+	
+	
+	
+	
+	/* Returns the player picking up this pickup. */
+	private Player GetPlayer() {
+		return this.transform.parent.GetComponent<Player>();	
+	}
 
 }

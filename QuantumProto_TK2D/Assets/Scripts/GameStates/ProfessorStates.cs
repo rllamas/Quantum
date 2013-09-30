@@ -17,14 +17,17 @@ namespace Quantum.States {
 	
 	public class ProfessorStandingState : PlayerState {
 		
+		
 		/* Constructor. */
 		public ProfessorStandingState(Player player) : base(player) {
 			attachedPlayer.animator.Play("Standing");		
 		}
 		
+		
 		public override void Logic() {
 			HandleAnimationDirection();
 		}
+		
 		
 		public override GameState NextState() {
 			float horizontalAxis = Input.GetAxis("Horizontal");
@@ -54,6 +57,7 @@ namespace Quantum.States {
 			attachedPlayer.animator.Play("Walking");
 		}
 		
+		
 		public override void Logic() {
 			HandleAnimationDirection();
 			
@@ -63,6 +67,7 @@ namespace Quantum.States {
 			
 			attachedPlayer.transform.Translate(movement);
 		}
+		
 		
 		public override GameState NextState() {
 			float horizontalAxis = Input.GetAxis("Horizontal");
@@ -92,6 +97,7 @@ namespace Quantum.States {
 			;		
 		}
 		
+		
 		public override void Logic() {	
 			HandleAnimationDirection();
 			
@@ -113,6 +119,7 @@ namespace Quantum.States {
 				attachedPlayer.rigidbody.velocity = Vector2.zero;
 			}
 		}
+		
 		
 		public override GameState NextState() {
 			
@@ -140,6 +147,7 @@ namespace Quantum.States {
 			;		
 		}
 		
+		
 		public override void Logic () {
 			HandleAnimationDirection();
 			
@@ -150,6 +158,7 @@ namespace Quantum.States {
 			
 			attachedPlayer.transform.Translate(movement);
 		}
+		
 		
 		public override GameState NextState() {
 			
