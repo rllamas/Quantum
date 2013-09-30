@@ -6,7 +6,7 @@ using System.Collections;
 public class PlayerCamera : MonoBehaviour {
 
 	public Player attachedPlayer;
-	public Vector3 offsetFromPlayer;
+	private Vector3 offsetFromPlayer; // Determined from initial camera position
 	
 	// Use this for initialization
 	void Start () {
