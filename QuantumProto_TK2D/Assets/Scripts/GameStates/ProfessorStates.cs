@@ -72,17 +72,11 @@ namespace Quantum.States {
 				attachedPlayer.sprite.FlipX = true;
 			}
 			
-			/* Move the player based on direction. */
-			Vector2 movement = new Vector2(attachedPlayer.walkingVelocity * Time.deltaTime, 0);
+			/* Move the player based on the . */
+			float xAxisAmount = Input.GetAxis("Horizontal");
+			Vector2 movement = new Vector2(xAxisAmount * attachedPlayer.walkingVelocity * Time.deltaTime, 0);
 			
-			if (attachedPlayer.currentDirection == Player.Direction.LEFT) {
-				/* If going left, then make x translation negative. */
-				movement.x *= -1;
-				attachedPlayer.transform.Translate(movement);
-			}
-			else if (attachedPlayer.currentDirection == Player.Direction.RIGHT) {
-				attachedPlayer.transform.Translate(movement);
-			}
+			attachedPlayer.transform.Translate(movement);
 		}
 		
 		public override GameState NextState() {
@@ -118,37 +112,16 @@ namespace Quantum.States {
 			/* If player is touching the ground. */
 			if (attachedPlayer.IsGrounded()) {
 				Vector2 movement;
-				/* If the last state was standing, then jump straight up. */
-				if (attachedPlayer.previousState.ToString() == "[PlayerState:ProfessorStandingState]") {
-					Debug.Log ("Jumping straight up.");
-					movement = new Vector2(0, attachedPlayer.jumpingVelocity);
-					attachedPlayer.rigidbody.AddForce(movement);
-				}
-				else if (attachedPlayer.IsMoving()) {
-					Debug.Log ("Jumping at a diagonal.");
-					/* Jumping at a left diagonal. */
-					if (attachedPlayer.currentDirection == Player.Direction.LEFT) {
-						movement = new Vector2(-attachedPlayer.jumpingVelocity - attachedPlayer.walkingVelocity, attachedPlayer.jumpingVelocity);
-					}
-					/* Jumping at a right diagonal. */
-					else {
-						movement = new Vector2(attachedPlayer.jumpingVelocity + attachedPlayer.walkingVelocity, attachedPlayer.jumpingVelocity);
-					}
-					attachedPlayer.rigidbody.AddForce(movement);
-				}
-			}
-			else {
-				/* Move the player based on direction. */
-				Vector2 movement = new Vector2(attachedPlayer.walkingVelocity * Time.deltaTime, 0);
 				
-				if (attachedPlayer.currentDirection == Player.Direction.LEFT) {
-					/* If going left, then make x translation negative. */
-					movement.x *= -1;
-					attachedPlayer.transform.Translate(movement);
-				}
-				else if (attachedPlayer.currentDirection == Player.Direction.RIGHT) {
-					attachedPlayer.transform.Translate(movement);
-				}
+				float xAxisAmount = Input.GetAxis("Horizontal");
+				float yAxisAmount = Input.GetAxis("Vertical");
+				
+				movement = new Vector2(
+					xAxisAmount * (attachedPlayer.walkingVelocity+attachedPlayer.jumpingVelocity), 
+					attachedPlayer.jumpingVelocity
+				);
+				attachedPlayer.rigidbody.AddForce(movement);
+				
 			}
 		}
 		

@@ -97,6 +97,9 @@ public class Player : MonoBehaviour {
 		currentState.Logic();
 	
 		HandleExtraLogic();
+		
+		Debug.Log ("rigidbody.velocity.x: " + rigidbody.velocity.x);
+		Debug.Log ("rigidbody.velocity.y: " + rigidbody.velocity.y);
 	}
 	
 	
