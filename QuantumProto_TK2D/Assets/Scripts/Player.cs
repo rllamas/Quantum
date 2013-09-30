@@ -198,9 +198,16 @@ public class Player : MonoBehaviour {
 	/* Returns true if the player is touching the ground. */
 	public bool IsGrounded() {
 		
-		/* Shoot a ray from the center of the player to slightly below the bottom of his collision box. 
+		/* Extra distance to look past the bottom of the player's collision box. */
+		float extraSearchDistance = 0.2f;
+		
+		if (extraSearchDistance < 0) {
+			throw new Exception("extraSearchDistance cannot be negative!");	
+		}
+		
+		/* Shoot a ray from the center of the player to the bottom of his collision box. 
 		 * If anything intersects this ray, then the player is considered touching the ground. */
-		float distanceToGround = this.collider.bounds.extents.y + .01f;	
+		float distanceToGround = this.collider.bounds.extents.y + extraSearchDistance;	
 		return Physics.Raycast(this.transform.position, -Vector2.up, distanceToGround);
 	}
 	

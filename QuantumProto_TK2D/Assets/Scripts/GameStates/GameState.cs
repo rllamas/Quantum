@@ -74,6 +74,18 @@ namespace Quantum.States {
 		public override abstract void Logic();
 		public override abstract GameState NextState();
 		
+		/* Sets the direction of the player's animation to the player's direction. */
+		protected void HandleAnimationDirection() {
+			/* Animation should be facing left if player is moving left. */
+			if (attachedPlayer.currentDirection == Player.Direction.LEFT) {
+				attachedPlayer.animator.Sprite.FlipX = true;
+			}
+			/* Animation should be facing right if player is moving right. */
+			else if (attachedPlayer.currentDirection == Player.Direction.RIGHT) {
+				attachedPlayer.animator.Sprite.FlipX = false;
+			}	
+		}
+		
 		/* Returns a string representation of the PlayerState. */
 		public override string ToString() {
 			return "[PlayerState:" + this.GetType().Name + "]";

@@ -23,15 +23,7 @@ namespace Quantum.States {
 		}
 		
 		public override void Logic() {
-			/* Animation should be facing left if player is moving left. */
-			if (attachedPlayer.currentDirection == Player.Direction.LEFT) {
-				attachedPlayer.animator.Sprite.FlipX = true;
-			}
-			/* Animation should be facing right if player is moving right. */
-			else if (attachedPlayer.currentDirection == Player.Direction.RIGHT) {
-				attachedPlayer.animator.Sprite.FlipX = false;
-			}
-			
+			HandleAnimationDirection();
 		}
 		
 		public override GameState NextState() {
@@ -63,14 +55,7 @@ namespace Quantum.States {
 		}
 		
 		public override void Logic() {
-			/* Animation should be facing left if player is moving left. */
-			if (attachedPlayer.currentDirection == Player.Direction.LEFT) {
-				attachedPlayer.animator.Sprite.FlipX = true;
-			}
-			/* Animation should be facing right if player is moving right. */
-			else if (attachedPlayer.currentDirection == Player.Direction.RIGHT) {
-				attachedPlayer.animator.Sprite.FlipX = false;
-			}
+			HandleAnimationDirection();
 			
 			/* Move the player based on the tilt of the control stick. */
 			float xAxisTilt = Input.GetAxis("Horizontal");
@@ -108,6 +93,7 @@ namespace Quantum.States {
 		}
 		
 		public override void Logic() {	
+			HandleAnimationDirection();
 			
 			/* If player is touching the ground. */
 			if (attachedPlayer.IsGrounded()) {
@@ -155,6 +141,8 @@ namespace Quantum.States {
 		}
 		
 		public override void Logic () {
+			HandleAnimationDirection();
+			
 			/* Move the player based on the tilt of the control stick. */
 			float xAxisTilt = Input.GetAxis("Horizontal");
 			Vector2 movement = new Vector2(xAxisTilt * attachedPlayer.walkingVelocity * 
