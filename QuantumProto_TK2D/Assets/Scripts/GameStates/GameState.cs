@@ -103,6 +103,23 @@ namespace Quantum.States {
 		}
 		
 		
+		/* Returns true if the player is considered colliding with something. */
+		protected bool IsColliding() {
+			
+			float xAxisTilt = Input.GetAxis("Horizontal");
+			
+			/* If the player is colliding with something in the direction the control stick is tilted,
+			 * the the player is considered colliding. */
+			if (xAxisTilt < 0 && attachedPlayer.IsCollidingLeft()) {
+				return true;	
+			}
+			else if (xAxisTilt > 0 && attachedPlayer.IsCollidingRight()) {
+				return true;	
+			}	
+				return false;
+		}
+		
+		
 		/* Returns a string representation of the PlayerState. */
 		public override string ToString() {
 			return "[PlayerState:" + this.GetType().Name + "]";

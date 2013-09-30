@@ -124,8 +124,8 @@ public class Player : MonoBehaviour {
 	
 	void OnTriggerStay(Collider other) {
 		
-		/* If hitting action button and other is the collider for something currently possible to pick up,
-		 * then pick it up. */
+		/* If hitting action button within triggering distance of something you can pick up,
+		 * then pick up if possible. */
 		if (Input.GetButton("Action1") && CanPickup(other.gameObject)) {
 			
 			Pickup triggeredPickup = other.gameObject.GetComponent<Pickup>();	
@@ -234,6 +234,64 @@ public class Player : MonoBehaviour {
 			 currentState.Equals( new ProfessorFallingState(this)) ||
 			 previousState.Equals(new ProfessorJumpingState(this)) ||
 			 currentState.Equals( new ProfessorJumpingState(this)) );
+	}
+	
+	
+	
+	
+	/* Returns true if the player is colliding on the left. */
+	public bool IsCollidingLeft() {
+		
+		/* Extra distance to look past the the left of the player's collision box. */
+		float extraSearchDistance = 0.2f;
+		
+		if (extraSearchDistance < 0) {
+			throw new Exception("extraSearchDistance cannot be negative!");	
+		}
+		
+		float distanceToCheck = this.collider.bounds.extents.x + extraSearchDistance;
+		float yOffset = this.collider.bounds.extents.y/2.0f;
+		Vector3 topRaySource = new Vector3(transform.position.x, this.transform.position.y+yOffset, this.transform.position.z);
+		Vector3 bottomRaySource = new Vector3(transform.position.x, this.transform.position.y-yOffset, this.transform.position.z);
+		
+		/* Shoot a ray from the center of the player to the left of his collision box. 
+		 * If anything intersects this ray, then the player is considered colliding on the left. */
+		bool isCollidingLeftTop = Physics.Raycast(topRaySource, -Vector2.right, distanceToCheck);
+		bool isCollidingLeftMiddle = Physics.Raycast(this.transform.position, -Vector2.right, distanceToCheck);
+		bool isCollidingLeftBottom = Physics.Raycast(bottomRaySource, -Vector2.right, distanceToCheck);
+		
+		//Debug.Log ("isCollidingLeft: " + (isCollidingLeftTop || isCollidingLeftMiddle || isCollidingLeftBottom));
+		
+		return isCollidingLeftTop || isCollidingLeftMiddle || isCollidingLeftBottom;
+	}
+	
+	
+	
+	
+	/* Returns true if the player is colliding on the right. */
+	public bool IsCollidingRight() {
+		
+		/* Extra distance to look past the the right of the player's collision box. */
+		float extraSearchDistance = 0.2f;
+		
+		if (extraSearchDistance < 0) {
+			throw new Exception("extraSearchDistance cannot be negative!");	
+		}
+		
+		float distanceToCheck = this.collider.bounds.extents.x + extraSearchDistance;
+		float yOffset = this.collider.bounds.extents.y/2.0f;
+		Vector3 topRaySource = new Vector3(transform.position.x, this.transform.position.y+yOffset, this.transform.position.z);
+		Vector3 bottomRaySource = new Vector3(transform.position.x, this.transform.position.y-yOffset, this.transform.position.z);
+
+		/* Shoot a ray from the center of the player to the right of his collision box. 
+		 * If anything intersects this ray, then the player is considered colliding on the right. */
+		bool isCollidingRightTop = Physics.Raycast(topRaySource, Vector2.right, distanceToCheck);
+		bool isCollidingRightMiddle = Physics.Raycast(this.transform.position, Vector2.right, distanceToCheck);
+		bool isCollidingRightBottom = Physics.Raycast(bottomRaySource, Vector2.right, distanceToCheck);
+
+		//Debug.Log ("isCollidingRight: " + (isCollidingRightTop || isCollidingRightMiddle || isCollidingRightBottom));
+		
+		return isCollidingRightTop || isCollidingRightMiddle || isCollidingRightBottom;
 	}
 	
 	

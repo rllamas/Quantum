@@ -60,12 +60,14 @@ namespace Quantum.States {
 		
 		public override void Logic() {
 			HandleAnimationDirection();
-			
-			/* Move the player based on the tilt of the control stick. */
-			float xAxisTilt = Input.GetAxis("Horizontal");
-			Vector2 movement = new Vector2(xAxisTilt * attachedPlayer.walkingVelocity * Time.deltaTime, 0);
-			
-			attachedPlayer.transform.Translate(movement);
+			if (!this.IsColliding()) {
+					
+				/* Move the player based on the tilt of the control stick. */
+				float xAxisTilt = Input.GetAxis("Horizontal");			
+				Vector2 movement = new Vector2(xAxisTilt * attachedPlayer.walkingVelocity * Time.deltaTime, 0);
+				
+				attachedPlayer.transform.Translate(movement);
+			}
 		}
 		
 		
@@ -151,12 +153,15 @@ namespace Quantum.States {
 		public override void Logic () {
 			HandleAnimationDirection();
 			
-			/* Move the player based on the tilt of the control stick. */
-			float xAxisTilt = Input.GetAxis("Horizontal");
-			Vector2 movement = new Vector2(xAxisTilt * attachedPlayer.walkingVelocity * 
-				fallingMovementRatio * Time.deltaTime, 0);
+			if (!IsColliding()) {
 			
-			attachedPlayer.transform.Translate(movement);
+				/* Move the player based on the tilt of the control stick. */
+				float xAxisTilt = Input.GetAxis("Horizontal");
+				Vector2 movement = new Vector2(xAxisTilt * attachedPlayer.walkingVelocity * 
+					fallingMovementRatio * Time.deltaTime, 0);
+				
+				attachedPlayer.transform.Translate(movement);
+			}
 		}
 		
 		
