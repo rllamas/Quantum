@@ -72,9 +72,9 @@ namespace Quantum.States {
 				attachedPlayer.sprite.FlipX = true;
 			}
 			
-			/* Move the player based on the . */
-			float xAxisAmount = Input.GetAxis("Horizontal");
-			Vector2 movement = new Vector2(xAxisAmount * attachedPlayer.walkingVelocity * Time.deltaTime, 0);
+			/* Move the player based on the tilt of the control stick. */
+			float xAxisTilt = Input.GetAxis("Horizontal");
+			Vector2 movement = new Vector2(xAxisTilt * attachedPlayer.walkingVelocity * Time.deltaTime, 0);
 			
 			attachedPlayer.transform.Translate(movement);
 		}
@@ -111,17 +111,20 @@ namespace Quantum.States {
 			
 			/* If player is touching the ground. */
 			if (attachedPlayer.IsGrounded()) {
-				Vector2 movement;
 				
-				float xAxisAmount = Input.GetAxis("Horizontal");
-				float yAxisAmount = Input.GetAxis("Vertical");
+				Vector2 movement;
+				float xAxisTilt = Input.GetAxis("Horizontal");
 				
 				movement = new Vector2(
-					xAxisAmount * (attachedPlayer.walkingVelocity+attachedPlayer.jumpingVelocity), 
+					xAxisTilt * (attachedPlayer.walkingVelocity+attachedPlayer.jumpingVelocity), 
 					attachedPlayer.jumpingVelocity
 				);
 				attachedPlayer.rigidbody.AddForce(movement);
 				
+			}
+			/* If player releases jump button, then stop jump. */
+			else if (Input.GetButtonUp("Jump")) {
+				attachedPlayer.rigidbody.velocity = Vector2.zero;
 			}
 		}
 		
@@ -142,13 +145,22 @@ namespace Quantum.States {
 	
 	public class ProfessorFallingState : PlayerState {
 		
+		/* How fast the player should be able to move left or right during falling in relation 
+		 * to the player's walking velocty. */
+		float fallingMovementRatio = 0.5f;
+		
 		/* Constructor. */
 		public ProfessorFallingState(Player player) : base(player) {
 			;		
 		}
 		
 		public override void Logic () {
-			;
+			/* Move the player based on the tilt of the control stick. */
+			float xAxisTilt = Input.GetAxis("Horizontal");
+			Vector2 movement = new Vector2(xAxisTilt * attachedPlayer.walkingVelocity * 
+				fallingMovementRatio * Time.deltaTime, 0);
+			
+			attachedPlayer.transform.Translate(movement);
 		}
 		
 		public override GameState NextState() {
