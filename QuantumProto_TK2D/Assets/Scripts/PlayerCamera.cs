@@ -6,7 +6,7 @@ using System.Collections;
 public class PlayerCamera : MonoBehaviour {
 
 	public Player attachedPlayer;
-	private Vector3 originalDistanceFromPlayer;
+	private Vector3 offsetFromPlayer;
 	
 	// Use this for initialization
 	void Start () {
@@ -14,7 +14,7 @@ public class PlayerCamera : MonoBehaviour {
 			throw new Exception("There is no Player attached to '" + this.name + "'!");	
 		}
 		else {
-			originalDistanceFromPlayer = this.transform.position - attachedPlayer.transform.position;
+			offsetFromPlayer = this.transform.position - attachedPlayer.transform.position;
 		}
 	}
 	
@@ -23,7 +23,7 @@ public class PlayerCamera : MonoBehaviour {
 		
 		/* Follow the player. */
 		if (attachedPlayer) {
-			this.transform.position = attachedPlayer.transform.position + originalDistanceFromPlayer;
+			this.transform.position = attachedPlayer.transform.position + offsetFromPlayer;
 		}
 	}
 }
