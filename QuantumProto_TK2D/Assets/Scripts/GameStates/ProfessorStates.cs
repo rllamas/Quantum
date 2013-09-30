@@ -19,17 +19,17 @@ namespace Quantum.States {
 		
 		/* Constructor. */
 		public ProfessorStandingState(Player player) : base(player) {
-			;		
+			attachedPlayer.animator.Play("Standing");		
 		}
 		
 		public override void Logic() {
-			/* Sprite should be facing left if player is moving left. */
+			/* Animation should be facing left if player is moving left. */
 			if (attachedPlayer.currentDirection == Player.Direction.LEFT) {
-				attachedPlayer.sprite.FlipX = false;
+				attachedPlayer.animator.Sprite.FlipX = true;
 			}
-			/* Sprite should be facing right if player is moving right. */
+			/* Animation should be facing right if player is moving right. */
 			else if (attachedPlayer.currentDirection == Player.Direction.RIGHT) {
-				attachedPlayer.sprite.FlipX = true;
+				attachedPlayer.animator.Sprite.FlipX = false;
 			}
 			
 		}
@@ -59,17 +59,17 @@ namespace Quantum.States {
 		
 		/* Constructor. */
 		public ProfessorWalkingState(Player player) : base(player) {
-			;		
+			attachedPlayer.animator.Play("Walking");
 		}
 		
 		public override void Logic() {
-			/* Sprite should be facing left if player is moving left. */
+			/* Animation should be facing left if player is moving left. */
 			if (attachedPlayer.currentDirection == Player.Direction.LEFT) {
-				attachedPlayer.sprite.FlipX = false;
+				attachedPlayer.animator.Sprite.FlipX = true;
 			}
-			/* Sprite should be facing right if player is moving right. */
+			/* Animation should be facing right if player is moving right. */
 			else if (attachedPlayer.currentDirection == Player.Direction.RIGHT) {
-				attachedPlayer.sprite.FlipX = true;
+				attachedPlayer.animator.Sprite.FlipX = false;
 			}
 			
 			/* Move the player based on the tilt of the control stick. */

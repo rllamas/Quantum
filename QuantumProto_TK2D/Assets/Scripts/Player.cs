@@ -21,11 +21,11 @@ public class Player : MonoBehaviour {
 	
 	/* Current game state that the player is in. */
 	public GameState currentState;
-	public string currentStateString; // For debugging.
+	public string currentStateString; // Used for debugging.
 
 	/* Previous game state that the player was in. */
 	public GameState previousState;
-	public string previousStateString; // For debugging.
+	public string previousStateString; // Used for debugging.
 	
 	
 	
@@ -39,8 +39,8 @@ public class Player : MonoBehaviour {
 	
 	
 	
-	/* The current sprite of the player. */
-	public tk2dSprite sprite;
+	/* The animation manager of the player. */
+	public tk2dSpriteAnimator animator;
 	
 	
 	
@@ -69,9 +69,9 @@ public class Player : MonoBehaviour {
 		previousState = new ProfessorStandingState(this);
 		previousStateString = previousState.ToString();
 		
-		sprite = GetComponent<tk2dSprite>();
-		if (!sprite) {
-			throw new Exception("No tk2dSprite was attached to the Player!!!");	
+		//animator = GetComponent<tk2dSpriteAnimator>();
+		if (!animator) {
+			throw new Exception("No tk2dSpriteAnimator was attached to the Player!!!");	
 		}
 		
 		/* Don't allow rotations. */
