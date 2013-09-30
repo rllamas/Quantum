@@ -98,8 +98,6 @@ public class Player : MonoBehaviour {
 	
 		HandleExtraLogic();
 		
-		Debug.Log ("rigidbody.velocity.x: " + rigidbody.velocity.x);
-		Debug.Log ("rigidbody.velocity.y: " + rigidbody.velocity.y);
 	}
 	
 	
@@ -218,15 +216,6 @@ public class Player : MonoBehaviour {
 			 previousState.ToString() == "[PlayerState:ProfessorJumpingState]" ||
 			 currentState.ToString()  == "[PlayerState:ProfessorJumpingState]");
 	}
-	
-	
-	
-	
-	/* Returns true if the player is moving. */
-	public bool IsMoving() {
-		return rigidbody.velocity.x != 0 || rigidbody.velocity.y != 0;
-	}
-	
 	
 	
 	
