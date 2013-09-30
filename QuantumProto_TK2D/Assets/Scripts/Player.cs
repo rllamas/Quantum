@@ -141,8 +141,8 @@ public class Player : MonoBehaviour {
 	/* Handle any additional logic that the player may need to. */
 	private void HandleExtraLogic() {
 		
-		/* Drop pickup if hitting action button and holding one. */
-		if (Input.GetButton("Action1") && carriedPickup && CanDropCarriedPickup()) {
+		/* Drop pickup if applicable. */
+		if (Input.GetButton("Action1") && CarryingPickup() && CanDropCarriedPickup()) {
 			DropPickup();	
 		}
 		
@@ -155,9 +155,16 @@ public class Player : MonoBehaviour {
 	
 	
 	
+	/* Return true if the player is carrying a pickup. */
+	public bool CarryingPickup() {
+		return carriedPickup != null;	
+	}
+	
+	
+	
 	/* Can the player pick obj up? */
 	private bool CanPickup(GameObject obj) {
-		 return obj.gameObject.CompareTag("Pickup") && !carriedPickup && pickupCooldownTimeRemaining == 0;
+		 return obj.gameObject.CompareTag("Pickup") && !CarryingPickup() && pickupCooldownTimeRemaining == 0;
 	}
 	
 	
@@ -165,7 +172,7 @@ public class Player : MonoBehaviour {
 	
 	/* Can the player drop the currently held pickup? */
 	private bool CanDropCarriedPickup() {
-		if (!carriedPickup) {
+		if (!CarryingPickup()) {
 			throw new Exception("Calling CanDropCarriedPickup() when Player has no held pickup!");	
 		}
 		return pickupCooldownTimeRemaining == 0;	
