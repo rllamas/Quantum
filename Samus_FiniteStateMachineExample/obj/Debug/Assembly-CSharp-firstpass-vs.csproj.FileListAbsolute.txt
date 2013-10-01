@@ -1,8 +1,0 @@
-C:\Users\Banzai Bill\Documents\Testing Grounds\Temp\bin\Debug\Assembly-CSharp-firstpass.dll
-C:\Users\Banzai Bill\Documents\Testing Grounds\Temp\bin\Debug\Assembly-CSharp-firstpass.pdb
-C:\Users\Banzai Bill\Documents\Testing Grounds\Temp\bin\Debug\UnityEditor.dll
-C:\Users\Banzai Bill\Documents\Testing Grounds\Temp\bin\Debug\UnityEngine.dll
-C:\Users\Banzai Bill\Documents\Testing Grounds\Temp\bin\Debug\nunit.framework.dll
-C:\Users\Banzai Bill\Documents\Testing Grounds\obj\Debug\ResolveAssemblyReference.cache
-C:\Users\Banzai Bill\Documents\Testing Grounds\obj\Debug\Assembly-CSharp-firstpass.dll
-C:\Users\Banzai Bill\Documents\Testing Grounds\obj\Debug\Assembly-CSharp-firstpass.pdb
