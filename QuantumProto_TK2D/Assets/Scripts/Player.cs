@@ -282,7 +282,6 @@ public class Player : MonoBehaviour {
 	
 	/* Returns true if the player is colliding on the right. */
 	public bool IsCollidingRight() {
-		
 				
 		/* Extra distance to look past the the right of the player's collision box. */
 		float extraSearchDistance = 0.2f;

@@ -32,6 +32,12 @@ namespace Quantum.States {
 		public override bool Equals(System.Object obj) {
 	        return this.GetType() == obj.GetType();
 	    }
+		
+		
+		/* Returns the hash code of this GameState. */
+		public override int GetHashCode() {
+	        return base.GetHashCode();
+	    }
 
 		
 		/* Returns a string representation of the GameState. */
