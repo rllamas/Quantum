@@ -218,9 +218,14 @@ public class Player : MonoBehaviour {
 		}
 		
 		/* Shoot a ray from the center of the player to the bottom of his collision box. 
-		 * If anything intersects this ray, then the player is considered touching the ground. */
+		 * If anything intersects this ray, then the player is considered touching the ground. 
+		 * Collisions with trigger colliders aren't counted. */
 		float distanceToGround = this.collider.bounds.extents.y + extraSearchDistance;	
-		return Physics.Raycast(this.transform.position, -Vector2.up, distanceToGround);
+		RaycastHit hitInfo;
+		
+		bool isCollision = Physics.Raycast(this.transform.position, -Vector2.up, out hitInfo, distanceToGround);
+		
+		return isCollision && !hitInfo.collider.isTrigger;
 	}
 	
 	
@@ -251,18 +256,25 @@ public class Player : MonoBehaviour {
 		
 		float distanceToCheck = this.collider.bounds.extents.x + extraSearchDistance;
 		float yOffset = this.collider.bounds.extents.y/2.0f;
-		Vector3 topRaySource = new Vector3(transform.position.x, this.transform.position.y+yOffset, this.transform.position.z);
+		
+		Vector3 topRaySource =    new Vector3(transform.position.x, this.transform.position.y+yOffset, this.transform.position.z);
+		Vector3 middleRaySource = this.transform.position;
 		Vector3 bottomRaySource = new Vector3(transform.position.x, this.transform.position.y-yOffset, this.transform.position.z);
 		
-		/* Shoot a ray from the center of the player to the left of his collision box. 
-		 * If anything intersects this ray, then the player is considered colliding on the left. */
-		bool isCollidingLeftTop = Physics.Raycast(topRaySource, -Vector2.right, distanceToCheck);
-		bool isCollidingLeftMiddle = Physics.Raycast(this.transform.position, -Vector2.right, distanceToCheck);
-		bool isCollidingLeftBottom = Physics.Raycast(bottomRaySource, -Vector2.right, distanceToCheck);
+		RaycastHit hitInfoTopRay;
+		RaycastHit hitInfoMiddleRay;
+		RaycastHit hitInfoBottomRay;
+
+		/* Shoot 3 rays from the player to the left of his collision box. 
+		 * If anything intersects these rays, then the player is considered colliding on the left. 
+		 * Collisions with trigger colliders aren't counted. */
+		bool isCollidingTop =    Physics.Raycast(topRaySource,    -Vector2.right, out hitInfoTopRay,    distanceToCheck);
+		bool isCollidingMiddle = Physics.Raycast(middleRaySource, -Vector2.right, out hitInfoMiddleRay, distanceToCheck);
+		bool isCollidingBottom = Physics.Raycast(bottomRaySource, -Vector2.right, out hitInfoBottomRay, distanceToCheck);
 		
-		//Debug.Log ("isCollidingLeft: " + (isCollidingLeftTop || isCollidingLeftMiddle || isCollidingLeftBottom));
-		
-		return isCollidingLeftTop || isCollidingLeftMiddle || isCollidingLeftBottom;
+		return (isCollidingTop    && !hitInfoTopRay.collider.isTrigger)    || 
+			   (isCollidingMiddle && !hitInfoMiddleRay.collider.isTrigger) || 
+			   (isCollidingBottom && !hitInfoBottomRay.collider.isTrigger);
 	}
 	
 	
@@ -271,6 +283,7 @@ public class Player : MonoBehaviour {
 	/* Returns true if the player is colliding on the right. */
 	public bool IsCollidingRight() {
 		
+				
 		/* Extra distance to look past the the right of the player's collision box. */
 		float extraSearchDistance = 0.2f;
 		
@@ -280,18 +293,25 @@ public class Player : MonoBehaviour {
 		
 		float distanceToCheck = this.collider.bounds.extents.x + extraSearchDistance;
 		float yOffset = this.collider.bounds.extents.y/2.0f;
-		Vector3 topRaySource = new Vector3(transform.position.x, this.transform.position.y+yOffset, this.transform.position.z);
-		Vector3 bottomRaySource = new Vector3(transform.position.x, this.transform.position.y-yOffset, this.transform.position.z);
-
-		/* Shoot a ray from the center of the player to the right of his collision box. 
-		 * If anything intersects this ray, then the player is considered colliding on the right. */
-		bool isCollidingRightTop = Physics.Raycast(topRaySource, Vector2.right, distanceToCheck);
-		bool isCollidingRightMiddle = Physics.Raycast(this.transform.position, Vector2.right, distanceToCheck);
-		bool isCollidingRightBottom = Physics.Raycast(bottomRaySource, Vector2.right, distanceToCheck);
-
-		//Debug.Log ("isCollidingRight: " + (isCollidingRightTop || isCollidingRightMiddle || isCollidingRightBottom));
 		
-		return isCollidingRightTop || isCollidingRightMiddle || isCollidingRightBottom;
+		Vector3 topRaySource =    new Vector3(transform.position.x, this.transform.position.y+yOffset, this.transform.position.z);
+		Vector3 middleRaySource = this.transform.position;
+		Vector3 bottomRaySource = new Vector3(transform.position.x, this.transform.position.y-yOffset, this.transform.position.z);
+		
+		RaycastHit hitInfoTopRay;
+		RaycastHit hitInfoMiddleRay;
+		RaycastHit hitInfoBottomRay;
+
+		/* Shoot 3 rays from the player to the right of his collision box. 
+		 * If anything intersects these rays, then the player is considered colliding on the right. 
+		 * Collisions with trigger colliders aren't counted. */
+		bool isCollidingTop =    Physics.Raycast(topRaySource,    Vector2.right, out hitInfoTopRay,    distanceToCheck);
+		bool isCollidingMiddle = Physics.Raycast(middleRaySource, Vector2.right, out hitInfoMiddleRay, distanceToCheck);
+		bool isCollidingBottom = Physics.Raycast(bottomRaySource, Vector2.right, out hitInfoBottomRay, distanceToCheck);
+		
+		return (isCollidingTop    && !hitInfoTopRay.collider.isTrigger)    || 
+			   (isCollidingMiddle && !hitInfoMiddleRay.collider.isTrigger) || 
+			   (isCollidingBottom && !hitInfoBottomRay.collider.isTrigger);
 	}
 	
 	
