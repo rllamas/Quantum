@@ -11,9 +11,6 @@ public class Plant : Pickup {
 	
 	public override void Start() {
 		base.Start();
-		pastPlant.transform.localPosition = Vector3.zero;
-		futurePlant.transform.localPosition = Vector3.zero;
-		
 		HandleEra();
 	}
 	

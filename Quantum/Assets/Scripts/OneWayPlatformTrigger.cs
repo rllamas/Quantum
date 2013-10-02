@@ -21,7 +21,7 @@ public class OneWayPlatformTrigger : MonoBehaviour {
 	/* The platform for the player to step on. This should be a non-trigger BoxCollider. */
 	public BoxCollider platform;	
 	
-	private Player player;
+	public Player player;
 	
 	
 	
@@ -35,6 +35,7 @@ public class OneWayPlatformTrigger : MonoBehaviour {
 	
 	
 	void OnTriggerEnter() {
+		Debug.Log("Entering OneWayTrigger!");
 		Physics.IgnoreCollision(player.gameObject.collider, platform.collider, true);
 	}
 	
@@ -42,6 +43,7 @@ public class OneWayPlatformTrigger : MonoBehaviour {
 	
 	
 	void OnTriggerExit() {
+		Debug.Log("Exiting OneWayTrigger()!");
 		Physics.IgnoreCollision(player.gameObject.collider, platform.collider, false);
 	}
 	
