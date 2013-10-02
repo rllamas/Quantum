@@ -58,8 +58,12 @@ public class Player : MonoBehaviour {
 	public Pickup carriedPickup;
 	
 	/* There's a cooldown time for both picking up and setting down pickups. */
-	public float pickupCooldown = 0.5f;
+	public float pickupCooldown = 0.25f;
 	private float pickupCooldownTimeRemaining = 0.0f;
+	
+	/* There's a cooldown time for entering portals. */
+	public float vortexCooldown = 0.25f;
+	private float vortexCooldownTimeRemaining = 0.0f;
 	
 	
 	
@@ -123,15 +127,20 @@ public class Player : MonoBehaviour {
 	
 	
 	void OnTriggerStay(Collider other) {
-		
-		/* If hitting action button within triggering distance of something you can pick up,
-		 * then pick up if possible. */
-		if (Input.GetButton("Action1") && CanPickup(other.gameObject)) {
+	
+		if (Input.GetButton("Action1")) {
 			
-			Pickup triggeredPickup = other.gameObject.GetComponent<Pickup>();	
-			GetPickup(triggeredPickup);	
+			/* If other is the collider of an object you can pick up, then pick it up if possible. */
+			if (CanPickup(other.gameObject)) {
+				Pickup triggeredPickup = other.gameObject.GetComponent<Pickup>();	
+				GetPickup(triggeredPickup);	
+			}
+			/* If other is the collider of a Vortex, then warp if possible. */
+			else if (CanWarp(other.gameObject)) {
+				Vortex triggeredVortex = other.gameObject.GetComponent<Vortex>();	
+				Warp(triggeredVortex);	
+			}
 		}
-
     }
 	
 	
@@ -149,6 +158,29 @@ public class Player : MonoBehaviour {
 		/* Decrement cooldown time remaining for interacting with pickups. */
 		pickupCooldownTimeRemaining -= Time.deltaTime;
 		pickupCooldownTimeRemaining = Math.Max(0.0f, pickupCooldownTimeRemaining);
+		
+		
+		/* Decrement cooldown time remaining for interacting with vortexes. */
+		vortexCooldownTimeRemaining -= Time.deltaTime;
+		vortexCooldownTimeRemaining = Math.Max(0.0f, vortexCooldownTimeRemaining);
+	}
+	
+	
+	
+	
+	/* Return true if obj is a Vortex. */
+	public bool CanWarp(GameObject obj) {
+		return obj.gameObject.CompareTag("Vortex") && vortexCooldownTimeRemaining == 0;
+	}
+	
+	
+	
+	
+	/* Warp the player to another era. */
+	private void Warp(Vortex vortex) {
+		vortex.OnWarp();
+		
+		vortexCooldownTimeRemaining = vortexCooldown;
 	}
 	
 	
@@ -158,6 +190,7 @@ public class Player : MonoBehaviour {
 	public bool CarryingPickup() {
 		return carriedPickup != null;	
 	}
+	
 	
 	
 	
