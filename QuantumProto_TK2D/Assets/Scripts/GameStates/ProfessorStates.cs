@@ -96,7 +96,7 @@ namespace Quantum.States {
 		
 		/* Constructor. */
 		public ProfessorJumpingState(Player player) : base(player) {
-			;		
+			attachedPlayer.animator.Play("Jump Lift");			
 		}
 		
 		
@@ -119,6 +119,7 @@ namespace Quantum.States {
 			/* If player releases jump button, then stop jump. */
 			else if (Input.GetButtonUp("Jump")) {
 				attachedPlayer.rigidbody.velocity = Vector2.zero;
+				attachedPlayer.animator.Play("Jump Midair");
 			}
 		}
 		
@@ -146,7 +147,7 @@ namespace Quantum.States {
 		
 		/* Constructor. */
 		public ProfessorFallingState(Player player) : base(player) {
-			;		
+			attachedPlayer.animator.Play("Jump Landing");		
 		}
 		
 		
