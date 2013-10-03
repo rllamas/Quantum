@@ -2,11 +2,14 @@
 using FarseerPhysics.Collision;
 using System.Collections;
 using tk2dRuntime.TileMap;
-using Microsoft.Xna.Framework;
+
 
 public class GenerateTilemapColliders : MonoBehaviour {
 	
+	/* The tilemap of the GameObject that this script is attached to. */
 	private tk2dTileMap tilemap;
+	
+	/* Sprite Definitions of the tilemap. */
 	private tk2dSpriteDefinition [] spriteDefinitions;
 	
 	/* Size of a tile in Unity coordinates. */
