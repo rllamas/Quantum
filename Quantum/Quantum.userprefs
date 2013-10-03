@@ -1,12 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Player.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Standard Assets\Character Controllers\Sources\Scripts\ThirdPersonController.js">
     <Files>
-      <File FileName="Assets/Scripts/Vortex.cs" Line="88" Column="12" />
-      <File FileName="Assets/Scripts/Player.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Plant.cs" Line="21" Column="5" />
-      <File FileName="Assets/Scripts/GameStates/ProfessorStates.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/OneWayPlatformTrigger.cs" Line="25" Column="2" />
+      <File FileName="Assets\Scripts\Vortex.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GameStates\ProfessorStates.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\OneWayPlatformTrigger.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GameStates\GameState.cs" Line="1" Column="1" />
+      <File FileName="Assets\Standard Assets\Character Controllers\Sources\Scripts\ThirdPersonController.js" Line="405" Column="23" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
