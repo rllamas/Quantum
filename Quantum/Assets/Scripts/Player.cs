@@ -128,7 +128,7 @@ public class Player : MonoBehaviour {
 	
 	void OnTriggerStay(Collider other) {
 	
-		if (Input.GetButton("Action1")) {
+		if (Input.GetButtonDown("Action1")) {
 			
 			/* If other is the collider of an object you can pick up, then pick it up if possible. */
 			if (CanPickup(other.gameObject)) {
@@ -216,7 +216,7 @@ public class Player : MonoBehaviour {
 	/* Pick up pickup.*/
 	private void GetPickup(Pickup pickup) {
 		Debug.Log(this.name + ": Picking " + pickup.gameObject.name + " up.");
-		
+		animator.Play("Plant");
 		carriedPickup = pickup;
 		pickup.OnPickup(this);	
 		
@@ -230,7 +230,7 @@ public class Player : MonoBehaviour {
 	private void DropPickup() {
 		
 		Debug.Log(this.name + ": Setting " + carriedPickup.gameObject.name + " down.");
-		
+		animator.Play("Plant");
 		carriedPickup.OnDrop();	
 		carriedPickup = null;
 		
