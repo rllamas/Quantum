@@ -19,11 +19,13 @@ public class GenerateTilemapColliders : MonoBehaviour {
 	/* Maximum number of tiles in a chunk of the tilemap. */
 	private int maxTilesY;
 	private int maxTilesX;
+
 	
 	
 	
-	
-	void Start () {
+	/* This is called first in the Unity execution order of events, adding new Farseer colliders
+	 * to the tilemap before the Farseer physics engine begins. */
+	void Awake () {
 		
 		tilemap = GetComponent<tk2dTileMap>();
 		spriteDefinitions = tilemap.SpriteCollectionInst.spriteDefinitions;
@@ -145,8 +147,8 @@ public class GenerateTilemapColliders : MonoBehaviour {
 						chunk.gameObject.transform.position.z
 					);
 			
-					GameObject newColliderObject = 
-						CreateBoxCollider(newBoxColliderPosition, "Box Collider " + x + " " + y);
+
+					GameObject newColliderObject = CreateBoxCollider(newBoxColliderPosition, "Box Collider " + x + " " + y);
 				
 					newColliderObject.transform.parent = container.transform;
 				}
@@ -167,66 +169,73 @@ public class GenerateTilemapColliders : MonoBehaviour {
 		GameObject newColliderGameObject = new GameObject();
 		newColliderGameObject.name = newGameObjectName;
 		newColliderGameObject.transform.position = position;
+
+		newColliderGameObject.AddComponent<FSWorldComponent>();
+		newColliderGameObject.AddComponent<FSBodyComponent>();
 		newColliderGameObject.AddComponent<FSShapeComponent>();
+
 	
+		FSBodyComponent body = newColliderGameObject.GetComponent<FSBodyComponent>();
+		body.Type = FarseerPhysics.Dynamics.BodyType.Static;
 		
 		FSShapeComponent boxCollider = newColliderGameObject.GetComponent<FSShapeComponent>();
 		boxCollider.SType = FarseerPhysics.Collision.Shapes.ShapeType.Polygon;
+		boxCollider.UseUnityCollider = false;
 	
-	
+
 		/* Generate the positions of the points of the Box Collider. */
 		Vector3 positionBottomLeft = new Vector3(
 			position.x - 0.5f*tileWidth,
 			position.y - 0.5f*tileHeight,
 			position.z
 		);
-	
+
 		Vector3 positionBottomRight = new Vector3(
 			position.x + 0.5f*tileWidth,
 			position.y - 0.5f*tileHeight,
 			position.z
 		);
-	
+
 		Vector3 positionTopRight = new Vector3(
 			position.x + 0.5f*tileWidth,
 			position.y + 0.5f*tileHeight,
 			position.z
 		);
-	
+
 		Vector3 positionTopLeft = new Vector3(
 			position.x - 0.5f*tileWidth,
 			position.y + 0.5f*tileHeight,
 			position.z
 		);
-	
+		
 		
 		/* Generate GameObjects to be used as the points of the new Box Collider. */
 		GameObject pointBottomLeft = new GameObject();
 		pointBottomLeft.name = newGameObjectName + " Bottom Left Point";
 		pointBottomLeft.transform.position = positionBottomLeft;
 		pointBottomLeft.transform.parent = newColliderGameObject.transform;
-	
+		
 		GameObject pointBottomRight = new GameObject();
 		pointBottomRight.name = newGameObjectName + " Bottom Right Point";
 		pointBottomRight.transform.position = positionBottomRight;
 		pointBottomRight.transform.parent = newColliderGameObject.transform;
-	
+
 		GameObject pointTopRight = new GameObject();
 		pointTopRight.name = newGameObjectName + " Top Right Point";
 		pointTopRight.transform.position = positionTopRight;
 		pointTopRight.transform.parent = newColliderGameObject.transform;
-	
+
 		GameObject pointTopLeft = new GameObject();
 		pointTopLeft.name = newGameObjectName + " Top Left Point";
 		pointTopLeft.transform.position = positionTopLeft;
 		pointTopLeft.transform.parent = newColliderGameObject.transform;
-	
+
 	
 		boxCollider.PolygonPoints = new Transform [] {
 			pointBottomLeft.transform,
 			pointBottomRight.transform,
 			pointTopRight.transform,
-			pointTopLeft.transform
+			pointTopLeft.transform,
 		};
 		
 		
