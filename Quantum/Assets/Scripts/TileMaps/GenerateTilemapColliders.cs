@@ -85,7 +85,14 @@ public class GenerateTilemapColliders : MonoBehaviour {
 			
 				/* For every column of sprite chunks... */
 				for (int chunkX = 0; chunkX < currentLayer.numColumns; ++chunkX) {
-				
+					
+					SpriteChunk chunk = currentLayer.GetChunk(chunkX, chunkY);
+					
+					/* If there's nothing in this chunk, then disregard it. */
+					if (chunk.IsEmpty) {
+						continue;
+					}
+						
 					/* Add a chunk gameObject to parent all box colliders in this chunk.
 					 * This helps dramatically with scene organization. */
 					GameObject currentChunkContainer = new GameObject();
@@ -93,7 +100,6 @@ public class GenerateTilemapColliders : MonoBehaviour {
 					currentChunkContainer.transform.position = boxCollidersContainer.transform.position;
 					currentChunkContainer.transform.parent = currentLayerContainer.transform;
 			
-					SpriteChunk chunk = currentLayer.GetChunk(chunkX, chunkY);
 					GenerateCollidersForChunk(chunk, currentChunkContainer);		
 				
 				}
