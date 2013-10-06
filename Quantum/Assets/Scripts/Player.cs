@@ -42,7 +42,7 @@ public class Player : MonoBehaviour {
 	
 	/* The animation manager of the player. */
 	public tk2dSpriteAnimator animator;
-	
+
 	
 	
 	
@@ -51,6 +51,7 @@ public class Player : MonoBehaviour {
 	
 	/* The jumping speed of the player. */
 	public float jumpingVelocity = 500.0f;
+	
 	
 	
 	
@@ -65,6 +66,18 @@ public class Player : MonoBehaviour {
 	public float vortexCooldown = 0.25f;
 	private float vortexCooldownTimeRemaining = 0.0f;
 	
+	
+	
+	
+	/* The state the action button is currently in. */
+	public enum ActionButtonStates {
+		NONE,
+		CAN_DROP,
+		CAN_PICKUP,
+		CAN_ACTIVATE_VORTEX,
+	};
+	
+	public ActionButtonStates currentActionButtonState;
 	
 	
 	
@@ -128,30 +141,52 @@ public class Player : MonoBehaviour {
 	
 	void OnTriggerStay(Collider other) {
 	
-		if (Input.GetButtonDown("Action1")) {
-			
-			/* If other is the collider of an object you can pick up, then pick it up if possible. */
-			if (CanPickup(other.gameObject)) {
+		
+		/* If other is the collider of an object you can pick up, then pick it up if possible. */
+		if (CanPickup(other.gameObject)) {
+			if (Input.GetButtonDown("Action1")) {
 				Pickup triggeredPickup = other.gameObject.GetComponent<Pickup>();	
 				GetPickup(triggeredPickup);	
+				currentActionButtonState = ActionButtonStates.CAN_DROP;
 			}
-			/* If other is the collider of a Vortex, then warp if possible. */
-			else if (CanWarp(other.gameObject)) {
+			else {
+				currentActionButtonState = ActionButtonStates.CAN_PICKUP;	
+			}
+		}
+		/* If other is the collider of a Vortex, then warp if possible. */
+		else if (CanWarp(other.gameObject)) {
+			if (Input.GetButtonDown("Action1")) {
 				Vortex triggeredVortex = other.gameObject.GetComponent<Vortex>();	
 				Warp(triggeredVortex);	
 			}
+			currentActionButtonState = ActionButtonStates.CAN_ACTIVATE_VORTEX;	
 		}
+		
     }
 	
+	
+	
+	void OnTriggerExit(Collider other) {
+		currentActionButtonState = ActionButtonStates.NONE;
+	}
 	
 	
 	
 	/* Handle any additional logic that the player may need to. */
 	private void HandleExtraLogic() {
+	
 		
-		/* Drop pickup if applicable. */
-		if (Input.GetButton("Action1") && CarryingPickup() && CanDropCarriedPickup()) {
-			DropPickup();	
+		/* If carrying pickup and can drop it... */
+		if (CarryingPickup() && CanDropCarriedPickup()) {
+			
+			/* Drop pickup if applicable. */
+			if (Input.GetButton("Action1")) {
+				DropPickup();	
+				currentActionButtonState = ActionButtonStates.NONE;
+			}
+			else {
+				currentActionButtonState = ActionButtonStates.CAN_DROP;	
+			}
 		}
 		
 		
