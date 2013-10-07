@@ -58,6 +58,10 @@ public class Player : MonoBehaviour {
 	public Body body;
 	private Body childBody;
 	
+	private Fixture footFixture;
+	
+	private int numFootContacts = 0;
+	
 	private bool grounded = true;
 	
 	/* The state the action button is currently in. */
@@ -83,19 +87,20 @@ public class Player : MonoBehaviour {
 		
 		body = GetComponent<FSBodyComponent>().PhysicsBody;
 		body.FixedRotation = true;
-		//body.OnCollision += OnCollisionEvent;
-		//body.OnSeparation += OnCollisionSeparation;
 		
-		/*childBody = transform.FindChild("FootSensor").GetComponent<FSBodyComponent>().PhysicsBody;
-		FVector2[] blah = new FVector2[1];
-		blah[0] = new FVector2(0f, 0f);
-		Vertices vertices = new Vertices(blah);
-		PolygonShape shape = new PolygonShape(vertices, 1f);
-		shape.SetAsBox(10, 10);
-		childBody.CreateFixture(shape);
-		childBody.IsSensor = true;
-		childBody.OnCollision += OnCollisionEvent;
-		//childBody.OnSeparation += OnCollisionSeparation;*/
+		PolygonShape footSensor = new PolygonShape(0.0f);
+		footSensor.SetAsBox(1f, 1f);
+		
+		footFixture = body.CreateFixture(footSensor);
+		footFixture.UserData = "FootFixture";
+		footFixture.IsSensor = true;
+		
+		body.OnCollision += OnCollisionEvent;
+		body.OnSeparation += OnCollisionSeparation;
+		
+		Debug.Log(body.FixtureList.Count);
+		Debug.Log(body.FixtureList[0].UserData);
+		Debug.Log(body.FixtureList[1].UserData);
 	
 		//animator = GetComponent<tk2dSpriteAnimator>();
 		if (!animator) {
@@ -103,8 +108,8 @@ public class Player : MonoBehaviour {
 		}
 		
 		/* Don't allow rotations. */
-		rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | 
-								RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionZ;
+		//rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | 
+								//RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionZ;
 	}
 	
 	void Update () {
@@ -120,24 +125,42 @@ public class Player : MonoBehaviour {
 		
 		/* Let the current game state do what it needs to do. */
 		currentState.Logic();
+		
+		String result;
+		if (IsGrounded()) {
+			result = "yes";
+		}
+		else
+			result = "no";
+		Debug.Log("Can I jump: " + result);
 	
 		//HandleExtraLogic();
 	}
 	
 	private bool OnCollisionEvent (Fixture A, Fixture B, Contact contact) {
-		Debug.Log ("A: " + A.UserTag + "\nB: " + B.UserTag);
-		if (A.UserTag == "childBody" && B.UserTag == "ground" && contact.IsTouching()) {
-			Debug.Log("Is Grounded");
-			grounded = true;
+		if (A.UserData == "FootFixture") {
+			Debug.Log("ENTER: A was the FootFixture");
+			numFootContacts++;
 		}
-		else
-			grounded = false;
-		Debug.Log(grounded);
+		
+		if (B.UserData == "FootFixture") {
+			Debug.Log("ENTER: B was the FootFixture");
+			numFootContacts++;
+		}
+		
 		return true;
 	}
 	
 	void OnCollisionSeparation(Fixture A, Fixture B) {
-		//Debug.Log ("Player: No longer colliding with something.");
+		if (A.UserData == "FootFixture") {
+			Debug.Log("EXIT: A was the FootFixture");
+			numFootContacts--;
+		}
+		
+		if (B.UserData == "FootFixture") {
+			Debug.Log("EXIT: B was the FootFixture");
+			numFootContacts--;
+		}
 	}
 		
 	
@@ -247,25 +270,7 @@ public class Player : MonoBehaviour {
 
 	/* Returns true if the player is touching the ground. */
 	public bool IsGrounded() {
-		
-		/* Extra distance to look past the bottom of the player's collision box. 
-		float extraSearchDistance = 0.2f;
-		
-		if (extraSearchDistance < 0) {
-			throw new Exception("extraSearchDistance cannot be negative!");	
-		}
-		
-		/* Shoot a ray from the center of the player to the bottom of his collision box. 
-		 * If anything intersects this ray, then the player is considered touching the ground. 
-		 * Collisions with trigger colliders aren't counted. 
-		float distanceToGround = this.collider.bounds.extents.y + extraSearchDistance;	
-		RaycastHit hitInfo;
-		
-		bool isCollision = Physics.Raycast(this.transform.position, -Vector2.up, out hitInfo, distanceToGround);
-		
-		return isCollision && !hitInfo.collider.isTrigger; */
-		
-		return grounded;
+		return numFootContacts < 1;
 	}
 
 	/* Returns true if the player is falling. *

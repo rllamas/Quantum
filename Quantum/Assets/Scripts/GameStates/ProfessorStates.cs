@@ -59,12 +59,12 @@ namespace Quantum.States {
 		public override GameState NextState() {
 			float horizontalAxis = Input.GetAxis("Horizontal");
 			
-			/* If player is hitting jump, then next state is jumping. *
+			/* If player is hitting jump, then next state is jumping. */
 			if (Input.GetButtonDown("Jump")) {
 				return new ProfessorJumpingState(attachedPlayer);
 			}
 			/* Otherwise if the player is not pressing left or right, then the next state is standing. */
-			if (horizontalAxis == 0) {
+			else if (horizontalAxis == 0) {
 				return new ProfessorStandingState(attachedPlayer);	
 			}
 			else {
@@ -92,12 +92,11 @@ namespace Quantum.States {
 					xAxisTilt * (attachedPlayer.walkingVelocity+attachedPlayer.jumpingVelocity), 
 					attachedPlayer.jumpingVelocity
 				);
-				attachedPlayer.body.ApplyForce(movement);
-				
+				attachedPlayer.body.ApplyForce(movement);				
 			}
 			/* If player releases jump button, then stop jump. */
 			else if (Input.GetButtonUp("Jump")) {
-				attachedPlayer.GetComponent<FSBodyComponent>().PhysicsBody.LinearVelocity = new FVector2(0f, 0f);
+				attachedPlayer.body.LinearVelocity = new FVector2(0f, 0f);
 				attachedPlayer.animator.Play("Jump Midair");
 			}
 		}
