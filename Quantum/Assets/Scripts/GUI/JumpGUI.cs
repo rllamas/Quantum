@@ -19,7 +19,7 @@ public class JumpGUI : MonoBehaviour {
 		
 		player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
 		
-		jumpButtonSprite = this.transform.FindChild("Jump Button").GetComponent<tk2dSlicedSprite>();	
+		jumpButtonSprite = this.transform.FindChild("Jump Button").GetComponent<tk2dSlicedSprite>();
 		jumpText = this.transform.FindChild("Jump Text").GetComponent<tk2dTextMesh>();
 		
 	}
