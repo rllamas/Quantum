@@ -231,7 +231,7 @@ public class Player : MonoBehaviour {
 	
 	/* Can the player pick obj up? */
 	private bool CanPickup(GameObject obj) {
-		 return obj.gameObject.CompareTag("Pickup") && !CarryingPickup() && pickupCooldownTimeRemaining == 0;
+		 return obj.gameObject.CompareTag("Pickup") && !CarryingPickup() && Vortex.isPast && pickupCooldownTimeRemaining == 0;
 	}
 	
 	
