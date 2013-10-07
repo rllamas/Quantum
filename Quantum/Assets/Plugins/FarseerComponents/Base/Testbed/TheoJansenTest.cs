@@ -44,7 +44,11 @@ namespace CatsintheSky.FarseerDebug
 			
 			FVector2 pivot = new FVector2(0f, 24f/tScale);
 			
+#if UNITY_IPHONE || UNITY_ANDROID
+			for(int i = 0; i < 20; i++)
+#else
 			for(int i = 0; i < 50; i++)
+#endif
 			{
 				body = BodyFactory.CreateCircle(FSWorldComponent.PhysicsWorld, 3.75f /  physScale, 1f, new FVector2((Random.value * 620f + 10f)/physScale, -340f/physScale));
 				body.BodyType = BodyType.Dynamic;

@@ -367,7 +367,7 @@ namespace FarseerPhysics.Dynamics.Contacts
                 FVector2 tangent = MathUtils.Cross(normal, 1.0f);
                 float friction = vc.friction;
 
-                Debug.Assert(pointCount == 1 || pointCount == 2);
+                //Debug.Assert(pointCount == 1 || pointCount == 2);
 
                 // Solve tangent constraints first because non-penetration is more important
                 // than friction.
@@ -462,7 +462,7 @@ namespace FarseerPhysics.Dynamics.Contacts
                     VelocityConstraintPoint cp2 = vc.points[1];
 
                     FVector2 a = new FVector2(cp1.normalImpulse, cp2.normalImpulse);
-                    Debug.Assert(a.X >= 0.0f && a.Y >= 0.0f);
+                    //Debug.Assert(a.X >= 0.0f && a.Y >= 0.0f);
 
                     // Relative velocity at contact
                     FVector2 dv1 = vB + MathUtils.Cross(wB, cp1.rB) - vA - MathUtils.Cross(wA, cp1.rA);
@@ -482,7 +482,7 @@ namespace FarseerPhysics.Dynamics.Contacts
                     //const float k_errorTol = 1e-3f;
                     //B2_NOT_USED(k_errorTol);
 
-                    for (; ; )
+                    while(true)
                     {
                         //
                         // Case 1: vn = 0

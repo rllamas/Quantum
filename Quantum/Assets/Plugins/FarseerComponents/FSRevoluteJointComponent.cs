@@ -31,13 +31,129 @@ public class FSRevoluteJointComponent : FSJointComponent
 	protected RevoluteJoint joint;
 	
 	// joint properties
+	
+	/// <summary>
+	/// To alter this value at runtime, use SetLimitEnabled(value)
+	/// </summary>
 	public bool LimitEnabled = false;
+	
+	/// <summary>
+	/// To alter this value at runtime, use SetLowerLimit(value)
+	/// </summary>
 	public float LowerLimit = -90f;
+	
+	/// <summary>
+	/// To alter this value at runtime, use SetUpperLimit(value)
+	/// </summary>
 	public float UpperLimit = 90f;
+	
+	/// <summary>
+	/// To alter this value at runtime, use SetMotorEnabled(value)
+	/// </summary>
 	public bool MotorEnabled = false;
+	/// <summary>
+	/// To alter this value at runtime, use SetMaxMotorTorque(value)
+	/// </summary>
 	public float MaxMotorTorque = 400f;
+	/// <summary>
+	/// To alter this value at runtime, use SetMotorSpeed(value)
+	/// </summary>
 	public float MotorSpeed = 0f;
+	
+	/// <summary>
+	/// To alter this value at runtime, use SetLocalAnchorB(value)
+	/// </summary>
 	public Vector2 LocalAnchorB = Vector2.zero;
+	
+	public void SetLimitEnabled(bool value)
+	{
+		LimitEnabled = value;
+		joint.LimitEnabled = LimitEnabled;
+	}
+	
+	/// <summary>
+	/// Sets the lower limit at runtime.
+	/// </summary>
+	/// <param name='value'>
+	/// Value.
+	/// </param>
+	public void SetLowerLimit(float value)
+	{
+		LowerLimit = value;
+		joint.LowerLimit = LowerLimit * Mathf.Deg2Rad;
+	}
+	
+	/// <summary>
+	/// Sets the upper limit at runtime.
+	/// </summary>
+	/// <param name='value'>
+	/// Value.
+	/// </param>
+	public void SetUpperLimit(float value)
+	{
+		UpperLimit = value;
+		joint.UpperLimit = UpperLimit * Mathf.Deg2Rad;
+	}
+	
+	/// <summary>
+	/// Sets the motor enabled at runtime.
+	/// </summary>
+	/// <param name='value'>
+	/// Value.
+	/// </param>
+	public void SetMotorEnabled(bool value)
+	{
+		MotorEnabled = value;
+		joint.MotorEnabled = MotorEnabled;
+	}
+	
+	/// <summary>
+	/// Sets the max motor torque at runtime.
+	/// </summary>
+	/// <param name='value'>
+	/// Value.
+	/// </param>
+	public void SetMaxMotorTorque(float value)
+	{
+		MaxMotorTorque = value;
+		joint.MaxMotorTorque = MaxMotorTorque;
+	}
+	
+	/// <summary>
+	/// Sets the motor speed at runtime.
+	/// </summary>
+	/// <param name='value'>
+	/// Value.
+	/// </param>
+	public void SetMotorSpeed(float value)
+	{
+		MotorSpeed = value;
+		joint.MotorSpeed = MotorSpeed;
+	}
+	
+	/// <summary>
+	/// Sets the local anchor b at runtime.
+	/// </summary>
+	/// <param name='value'>
+	/// Value.
+	/// </param>
+	public void SetLocalAnchorB(Vector2 value)
+	{
+		LocalAnchorB = value;
+		joint.LocalAnchorB = FSHelper.Vector2ToFVector2(value);
+	}
+	
+	/// <summary>
+	/// Sets the collide connected at runtime.
+	/// </summary>
+	/// <param name='value'>
+	/// Value.
+	/// </param>
+	public void SetCollideConnected(bool value)
+	{
+		CollideConnected = value;
+		joint.CollideConnected = CollideConnected;
+	}
 	
 	public override void InitJoint ()
 	{

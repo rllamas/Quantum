@@ -33,11 +33,14 @@ public class FSTestComponent : MonoBehaviour
 	
 	void Start()
 	{
+		//allTests.Add(new BridgeTest(this.transform));
+		//
 		allTests.Add(new TheoJansenTest(this.transform));
+		allTests.Add(new BuoyancyTest(this.transform));
 		allTests.Add(new CCDTest(this.transform));
 		allTests.Add(new BridgeTest(this.transform));
 		allTests.Add(new RagdollTest(this.transform));
-		allTests.Add(new BuoyancyTest(this.transform));
+		
 		currentTest = allTests[curTestID];
 		currentTest.Start();
 	}

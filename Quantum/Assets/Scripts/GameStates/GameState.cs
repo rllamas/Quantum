@@ -4,22 +4,15 @@
  *  Written By: Russell Jahn
  * 
  */
-
 using UnityEngine;
 
-
-
 namespace Quantum.States {
-	
-	
 	/* A GameState can represent the state of any notion in the game, including
 	 * the state of character animations, AI, menu state, game options, ect. */
 	public abstract class GameState {
-		
 		/* Any logic that the GameState should carry out. This might include updating 
 		 * aspects of the current state. */
 		public abstract void Logic();
-		
 		
 		/* Used to retrieve the state that follows the current one.  Only a finite number
 		 * of states can result from the current GameState, and the current GameState 
@@ -27,19 +20,16 @@ namespace Quantum.States {
 		 * The current state should be provided with enough information to do this. */
 		public abstract GameState NextState();
 		
-		
 		/* Returns true if this GameState and obj are equal by value. */
 		public override bool Equals(System.Object obj) {
 	        return this.GetType() == obj.GetType();
 	    }
-		
 		
 		/* Returns the hash code of this GameState. */
 		public override int GetHashCode() {
 	        return base.GetHashCode();
 	    }
 
-		
 		/* Returns a string representation of the GameState. */
 		public override string ToString() {
 			return "[GameState:" + this.GetType().Name + "]";
@@ -47,25 +37,18 @@ namespace Quantum.States {
 		
 	} // end class GameState
 	
-	
-	
-	
 	/* A MonoBehaviorState has an attached MonoBehavior. It represents a state of the attached MonoBehavior. */
 	public abstract class MonoBehaviourState : GameState {
-	
 		/* MonoBehavior that is attached to this game state. */
 		protected MonoBehaviour attachedMonoBehaviour;
-		
 		
 		/* Constructor. */
 		public MonoBehaviourState(MonoBehaviour behaviour) : base() {
 			attachedMonoBehaviour = behaviour;
 		}	
 		
-		
 		public override abstract void Logic();
 		public override abstract GameState NextState();
-			
 		
 		/* Returns a string representation of the MonoBehaviourState. */
 		public override string ToString() {
@@ -74,29 +57,21 @@ namespace Quantum.States {
 		
 	} // end class MonoBehaviourState
 	
-	
-	
-	
 	/* A PlayerState has an attached Player object. It represents a state of the attached Player. */
 	public abstract class PlayerState : MonoBehaviourState {
-	
 		/* Player that is attached to this game state. */
 		protected Player attachedPlayer;
-		
 		
 		/* Constructor. */
 		public PlayerState(Player player) : base(player) {
 			attachedPlayer = player;
 		}
 		
-		
 		public override abstract void Logic();
 		public override abstract GameState NextState();
 		
-		
 		/* Sets the direction of the player's animation to the player's direction. */
 		protected void HandleAnimationDirection() {
-			
 			/* Animation should be facing left if player is moving left. */
 			if (attachedPlayer.currentDirection == Player.Direction.LEFT) {
 				attachedPlayer.animator.Sprite.FlipX = true;
@@ -107,32 +82,11 @@ namespace Quantum.States {
 			}	
 			
 		}
-		
-		
-		/* Returns true if the player is considered colliding with something. */
-		protected bool IsColliding() {
-			
-			float xAxisTilt = Input.GetAxis("Horizontal");
-			
-			/* If the player is colliding with something in the direction the control stick is tilted,
-			 * the the player is considered colliding. */
-			if (xAxisTilt < 0 && attachedPlayer.IsCollidingLeft()) {
-				return true;	
-			}
-			else if (xAxisTilt > 0 && attachedPlayer.IsCollidingRight()) {
-				return true;	
-			}	
-				return false;
-		}
-		
-		
+
 		/* Returns a string representation of the PlayerState. */
 		public override string ToString() {
 			return "[PlayerState:" + this.GetType().Name + "]";
 		}
 		
 	} // end class PlayerState
-		
-	
-	
 }

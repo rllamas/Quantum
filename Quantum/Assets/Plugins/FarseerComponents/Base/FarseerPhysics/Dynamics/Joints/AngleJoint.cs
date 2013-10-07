@@ -79,6 +79,8 @@ namespace FarseerPhysics.Dynamics.Joints
 
         internal override void SolveVelocityConstraints(ref SolverData data)
         {
+			//GABS: NOT A BOTTLENECK
+			
             float p = (_bias - BodyB.AngularVelocity + BodyA.AngularVelocity) * _massFactor;
             BodyA.AngularVelocity -= BodyA.InvI * Math.Sign(p) * Math.Min(Math.Abs(p), MaxImpulse);
             BodyB.AngularVelocity += BodyB.InvI * Math.Sign(p) * Math.Min(Math.Abs(p), MaxImpulse);

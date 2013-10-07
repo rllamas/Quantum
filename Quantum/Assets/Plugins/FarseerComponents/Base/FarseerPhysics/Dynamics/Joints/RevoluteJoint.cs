@@ -433,6 +433,8 @@ namespace FarseerPhysics.Dynamics.Joints
 
         internal override void SolveVelocityConstraints(ref SolverData data)
         {
+			//GABS: NOT A BOTTLENECK
+			
             FVector2 vA = data.velocities[m_indexA].v;
             float wA = data.velocities[m_indexA].w;
             FVector2 vB = data.velocities[m_indexB].v;

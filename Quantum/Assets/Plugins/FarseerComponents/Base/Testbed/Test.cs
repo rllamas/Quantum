@@ -82,6 +82,7 @@ namespace CatsintheSky.FarseerDebug
 		public virtual void UpdateMouseWorld()
 		{
 			Vector3 wp = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			
 			MouseXWorldPhys = wp.x;// -parent.position.x;
 			MouseYWorldPhys = wp.y;// - parent.position.y;
 			//Debug.Log("MX: " + MouseXWorldPhys + " MY: " + MouseYWorldPhys);
