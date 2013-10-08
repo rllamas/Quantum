@@ -29,6 +29,8 @@ public class AudioManager : MonoBehaviour {
 	private float originalMusicVolume;
 	private float originalMusicPitch;
 	
+	
+	/* These keep track of state for the frame. */
 	private bool isPast;
 	private bool isPastLastFrame;
 	
@@ -70,9 +72,19 @@ public class AudioManager : MonoBehaviour {
 		musicPlayer01.loop = true;
 		musicPlayer02.loop = true;
 		
-		musicPlayer01.Play ();
-		musicPlayer02.Play ();
-		musicPlayer02.volume = 0.0f;
+		
+		/* Only audibly play the current era's track. */
+		if (Vortex.isPast) {
+			musicPlayer02.volume = 0.0f;
+		}
+		else {
+			musicPlayer01.volume = 0.0f;
+		}
+		
+		musicPlayer01.Play();
+		musicPlayer02.Play();
+		
+		
 	}
 	
 	
@@ -93,22 +105,35 @@ public class AudioManager : MonoBehaviour {
 		
 		/* Future -> Past */
 		if (isPast && !isPastLastFrame) {
-			iTween.AudioTo(musicPlayer01.gameObject, originalMusicVolume, originalMusicPitch, vortexFadeMusicTime);
-			iTween.AudioTo(musicPlayer02.gameObject, 0.0f, originalMusicPitch, vortexFadeMusicTime);
+			iTween.AudioTo(musicPlayer01.gameObject, vortexFadeMusicVolume, vortexFadeMusicPitch, vortexFadeMusicTime);
+			iTween.AudioTo(musicPlayer02.gameObject, 0.0f, vortexFadeMusicPitch, vortexFadeMusicTime);
 		}
 		/* Past -> Future */
 		else if (!isPast && isPastLastFrame) {
-			iTween.AudioTo(musicPlayer02.gameObject, originalMusicVolume, originalMusicPitch, vortexFadeMusicTime);
-			iTween.AudioTo(musicPlayer01.gameObject, 0.0f, originalMusicPitch, vortexFadeMusicTime);
+			iTween.AudioTo(musicPlayer02.gameObject, vortexFadeMusicVolume, vortexFadeMusicPitch, vortexFadeMusicTime);
+			iTween.AudioTo(musicPlayer01.gameObject, 0.0f, vortexFadeMusicPitch, vortexFadeMusicTime);
 		}
+		
+		/* Change volume and pitch if entering/leaving a vortex zone. */
 		
 		/* Dim music if player is near a vortex. */
 		if (nearVortex && !nearVortexLastFrame) {
-			iTween.AudioTo(musicPlayer01.gameObject, vortexFadeMusicVolume, vortexFadeMusicPitch, vortexFadeMusicTime);
+			if (isPast) {
+				iTween.AudioTo(musicPlayer01.gameObject, vortexFadeMusicVolume, vortexFadeMusicPitch, vortexFadeMusicTime);
+			}
+			else {
+				iTween.AudioTo(musicPlayer02.gameObject, vortexFadeMusicVolume, vortexFadeMusicPitch, vortexFadeMusicTime);
+			}
 		}
 		/* Restore volume to normal if player if leaving a vortex. */
-		if (!nearVortex && nearVortexLastFrame) {
-			iTween.AudioTo(musicPlayer01.gameObject, originalMusicVolume, originalMusicPitch, vortexFadeMusicTime);
+		else if (!nearVortex && nearVortexLastFrame) {
+			if (isPast) {
+				iTween.AudioTo(musicPlayer01.gameObject, originalMusicVolume, originalMusicPitch, vortexFadeMusicTime);
+			}
+			else {
+				iTween.AudioTo(musicPlayer02.gameObject, originalMusicVolume, originalMusicPitch, vortexFadeMusicTime);
+			}
+			
 		}
 	}
 
