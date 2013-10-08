@@ -62,8 +62,6 @@ public class Player : MonoBehaviour {
 	
 	private int numFootContacts = 0;
 	
-	private bool grounded = true;
-	
 	/* The state the action button is currently in. */
 	public enum ActionButtonStates {
 		NONE,
@@ -89,7 +87,7 @@ public class Player : MonoBehaviour {
 		body.FixedRotation = true;
 		
 		PolygonShape footSensor = new PolygonShape(0.0f);
-		footSensor.SetAsBox(1f, 1f);
+		footSensor.SetAsBox(0.5f, 2f);
 		
 		footFixture = body.CreateFixture(footSensor);
 		footFixture.UserData = "FootFixture";
@@ -97,19 +95,11 @@ public class Player : MonoBehaviour {
 		
 		body.OnCollision += OnCollisionEvent;
 		body.OnSeparation += OnCollisionSeparation;
-		
-		Debug.Log(body.FixtureList.Count);
-		Debug.Log(body.FixtureList[0].UserData);
-		Debug.Log(body.FixtureList[1].UserData);
 	
 		//animator = GetComponent<tk2dSpriteAnimator>();
 		if (!animator) {
 			throw new Exception("No tk2dSpriteAnimator was attached to the Player!!!");	
 		}
-		
-		/* Don't allow rotations. */
-		//rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | 
-								//RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionZ;
 	}
 	
 	void Update () {
@@ -132,7 +122,8 @@ public class Player : MonoBehaviour {
 		}
 		else
 			result = "no";
-		Debug.Log("Can I jump: " + result);
+		//Debug.Log("Can I jump: " + result);
+		Debug.Log(numFootContacts);
 	
 		//HandleExtraLogic();
 	}
@@ -162,12 +153,9 @@ public class Player : MonoBehaviour {
 			numFootContacts--;
 		}
 	}
-		
-	
-	
-	
+
 	void OnTriggerStay(Collider other) {
-		/* If other is the collider of an object you can pick up, then pick it up if possible. *
+		/* If other is the collider of an object you can pick up, then pick it up if possible. */
 		if (CanPickup(other.gameObject)) {
 			if (Input.GetButtonDown("Action1")) {
 				Pickup triggeredPickup = other.gameObject.GetComponent<Pickup>();	
@@ -178,26 +166,26 @@ public class Player : MonoBehaviour {
 				currentActionButtonState = ActionButtonStates.CAN_PICKUP;	
 			}
 		}
-		/* If other is the collider of a Vortex, then warp if possible. *
+		/* If other is the collider of a Vortex, then warp if possible. */
 		else if (CanWarp(other.gameObject)) {
 			if (Input.GetButtonDown("Action1")) {
 				Vortex triggeredVortex = other.gameObject.GetComponent<Vortex>();	
 				Warp(triggeredVortex);	
 			}
 			currentActionButtonState = ActionButtonStates.CAN_ACTIVATE_VORTEX;	
-		}*/
+		}
     }
 	
 	void OnTriggerExit(Collider other) {
 		currentActionButtonState = ActionButtonStates.NONE;
 	}	
 	
-	/* Handle any additional logic that the player may need to. *
+	/* Handle any additional logic that the player may need to. */
 	private void HandleExtraLogic() {
-		/* If carrying pickup and can drop it... *
+		/* If carrying pickup and can drop it... */
 		if (CarryingPickup() && CanDropCarriedPickup()) {
 			
-			/* Drop pickup if applicable. *
+			/* Drop pickup if applicable. */
 			if (Input.GetButton("Action1")) {
 				DropPickup();	
 				currentActionButtonState = ActionButtonStates.NONE;
@@ -207,39 +195,39 @@ public class Player : MonoBehaviour {
 			}
 		}
 		
-		/* Decrement cooldown time remaining for interacting with pickups. *
+		/* Decrement cooldown time remaining for interacting with pickups. */
 		pickupCooldownTimeRemaining -= Time.deltaTime;
 		pickupCooldownTimeRemaining = Math.Max(0.0f, pickupCooldownTimeRemaining);
 		
 		
-		/* Decrement cooldown time remaining for interacting with vortexes. *
+		/* Decrement cooldown time remaining for interacting with vortexes. */
 		vortexCooldownTimeRemaining -= Time.deltaTime;
 		vortexCooldownTimeRemaining = Math.Max(0.0f, vortexCooldownTimeRemaining);
 	}
 	
-	/* Return true if obj is a Vortex. *
+	/* Return true if obj is a Vortex. */
 	public bool CanWarp(GameObject obj) {
 		return obj.gameObject.CompareTag("Vortex") && vortexCooldownTimeRemaining == 0;
 	}
 	
-	/* Warp the player to another era. *
+	/* Warp the player to another era. */
 	private void Warp(Vortex vortex) {
 		vortex.OnWarp();
 		
 		vortexCooldownTimeRemaining = vortexCooldown;
 	}
 	
-	/* Return true if the player is carrying a pickup. *
+	/* Return true if the player is carrying a pickup. */
 	public bool CarryingPickup() {
 		return carriedPickup != null;	
 	}
 
-	/* Can the player pick obj up? *
+	/* Can the player pick obj up? */
 	private bool CanPickup(GameObject obj) {
 		 return obj.gameObject.CompareTag("Pickup") && !CarryingPickup() && Vortex.isPast && pickupCooldownTimeRemaining == 0;
 	}
 
-	/* Can the player drop the currently held pickup? *
+	/* Can the player drop the currently held pickup? */
 	private bool CanDropCarriedPickup() {
 		if (!CarryingPickup()) {
 			throw new Exception("Calling CanDropCarriedPickup() when Player has no held pickup!");	
@@ -247,7 +235,7 @@ public class Player : MonoBehaviour {
 		return pickupCooldownTimeRemaining == 0;	
 	}
 
-	/* Pick up pickup.*
+	/* Pick up pickup.*/
 	private void GetPickup(Pickup pickup) {
 		//Debug.Log(this.name + ": Picking " + pickup.gameObject.name + " up.");
 		animator.Play("Plant");
@@ -257,7 +245,7 @@ public class Player : MonoBehaviour {
 		pickupCooldownTimeRemaining = pickupCooldown;
 	}
 
-	/* Drop held pickup. *
+	/* Drop held pickup. */
 	private void DropPickup() {
 		
 		//Debug.Log(this.name + ": Setting " + carriedPickup.gameObject.name + " down.");
@@ -270,10 +258,10 @@ public class Player : MonoBehaviour {
 
 	/* Returns true if the player is touching the ground. */
 	public bool IsGrounded() {
-		return numFootContacts < 1;
+		return numFootContacts >= 1;
 	}
 
-	/* Returns true if the player is falling. *
+	/* Returns true if the player is falling. */
 	public bool IsFalling() {
 		
 		return body.LinearVelocity.Y <= 0 &&
@@ -282,72 +270,6 @@ public class Player : MonoBehaviour {
 			 previousState.Equals(new ProfessorJumpingState(this)) ||
 			 currentState.Equals( new ProfessorJumpingState(this)) );
 	}
-
-	/* Returns true if the player is colliding on the left. */
-	/* public bool IsCollidingLeft() {
-		
-		/* Extra distance to look past the the left of the player's collision box. *
-		float extraSearchDistance = 0.2f;
-		
-		if (extraSearchDistance < 0) {
-			throw new Exception("extraSearchDistance cannot be negative!");	
-		}
-		
-		float distanceToCheck = this.collider.bounds.extents.x + extraSearchDistance;
-		float yOffset = this.collider.bounds.extents.y/2.0f;
-		
-		Vector3 topRaySource =    new Vector3(transform.position.x, this.transform.position.y+yOffset, this.transform.position.z);
-		Vector3 middleRaySource = this.transform.position;
-		Vector3 bottomRaySource = new Vector3(transform.position.x, this.transform.position.y-yOffset, this.transform.position.z);
-		
-		RaycastHit hitInfoTopRay;
-		RaycastHit hitInfoMiddleRay;
-		RaycastHit hitInfoBottomRay;
-
-		/* Shoot 3 rays from the player to the left of his collision box. 
-		 * If anything intersects these rays, then the player is considered colliding on the left. 
-		 * Collisions with trigger colliders aren't counted. *
-		bool isCollidingTop =    Physics.Raycast(topRaySource,    -Vector2.right, out hitInfoTopRay,    distanceToCheck);
-		bool isCollidingMiddle = Physics.Raycast(middleRaySource, -Vector2.right, out hitInfoMiddleRay, distanceToCheck);
-		bool isCollidingBottom = Physics.Raycast(bottomRaySource, -Vector2.right, out hitInfoBottomRay, distanceToCheck);
-		
-		return (isCollidingTop    && !hitInfoTopRay.collider.isTrigger)    || 
-			   (isCollidingMiddle && !hitInfoMiddleRay.collider.isTrigger) || 
-			   (isCollidingBottom && !hitInfoBottomRay.collider.isTrigger);
-	} */
-
-	/* Returns true if the player is colliding on the right. *
-	public bool IsCollidingRight() {
-				
-		/* Extra distance to look past the the right of the player's collision box. *
-		float extraSearchDistance = 0.2f;
-		
-		if (extraSearchDistance < 0) {
-			throw new Exception("extraSearchDistance cannot be negative!");	
-		}
-		
-		float distanceToCheck = this.collider.bounds.extents.x + extraSearchDistance;
-		float yOffset = this.collider.bounds.extents.y/2.0f;
-		
-		Vector3 topRaySource =    new Vector3(transform.position.x, this.transform.position.y+yOffset, this.transform.position.z);
-		Vector3 middleRaySource = this.transform.position;
-		Vector3 bottomRaySource = new Vector3(transform.position.x, this.transform.position.y-yOffset, this.transform.position.z);
-		
-		RaycastHit hitInfoTopRay;
-		RaycastHit hitInfoMiddleRay;
-		RaycastHit hitInfoBottomRay;
-
-		/* Shoot 3 rays from the player to the right of his collision box. 
-		 * If anything intersects these rays, then the player is considered colliding on the right. 
-		 * Collisions with trigger colliders aren't counted. *
-		bool isCollidingTop =    Physics.Raycast(topRaySource,    Vector2.right, out hitInfoTopRay,    distanceToCheck);
-		bool isCollidingMiddle = Physics.Raycast(middleRaySource, Vector2.right, out hitInfoMiddleRay, distanceToCheck);
-		bool isCollidingBottom = Physics.Raycast(bottomRaySource, Vector2.right, out hitInfoBottomRay, distanceToCheck);
-		
-		return (isCollidingTop    && !hitInfoTopRay.collider.isTrigger)    || 
-			   (isCollidingMiddle && !hitInfoMiddleRay.collider.isTrigger) || 
-			   (isCollidingBottom && !hitInfoBottomRay.collider.isTrigger);
-	}*/
 	
 	/* Get the next direction that the player is going in. */
 	private Direction NextDirection() { 

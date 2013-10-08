@@ -84,40 +84,43 @@ namespace Quantum.States {
 			
 			/* If player is touching the ground. */
 			if (attachedPlayer.IsGrounded()) {
+				Debug.Log("Was Grounded");
 				
 				FVector2 movement;
 				float xAxisTilt = Input.GetAxis("Horizontal");
 				
 				movement = new FVector2(
-					xAxisTilt * (attachedPlayer.walkingVelocity+attachedPlayer.jumpingVelocity), 
+					0, 
 					attachedPlayer.jumpingVelocity
 				);
-				attachedPlayer.body.ApplyForce(movement);				
+				attachedPlayer.body.ApplyLinearImpulse(movement);				
 			}
 			/* If player releases jump button, then stop jump. */
-			else if (Input.GetButtonUp("Jump")) {
-				attachedPlayer.body.LinearVelocity = new FVector2(0f, 0f);
+			if (Input.GetButtonUp("Jump")) {
+				Debug.Log("Key is up");
+				//attachedPlayer.body.LinearVelocity = new FVector2(0f, 0f);
 				attachedPlayer.animator.Play("Jump Midair");
 			}
 		}
 
 		public override GameState NextState() {
-			//if (attachedPlayer.IsFalling()) {
-			//	return new ProfessorFallingState(attachedPlayer);
-			//}
-			//else {
+			if (attachedPlayer.IsFalling()) {
+				return new ProfessorFallingState(attachedPlayer);
+			}
+			else {
 				return this;	
-			//}
+			}
+			//return new ProfessorStandingState(attachedPlayer);
 		}
 
 	} // end ProfesorJumpingState class
-	/*
+
 	public class ProfessorFallingState : PlayerState {
 		/* How fast the player should be able to move left or right during falling in relation 
-		 * to the player's walking velocity. *
+		 * to the player's walking velocity. */
 		float fallingMovementRatio = 0.5f;
 		
-		/* Constructor. *
+		/* Constructor. */
 		public ProfessorFallingState(Player player) : base(player) {
 			attachedPlayer.animator.Play("Jump Landing");		
 		}
@@ -126,12 +129,12 @@ namespace Quantum.States {
 			HandleAnimationDirection();
 			
 			//if (!IsColliding()) {
-				/* Move the player based on the tilt of the control stick. *
-				float xAxisTilt = Input.GetAxis("Horizontal");
-				Vector2 movement = new Vector2(xAxisTilt * attachedPlayer.walkingVelocity * 
-					fallingMovementRatio * Time.deltaTime, 0);
+				/* Move the player based on the tilt of the control stick. */
+				//float xAxisTilt = Input.GetAxis("Horizontal");
+				//Vector2 movement = new Vector2(xAxisTilt * attachedPlayer.walkingVelocity * 
+				//	fallingMovementRatio * Time.deltaTime, 0);
 				
-				attachedPlayer.transform.Translate(movement);
+				//attachedPlayer.transform.Translate(movement);
 			//}
 		}
 		
@@ -146,6 +149,5 @@ namespace Quantum.States {
 			}
 		}
 		
-	} */// end ProfesorFallingState class
-		
+	} // end ProfesorFallingState class	
 }
