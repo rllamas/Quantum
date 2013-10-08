@@ -52,12 +52,13 @@ public class GenerateTilemapColliders : MonoBehaviour {
 		/* Create an container gameObject to parent all layers of box colliders.
 		 * This helps dramatically with scene organization. */
 		GameObject boxCollidersContainer = new GameObject();
-		boxCollidersContainer.name = "Box Colliders Container";
+		boxCollidersContainer.name = "Farseer Environmental Colliders";
 		boxCollidersContainer.transform.position = new Vector3(
 			tilemap.transform.position.x,
 			tilemap.transform.position.y,
 			tilemap.transform.position.z
 		);
+		boxCollidersContainer.transform.parent = this.transform;
 	
 		/* For every layer... */
 		for (int layerID = 0; layerID < numberOfLayers; ++layerID) {
@@ -176,7 +177,7 @@ public class GenerateTilemapColliders : MonoBehaviour {
 		newColliderGameObject.name = newGameObjectName;
 		newColliderGameObject.transform.position = position;
 
-		newColliderGameObject.AddComponent<FSWorldComponent>();
+		//newColliderGameObject.AddComponent<FSWorldComponent>();
 		newColliderGameObject.AddComponent<FSBodyComponent>();
 		newColliderGameObject.AddComponent<FSShapeComponent>();
 

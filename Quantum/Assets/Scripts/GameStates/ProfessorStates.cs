@@ -12,15 +12,21 @@ using FarseerPhysics;
 using FVector2 = Microsoft.Xna.Framework.FVector2;
 
 namespace Quantum.States {
+	
+	
 	public class ProfessorStandingState : PlayerState {
+		
+		
 		/* Constructor. */
 		public ProfessorStandingState(Player player) : base(player) {
 			attachedPlayer.animator.Play("Standing");		
 		}
-
+		
+		
 		public override void Logic() {
 			HandleAnimationDirection();
 		}
+		
 		
 		public override GameState NextState() {
 			float horizontalAxis = Input.GetAxis("Horizontal");
@@ -38,13 +44,21 @@ namespace Quantum.States {
 			}
 		}
 		
+		
 	} // end ProfesorStandingState class
-
+	
+	
+	
+	
+	
 	public class ProfessorWalkingState : PlayerState {
+		
+		
 		/* Constructor. */
 		public ProfessorWalkingState(Player player) : base(player) {
 			attachedPlayer.animator.Play("Walking");
 		}
+		
 		
 		public override void Logic() {
 			HandleAnimationDirection();
@@ -55,6 +69,7 @@ namespace Quantum.States {
 
 			attachedPlayer.body.ApplyLinearImpulse(movement);
 		}
+		
 		
 		public override GameState NextState() {
 			float horizontalAxis = Input.GetAxis("Horizontal");
@@ -71,38 +86,46 @@ namespace Quantum.States {
 				return this;
 			}
 		}
+		
+		
 	} // end ProfesorWalkingState class
 	
+	
+	
+	
+	
 	public class ProfessorJumpingState : PlayerState {
+		
+		
 		/* Constructor. */
 		public ProfessorJumpingState(Player player) : base(player) {
 			attachedPlayer.animator.Play("Jump Lift");			
 		}
 		
+		
 		public override void Logic() {	
 			HandleAnimationDirection();
 			
+			float xAxisTilt = Input.GetAxis("Horizontal");
+			
 			/* If player is touching the ground. */
 			if (attachedPlayer.IsGrounded()) {
-				Debug.Log("Was Grounded");
-				
-				FVector2 movement;
-				float xAxisTilt = Input.GetAxis("Horizontal");
-				
-				movement = new FVector2(
-					0, 
-					attachedPlayer.jumpingVelocity
-				);
-				attachedPlayer.body.ApplyLinearImpulse(movement);				
+				FVector2 verticalMovement = new FVector2(0.0f, attachedPlayer.jumpingVelocity);
+				attachedPlayer.body.ApplyLinearImpulse(verticalMovement);				
 			}
+			
+			FVector2 horizontalMovement = new FVector2(xAxisTilt * attachedPlayer.walkingVelocity * Time.deltaTime, 0.0f);
+			attachedPlayer.body.ApplyLinearImpulse(horizontalMovement);
+			
 			/* If player releases jump button, then stop jump. */
 			if (Input.GetButtonUp("Jump")) {
-				Debug.Log("Key is up");
-				//attachedPlayer.body.LinearVelocity = new FVector2(0f, 0f);
+				//Debug.Log("Key is up");
+				attachedPlayer.body.LinearVelocity = new FVector2(0.0f, 0.0f);
 				attachedPlayer.animator.Play("Jump Midair");
 			}
 		}
-
+		
+		
 		public override GameState NextState() {
 			if (attachedPlayer.IsFalling()) {
 				return new ProfessorFallingState(attachedPlayer);
@@ -110,32 +133,39 @@ namespace Quantum.States {
 			else {
 				return this;	
 			}
-			//return new ProfessorStandingState(attachedPlayer);
 		}
+		
 
 	} // end ProfesorJumpingState class
-
+	
+	
+	
+	
+	
 	public class ProfessorFallingState : PlayerState {
+		
+		
 		/* How fast the player should be able to move left or right during falling in relation 
 		 * to the player's walking velocity. */
 		float fallingMovementRatio = 0.5f;
+		
 		
 		/* Constructor. */
 		public ProfessorFallingState(Player player) : base(player) {
 			attachedPlayer.animator.Play("Jump Landing");		
 		}
 		
+		
 		public override void Logic () {
 			HandleAnimationDirection();
 			
-			//if (!IsColliding()) {
-				/* Move the player based on the tilt of the control stick. */
-				//float xAxisTilt = Input.GetAxis("Horizontal");
-				//Vector2 movement = new Vector2(xAxisTilt * attachedPlayer.walkingVelocity * 
-				//	fallingMovementRatio * Time.deltaTime, 0);
-				
-				//attachedPlayer.transform.Translate(movement);
-			//}
+			float xAxisTilt = Input.GetAxis("Horizontal");
+			
+			FVector2 horizontalMovement = new FVector2(
+				fallingMovementRatio * xAxisTilt * attachedPlayer.walkingVelocity * Time.deltaTime, 
+				0.0f
+			);
+			attachedPlayer.body.ApplyLinearImpulse(horizontalMovement);
 		}
 		
 		
@@ -149,5 +179,10 @@ namespace Quantum.States {
 			}
 		}
 		
+		
 	} // end ProfesorFallingState class	
+	
+	
+	
+	
 }

@@ -55,12 +55,15 @@ public class Player : MonoBehaviour {
 	public float vortexCooldown = 0.25f;
 	private float vortexCooldownTimeRemaining = 0.0f;
 	
+	
+	
 	public Body body;
 	private Body childBody;
 	
 	private Fixture footFixture;
-	
 	private int numFootContacts = 0;
+	
+	
 	
 	/* The state the action button is currently in. */
 	public enum ActionButtonStates {
@@ -71,6 +74,10 @@ public class Player : MonoBehaviour {
 	};
 	
 	public ActionButtonStates currentActionButtonState;
+	
+	
+	
+	
 	
 	void Start () {
 		gameObject.tag = "Player";
@@ -96,11 +103,15 @@ public class Player : MonoBehaviour {
 		body.OnCollision += OnCollisionEvent;
 		body.OnSeparation += OnCollisionSeparation;
 	
-		//animator = GetComponent<tk2dSpriteAnimator>();
+		animator = GetComponent<tk2dSpriteAnimator>();
 		if (!animator) {
 			throw new Exception("No tk2dSpriteAnimator was attached to the Player!!!");	
 		}
 	}
+	
+	
+	
+	
 	
 	void Update () {
 		/* Update direction. */
@@ -115,44 +126,47 @@ public class Player : MonoBehaviour {
 		
 		/* Let the current game state do what it needs to do. */
 		currentState.Logic();
-		
-		String result;
-		if (IsGrounded()) {
-			result = "yes";
-		}
-		else
-			result = "no";
-		//Debug.Log("Can I jump: " + result);
-		Debug.Log(numFootContacts);
 	
-		//HandleExtraLogic();
+		HandleExtraLogic();
 	}
 	
-	private bool OnCollisionEvent (Fixture A, Fixture B, Contact contact) {
-		if (A.UserData == "FootFixture") {
-			Debug.Log("ENTER: A was the FootFixture");
+	
+	
+	
+	
+	bool OnCollisionEvent (Fixture A, Fixture B, Contact contact) {
+		if (A.UserData.Equals("FootFixture")) {
+			//Debug.Log("ENTER: A was the FootFixture");
 			numFootContacts++;
 		}
 		
-		if (B.UserData == "FootFixture") {
-			Debug.Log("ENTER: B was the FootFixture");
+		if (B.UserData.Equals("FootFixture")) {
+			//Debug.Log("ENTER: B was the FootFixture");
 			numFootContacts++;
 		}
 		
 		return true;
 	}
 	
+	
+	
+	
+	
 	void OnCollisionSeparation(Fixture A, Fixture B) {
-		if (A.UserData == "FootFixture") {
-			Debug.Log("EXIT: A was the FootFixture");
+		if (A.UserData.Equals("FootFixture")) {
+			//Debug.Log("EXIT: A was the FootFixture");
 			numFootContacts--;
 		}
 		
-		if (B.UserData == "FootFixture") {
-			Debug.Log("EXIT: B was the FootFixture");
+		if (B.UserData.Equals("FootFixture")) {
+			//Debug.Log("EXIT: B was the FootFixture");
 			numFootContacts--;
 		}
 	}
+	
+	
+	
+	
 
 	void OnTriggerStay(Collider other) {
 		/* If other is the collider of an object you can pick up, then pick it up if possible. */
@@ -168,6 +182,7 @@ public class Player : MonoBehaviour {
 		}
 		/* If other is the collider of a Vortex, then warp if possible. */
 		else if (CanWarp(other.gameObject)) {
+			Debug.Log ("Near portal!");
 			if (Input.GetButtonDown("Action1")) {
 				Vortex triggeredVortex = other.gameObject.GetComponent<Vortex>();	
 				Warp(triggeredVortex);	
@@ -176,9 +191,17 @@ public class Player : MonoBehaviour {
 		}
     }
 	
+	
+	
+	
+	
 	void OnTriggerExit(Collider other) {
 		currentActionButtonState = ActionButtonStates.NONE;
 	}	
+	
+	
+	
+	
 	
 	/* Handle any additional logic that the player may need to. */
 	private void HandleExtraLogic() {
@@ -205,10 +228,18 @@ public class Player : MonoBehaviour {
 		vortexCooldownTimeRemaining = Math.Max(0.0f, vortexCooldownTimeRemaining);
 	}
 	
+	
+	
+	
+	
 	/* Return true if obj is a Vortex. */
 	public bool CanWarp(GameObject obj) {
 		return obj.gameObject.CompareTag("Vortex") && vortexCooldownTimeRemaining == 0;
 	}
+	
+	
+	
+	
 	
 	/* Warp the player to another era. */
 	private void Warp(Vortex vortex) {
@@ -217,15 +248,27 @@ public class Player : MonoBehaviour {
 		vortexCooldownTimeRemaining = vortexCooldown;
 	}
 	
+	
+	
+	
+	
 	/* Return true if the player is carrying a pickup. */
 	public bool CarryingPickup() {
 		return carriedPickup != null;	
 	}
+	
+	
+	
+	
 
 	/* Can the player pick obj up? */
 	private bool CanPickup(GameObject obj) {
 		 return obj.gameObject.CompareTag("Pickup") && !CarryingPickup() && Vortex.isPast && pickupCooldownTimeRemaining == 0;
 	}
+	
+	
+	
+	
 
 	/* Can the player drop the currently held pickup? */
 	private bool CanDropCarriedPickup() {
@@ -234,32 +277,49 @@ public class Player : MonoBehaviour {
 		}
 		return pickupCooldownTimeRemaining == 0;	
 	}
+	
+	
+	
+	
 
 	/* Pick up pickup.*/
 	private void GetPickup(Pickup pickup) {
-		//Debug.Log(this.name + ": Picking " + pickup.gameObject.name + " up.");
+		
+		Debug.Log(this.name + ": Picking " + pickup.gameObject.name + " up.");
 		animator.Play("Plant");
 		carriedPickup = pickup;
 		pickup.OnPickup(this);	
 		
 		pickupCooldownTimeRemaining = pickupCooldown;
 	}
-
+	
+	
+	
+	
+	
 	/* Drop held pickup. */
 	private void DropPickup() {
 		
-		//Debug.Log(this.name + ": Setting " + carriedPickup.gameObject.name + " down.");
+		Debug.Log(this.name + ": Setting " + carriedPickup.gameObject.name + " down.");
 		animator.Play("Plant");
 		carriedPickup.OnDrop();	
 		carriedPickup = null;
 		
 		pickupCooldownTimeRemaining = pickupCooldown;
 	}
-
+	
+	
+	
+	
+	
 	/* Returns true if the player is touching the ground. */
 	public bool IsGrounded() {
 		return numFootContacts >= 1;
 	}
+	
+	
+	
+	
 
 	/* Returns true if the player is falling. */
 	public bool IsFalling() {
@@ -270,6 +330,10 @@ public class Player : MonoBehaviour {
 			 previousState.Equals(new ProfessorJumpingState(this)) ||
 			 currentState.Equals( new ProfessorJumpingState(this)) );
 	}
+	
+	
+	
+	
 	
 	/* Get the next direction that the player is going in. */
 	private Direction NextDirection() { 

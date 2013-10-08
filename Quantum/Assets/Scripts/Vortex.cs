@@ -14,6 +14,9 @@ public class Vortex : MonoBehaviour {
 	public ParticleSystem vortexActiveParticles;
 	public ParticleSystem vortexInactiveParticles;
 	
+	public AudioClip warpSound;
+	private AudioSource sfxPlayer01;
+	private AudioSource sfxPlayer02;
 	
 	
 	
