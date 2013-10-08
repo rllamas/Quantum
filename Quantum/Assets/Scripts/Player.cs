@@ -26,26 +26,30 @@ public class Player : MonoBehaviour {
 	/* Previous game state that the player was in. */
 	public GameState previousState;
 	public string previousStateString; // Used for debugging.
-
+	
+	
 	/* Current direction that the player is in. */
 	public Direction currentDirection;
 	
 	/* Last direction that the player was in. */
 	public Direction previousDirection;
-
+	
+	
 	/* The animation manager of the player. */
 	public tk2dSpriteAnimator animator;
-
+	
+	
 	/* The walking speed of the player. */
 	public float walkingVelocity = 20.0f;
-	
-	public float maxAcceleration = 20.0f;
+	public float maxWalkingVelocity = 6.0f;
 	
 	/* The jumping speed of the player. */
 	public float jumpingVelocity = 500.0f;
-
+	
+	
 	/* The current pickup that the player is carrying. */
 	public Pickup carriedPickup;
+	
 	
 	/* There's a cooldown time for both picking up and setting down pickups. */
 	public float pickupCooldown = 0.25f;

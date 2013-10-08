@@ -29,14 +29,14 @@ namespace Quantum.States {
 		
 		
 		public override GameState NextState() {
-			float horizontalAxis = Input.GetAxis("Horizontal");
+			float xAxisTilt = Input.GetAxis("Horizontal");
 			
 			/* If player is hitting jump, then next state is jumping. */
 			if (Input.GetButtonDown("Jump")) {
 				return new ProfessorJumpingState(attachedPlayer);
 			}
 			/* Otherwise if the player is pressing left or right, then the next state is walking. */
-			else if (horizontalAxis != 0) {
+			else if (xAxisTilt != 0.0f) {
 				return new ProfessorWalkingState(attachedPlayer);	
 			}
 			else {
@@ -62,24 +62,38 @@ namespace Quantum.States {
 		
 		public override void Logic() {
 			HandleAnimationDirection();
-			
-			/* Move the player based on the tilt of the control stick. */
 			float xAxisTilt = Input.GetAxis("Horizontal");
-			FVector2 movement = new FVector2(xAxisTilt * attachedPlayer.walkingVelocity * Time.deltaTime, 0);
-
-			attachedPlayer.body.ApplyLinearImpulse(movement);
+			
+			Debug.Log ("Player linear velocity: " + attachedPlayer.body.LinearVelocity);
+			
+			/* If the player is no longer tilting the control stick, the character should quit moving soon. */
+			if (xAxisTilt == 0.0f) {
+				Debug.Log ("Walking State: xAxis Tilt is 0.");
+				//attachedPlayer.body.ApplyLinearImpulse(new FVector2(-attachedPlayer.body.LinearVelocity.X, 0.0f));
+				attachedPlayer.body.LinearVelocity = new FVector2(0.0f, 0.0f);
+				Debug.Log ("Walking State: Player velocity when not hitting stick: " + attachedPlayer.body.LinearVelocity);
+			}
+			/* If the player hasn't hit the max velocity limit, then apply force to move the player. */
+			else if (Mathf.Abs(attachedPlayer.body.LinearVelocity.X) <= attachedPlayer.maxWalkingVelocity) {
+				
+				/* Move the player based on the tilt of the control stick. */
+				FVector2 movement = new FVector2(xAxisTilt * attachedPlayer.walkingVelocity * Time.deltaTime, 0);
+				attachedPlayer.body.ApplyLinearImpulse(movement);
+			}
+			
+			
 		}
 		
 		
 		public override GameState NextState() {
-			float horizontalAxis = Input.GetAxis("Horizontal");
+			float xAxisTilt = Input.GetAxis("Horizontal");
 			
 			/* If player is hitting jump, then next state is jumping. */
 			if (Input.GetButtonDown("Jump")) {
 				return new ProfessorJumpingState(attachedPlayer);
 			}
 			/* Otherwise if the player is not pressing left or right, then the next state is standing. */
-			else if (horizontalAxis == 0) {
+			else if (xAxisTilt == 0.0f) {
 				return new ProfessorStandingState(attachedPlayer);	
 			}
 			else {
@@ -114,14 +128,18 @@ namespace Quantum.States {
 				attachedPlayer.body.ApplyLinearImpulse(verticalMovement);				
 			}
 			
+			/* Handle left/right movement. */
 			FVector2 horizontalMovement = new FVector2(xAxisTilt * attachedPlayer.walkingVelocity * Time.deltaTime, 0.0f);
 			attachedPlayer.body.ApplyLinearImpulse(horizontalMovement);
 			
 			/* If player releases jump button, then stop jump. */
 			if (Input.GetButtonUp("Jump")) {
-				//Debug.Log("Key is up");
 				attachedPlayer.body.LinearVelocity = new FVector2(0.0f, 0.0f);
-				attachedPlayer.animator.Play("Jump Midair");
+			}
+			
+			/* If now falling, go ahead and play jump apex animation. */
+			if (attachedPlayer.IsFalling()) {
+				attachedPlayer.animator.Play("Jump Midair");	
 			}
 		}
 		
@@ -161,6 +179,7 @@ namespace Quantum.States {
 			
 			float xAxisTilt = Input.GetAxis("Horizontal");
 			
+			/* Handle left/right movement. */
 			FVector2 horizontalMovement = new FVector2(
 				fallingMovementRatio * xAxisTilt * attachedPlayer.walkingVelocity * Time.deltaTime, 
 				0.0f

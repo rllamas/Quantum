@@ -14,6 +14,7 @@ public class AudioManager : MonoBehaviour {
 	private AudioSource sfxPlayer01; // Reserved for player sounds.
 	private AudioSource sfxPlayer02; // Reserved for portal sounds.
 	
+	public bool mute = false;
 	
 	/* These are the different categories of sounds that can be played. */
 	//public AudioClip [] sfxTracks;
@@ -42,6 +43,10 @@ public class AudioManager : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
+	
+		if (mute) {
+			this.gameObject.SetActive(false);	
+		}
 		
 		if (pastMusicTracks.Length == 0) {
 			throw new Exception("No past music tracks!");	
