@@ -15,11 +15,7 @@ namespace Quantum.States {
 	
 	
 	public class ProfessorStandingState : PlayerState {
-		
-		/* Used so that if the player turns by quickly tapping the opposite direction,
-		 * the player will stay standing rather than move to walking. */
-		private float timeSinceTiltedXAxis = 0.0f;
-		private float delayUntilWalk = 0.2f;
+
 		
 		/* Constructor. */
 		public ProfessorStandingState(Player player) : base(player) {
@@ -29,16 +25,6 @@ namespace Quantum.States {
 
 		public override void Logic() {
 			HandleAnimationDirection();
-			
-			float xAxisTilt = Input.GetAxis("Horizontal");
-			
-			/* Record time that player has control stick pressed down. */
-			if (xAxisTilt != 0.0) {
-				timeSinceTiltedXAxis += Time.deltaTime;
-			}
-			else {
-				timeSinceTiltedXAxis = 0.0f;
-			}
 		}
 		
 		
@@ -50,7 +36,7 @@ namespace Quantum.States {
 				return new ProfessorJumpingState(attachedPlayer);
 			}
 			/* Otherwise if the player has been pressing left/right long enough, the next state is walking. */
-			else if (timeSinceTiltedXAxis >= delayUntilWalk) {
+			else if (xAxisTilt != 0.0f) {
 				return new ProfessorWalkingState(attachedPlayer);	
 			}
 			else {
@@ -124,7 +110,7 @@ namespace Quantum.States {
 				return new ProfessorJumpingState(attachedPlayer);
 			}
 			/* Otherwise if the player is stationary, then the next state is standing. */
-			else if (currentVelocity.X == 0.0f) {
+			else if (currentVelocity.X == 0.0f && !changedDirections) {
 				return new ProfessorStandingState(attachedPlayer);	
 			}
 			else {
