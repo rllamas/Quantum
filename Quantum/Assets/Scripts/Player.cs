@@ -40,8 +40,9 @@ public class Player : MonoBehaviour {
 	
 	
 	/* The walking speed of the player. */
-	public float walkingVelocity = 20.0f;
-	public float maxWalkingVelocity = 6.0f;
+	public float walkingAcceleration = 10.0f;
+	public float walkingMaxVelocity = 40.0f;
+	public float walkSlowingRate = 0.3f;
 	
 	/* The jumping speed of the player. */
 	public float jumpingVelocity = 500.0f;
