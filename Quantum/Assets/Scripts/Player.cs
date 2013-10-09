@@ -96,12 +96,15 @@ public class Player : MonoBehaviour {
 		
 		body = GetComponent<FSBodyComponent>().PhysicsBody;
 		body.FixedRotation = true;
+		body.FixtureList[0].UserData = "Player";
+		body.FixtureList[0].UserTag = "Player";
 		
 		PolygonShape footSensor = new PolygonShape(0.0f);
 		footSensor.SetAsBox(0.1f, 2f);
 		
 		footFixture = body.CreateFixture(footSensor);
 		footFixture.UserData = "FootFixture";
+		footFixture.UserTag = "FootFixture";
 		footFixture.IsSensor = true;
 		
 		body.OnCollision += OnCollisionEvent;

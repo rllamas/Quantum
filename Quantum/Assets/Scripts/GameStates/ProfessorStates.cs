@@ -25,7 +25,10 @@ namespace Quantum.States {
 		
 		public override void Logic() {
 			HandleAnimationDirection();
+			float currentVelocity = attachedPlayer.body.LinearVelocity.X;
+			currentVelocity -= Mathf.Min(Mathf.Abs(currentVelocity), attachedPlayer.body.Friction) * Mathf.Sign(currentVelocity);
 			//attachedPlayer.body.LinearVelocity = new FVector2(0.0f, attachedPlayer.body.LinearVelocity.Y);
+			attachedPlayer.body.LinearVelocity = new FVector2(currentVelocity, attachedPlayer.body.LinearVelocity.Y);
 		}
 		
 		
