@@ -98,7 +98,7 @@ public class Player : MonoBehaviour {
 		body.FixedRotation = true;
 		
 		PolygonShape footSensor = new PolygonShape(0.0f);
-		footSensor.SetAsBox(0.5f, 2f);
+		footSensor.SetAsBox(0.1f, 2f);
 		
 		footFixture = body.CreateFixture(footSensor);
 		footFixture.UserData = "FootFixture";
@@ -139,12 +139,12 @@ public class Player : MonoBehaviour {
 	
 	
 	bool OnCollisionEvent (Fixture A, Fixture B, Contact contact) {
-		if (A.UserData.Equals("FootFixture")) {
+		if ((string) A.UserData == "FootFixture") {
 			//Debug.Log("ENTER: A was the FootFixture");
 			numFootContacts++;
 		}
 		
-		if (B.UserData.Equals("FootFixture")) {
+		if ((string) B.UserData == "FootFixture") {
 			//Debug.Log("ENTER: B was the FootFixture");
 			numFootContacts++;
 		}
@@ -157,12 +157,12 @@ public class Player : MonoBehaviour {
 	
 	
 	void OnCollisionSeparation(Fixture A, Fixture B) {
-		if (A.UserData.Equals("FootFixture")) {
+		if ((string) A.UserData == "FootFixture") {
 			//Debug.Log("EXIT: A was the FootFixture");
 			numFootContacts--;
 		}
 		
-		if (B.UserData.Equals("FootFixture")) {
+		if ((string) B.UserData == "FootFixture") {
 			//Debug.Log("EXIT: B was the FootFixture");
 			numFootContacts--;
 		}
@@ -174,6 +174,7 @@ public class Player : MonoBehaviour {
 
 	void OnTriggerStay(Collider other) {
 		/* If other is the collider of an object you can pick up, then pick it up if possible. */
+		Debug.Log("In OnTriggerStay");
 		if (CanPickup(other.gameObject)) {
 			if (Input.GetButtonDown("Action1")) {
 				Pickup triggeredPickup = other.gameObject.GetComponent<Pickup>();	

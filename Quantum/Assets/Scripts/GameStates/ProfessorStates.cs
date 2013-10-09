@@ -64,7 +64,7 @@ namespace Quantum.States {
 			HandleAnimationDirection();
 			float xAxisTilt = Input.GetAxis("Horizontal");
 			
-			Debug.Log ("Player linear velocity: " + attachedPlayer.body.LinearVelocity);
+			//Debug.Log ("Player linear velocity: " + attachedPlayer.body.LinearVelocity);
 			
 			/* If the player is no longer tilting the control stick, the character should quit moving soon. */
 			if (xAxisTilt == 0.0f) {
@@ -133,9 +133,9 @@ namespace Quantum.States {
 			attachedPlayer.body.ApplyLinearImpulse(horizontalMovement);
 			
 			/* If player releases jump button, then stop jump. */
-			if (Input.GetButtonUp("Jump")) {
-				attachedPlayer.body.LinearVelocity = new FVector2(0.0f, 0.0f);
-			}
+			//if (Input.GetButtonUp("Jump")) {
+			//	attachedPlayer.body.LinearVelocity = new FVector2(0.0f, 0.0f);
+			//}
 			
 			/* If now falling, go ahead and play jump apex animation. */
 			if (attachedPlayer.IsFalling()) {
