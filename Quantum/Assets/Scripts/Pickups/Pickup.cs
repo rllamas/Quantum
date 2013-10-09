@@ -52,6 +52,9 @@ public class Pickup : MonoBehaviour {
 		this.collider.enabled = true;	
 		
 		this.transform.parent = null;
+		
+		GameObject.Instantiate(this, this.transform.position, Quaternion.identity);
+		GameObject.Destroy(this.gameObject);
 	}
 	
 	
