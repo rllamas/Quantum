@@ -14,6 +14,8 @@ public class Vortex : MonoBehaviour {
 	public ParticleSystem vortexActiveParticles;
 	public ParticleSystem vortexInactiveParticles;
 	
+	public float particleStartSize = 1.0f;
+	
 	public AudioClip whenNearbySound;
 	public float whenNearbySoundPitch = 1.75f;
 	public float whenNearbySoundFadeTime = 1.5f;
@@ -34,7 +36,8 @@ public class Vortex : MonoBehaviour {
 		vortexActiveParticles.transform.position = this.transform.position;
 		vortexInactiveParticles.transform.position = this.transform.position;
 		
-		vortexActiveParticles.Stop();
+		vortexActiveParticles.Play();
+		vortexActiveParticles.startSize = 0.0f;	
 		vortexActiveParticles.Clear();
 		vortexInactiveParticles.Play();
 		
@@ -57,6 +60,7 @@ public class Vortex : MonoBehaviour {
 		else {
 			pastMap.gameObject.SetActive(false);
 		}
+		
 	}
 	
 	
@@ -98,9 +102,8 @@ public class Vortex : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider collider) {
 		Debug.Log ("Entering range of vortex...");
-		vortexInactiveParticles.Stop();
-		vortexInactiveParticles.Clear();
-		vortexActiveParticles.Play();		
+		vortexInactiveParticles.startSize = 0.0f;	
+		vortexActiveParticles.startSize = particleStartSize;	
 		iTween.AudioTo(sfxPlayer01.gameObject, 1.0f, whenNearbySoundPitch, whenNearbySoundFadeTime);
 	}
 	
@@ -108,12 +111,9 @@ public class Vortex : MonoBehaviour {
 	
 	void OnTriggerExit(Collider collider) {
 		Debug.Log ("Exiting range of vortex...");
-		vortexActiveParticles.Stop();
-		vortexActiveParticles.Clear();
-		vortexInactiveParticles.Play();
+		vortexInactiveParticles.startSize = particleStartSize;	
+		vortexActiveParticles.startSize = 0.0f;	
 		iTween.AudioTo(sfxPlayer01.gameObject, 0.0f, -whenNearbySoundPitch, whenNearbySoundFadeTime);
 	}
-	
-	
 	
 }
