@@ -6,6 +6,11 @@ using tk2dRuntime.TileMap;
 
 public class GenerateTilemapColliders : MonoBehaviour {
 	
+	public float colliderDensity = 1.0f;
+	public float colliderRestitution = 0.5f;
+	public float colliderFriction = 0.75f;
+	
+	
 	/* The tilemap of the GameObject that this script is attached to. */
 	private tk2dTileMap tilemap;
 	
@@ -188,7 +193,9 @@ public class GenerateTilemapColliders : MonoBehaviour {
 		FSShapeComponent boxCollider = newColliderGameObject.GetComponent<FSShapeComponent>();
 		boxCollider.SType = FarseerPhysics.Collision.Shapes.ShapeType.Polygon;
 		boxCollider.UseUnityCollider = false;
-	
+		boxCollider.Density = colliderDensity;
+		boxCollider.Restitution = colliderRestitution;
+		boxCollider.Friction = colliderFriction;
 
 		/* Generate the positions of the points of the Box Collider. */
 		Vector3 positionBottomLeft = new Vector3(

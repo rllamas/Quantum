@@ -15,6 +15,7 @@ public class AudioManager : MonoBehaviour {
 	private AudioSource sfxPlayer02; // Reserved for portal sounds.
 	
 	public bool mute = false;
+	private bool mutedLastFrame = false;
 	
 	/* These are the different categories of sounds that can be played. */
 	//public AudioClip [] sfxTracks;
@@ -43,10 +44,6 @@ public class AudioManager : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-	
-		if (mute) {
-			this.gameObject.SetActive(false);	
-		}
 		
 		if (pastMusicTracks.Length == 0) {
 			throw new Exception("No past music tracks!");	
@@ -54,9 +51,6 @@ public class AudioManager : MonoBehaviour {
 		else if (futureMusicTracks.Length == 0) {
 			throw new Exception("No future music tracks!");	
 		}
-
-		
-		
 		
 		
 		player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
@@ -98,6 +92,25 @@ public class AudioManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		
+		/* Allow user to dynamically mute/unmute the Audio Manager. */
+		if (mute && !mutedLastFrame) {
+			musicPlayer01.Pause();
+			musicPlayer02.Pause();
+			sfxPlayer01.Pause();
+			sfxPlayer02.Pause();
+			mutedLastFrame = mute;
+			return;
+		}
+		else if (!mute && mutedLastFrame) {
+			musicPlayer01.Play();
+			musicPlayer02.Play();
+			sfxPlayer01.Play();
+			sfxPlayer02.Play();
+		}
+		
+		mutedLastFrame = mute;
+		
 		
 		isPastLastFrame = isPast;
 		isPast = Vortex.isPast;

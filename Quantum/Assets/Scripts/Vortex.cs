@@ -3,17 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Vortex : MonoBehaviour {
-	public tk2dTileMap pastMap;
-	public tk2dTileMap futureMap;
+	private tk2dTileMap pastMap;
+	private tk2dTileMap futureMap;
 	
 	/* If true, then the past is loaded. */
 	public static bool isPast = true;
 	
-	public List<GameObject> itemsInScene;
+	//public List<GameObject> itemsInScene;
 	
 	public ParticleSystem vortexActiveParticles;
 	public ParticleSystem vortexInactiveParticles;
 	
+	public AudioClip whenNearbySound;
+	public float whenNearbySoundPitch = 1.75f;
+	public float whenNearbySoundFadeTime = 1.5f;
 	public AudioClip warpSound;
 	private AudioSource sfxPlayer01;
 	private AudioSource sfxPlayer02;
@@ -35,7 +38,15 @@ public class Vortex : MonoBehaviour {
 		vortexActiveParticles.Clear();
 		vortexInactiveParticles.Play();
 		
+		sfxPlayer01 = this.transform.FindChild("SFX Player 01").GetComponent<AudioSource>();
+		sfxPlayer02 = this.transform.FindChild("SFX Player 02").GetComponent<AudioSource>();
 		
+		sfxPlayer01.clip = whenNearbySound;
+		sfxPlayer01.loop = true;
+		sfxPlayer01.volume = 0.0f;
+		sfxPlayer01.Play();
+		
+		sfxPlayer02.clip = warpSound;
 		
 		pastMap.transform.position = Vector3.zero;
 		futureMap.transform.position = Vector3.zero;
@@ -90,8 +101,8 @@ public class Vortex : MonoBehaviour {
 		vortexInactiveParticles.Stop();
 		vortexInactiveParticles.Clear();
 		vortexActiveParticles.Play();		
+		iTween.AudioTo(sfxPlayer01.gameObject, 1.0f, whenNearbySoundPitch, whenNearbySoundFadeTime);
 	}
-	
 	
 	
 	
@@ -100,6 +111,7 @@ public class Vortex : MonoBehaviour {
 		vortexActiveParticles.Stop();
 		vortexActiveParticles.Clear();
 		vortexInactiveParticles.Play();
+		iTween.AudioTo(sfxPlayer01.gameObject, 0.0f, -whenNearbySoundPitch, whenNearbySoundFadeTime);
 	}
 	
 	

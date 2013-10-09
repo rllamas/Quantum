@@ -66,13 +66,11 @@ namespace Quantum.States {
 		public override void Logic() {
 			HandleAnimationDirection();
 			
-<<<<<<< HEAD
 			//Debug.Log ("Player linear velocity: " + attachedPlayer.body.LinearVelocity);
-=======
 			if (attachedPlayer.currentDirection != attachedPlayer.previousDirection) {
 				changedDirections = true;	
 			}
->>>>>>> 29345dc7ef45b8e8f5bc2eb699d8c25e8f67cc49
+
 			
 			float xAxisTilt = Input.GetAxis("Horizontal");
 			FVector2 currentVelocity = attachedPlayer.body.LinearVelocity;
