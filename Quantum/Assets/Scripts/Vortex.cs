@@ -23,6 +23,9 @@ public class Vortex : MonoBehaviour {
 	private AudioSource sfxPlayer01;
 	private AudioSource sfxPlayer02;
 	
+	public MeshFilter animationCurtain;
+	private tk2dCamera mainCamera;
+	
 	
 	
 	
@@ -61,6 +64,11 @@ public class Vortex : MonoBehaviour {
 			pastMap.gameObject.SetActive(false);
 		}
 		
+		animationCurtain =  this.transform.FindChild("Curtain").GetComponent<MeshFilter>();
+		mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<tk2dCamera>();
+		
+		animationCurtain.gameObject.SetActive(true);
+		animationCurtain.renderer.material.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
 	}
 	
 	
@@ -94,7 +102,9 @@ public class Vortex : MonoBehaviour {
 	
 	public void OnWarp() {
 		Debug.Log (this.name + ": OnWarp().");	
-		TimeTravel();
+		StartCoroutine(PlayWarpAnimation());
+		sfxPlayer02.Play();
+		
 
 	}
 	
@@ -114,6 +124,25 @@ public class Vortex : MonoBehaviour {
 		vortexInactiveParticles.startSize = particleStartSize;	
 		vortexActiveParticles.startSize = 0.0f;	
 		iTween.AudioTo(sfxPlayer01.gameObject, 0.0f, -whenNearbySoundPitch, whenNearbySoundFadeTime);
+	}
+
+	
+	IEnumerator PlayWarpAnimation() {
+		this.transform.Translate(new Vector3(0.0f, 0.0f, mainCamera.transform.position.z+1.0f));
+		animationCurtain.renderer.material.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+		
+		iTween.FadeTo(animationCurtain.gameObject, 1.0f, 2.0f);
+		yield return new WaitForSeconds(2.0f);
+		
+		TimeTravel();
+		
+		iTween.ColorFrom(animationCurtain.gameObject, Color.white, 1.0f);	
+		this.transform.Translate(new Vector3(0.0f, 0.0f, -mainCamera.transform.position.z-1.0f));
+		iTween.FadeTo(animationCurtain.gameObject, 0.0f, 1.0f);
+		yield return new WaitForSeconds(1.0f);
+		
+		
+		yield return 0;
 	}
 	
 }
