@@ -53,6 +53,7 @@ public class Vortex : MonoBehaviour {
 		sfxPlayer01.Play();
 		
 		sfxPlayer02.clip = warpSound;
+		sfxPlayer02.Pause();
 		
 		pastMap.transform.position = Vector3.zero;
 		futureMap.transform.position = Vector3.zero;
