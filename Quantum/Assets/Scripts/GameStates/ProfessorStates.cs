@@ -3,7 +3,7 @@
  * 	---------------------
  *  Collection of the GameStates that comprise Professor Quantum.
  * 
- *  Written By: Russell Jahn & Rene Garcia
+ *  Written By: Russell Jahn
  * 
  */
 using System;
@@ -15,16 +15,17 @@ namespace Quantum.States {
 	
 	
 	public class ProfessorStandingState : PlayerState {
-
+		
 		
 		/* Constructor. */
 		public ProfessorStandingState(Player player) : base(player) {
 			attachedPlayer.animator.Play("Standing");		
 		}
 		
-
+		
 		public override void Logic() {
 			HandleAnimationDirection();
+			//attachedPlayer.body.LinearVelocity = new FVector2(0.0f, attachedPlayer.body.LinearVelocity.Y);
 		}
 		
 		
@@ -35,7 +36,7 @@ namespace Quantum.States {
 			if (Input.GetButtonDown("Jump")) {
 				return new ProfessorJumpingState(attachedPlayer);
 			}
-			/* Otherwise if the player has been pressing left/right long enough, the next state is walking. */
+			/* Otherwise if the player is pressing left or right, then the next state is walking. */
 			else if (xAxisTilt != 0.0f) {
 				return new ProfessorWalkingState(attachedPlayer);	
 			}
@@ -53,9 +54,6 @@ namespace Quantum.States {
 	
 	public class ProfessorWalkingState : PlayerState {
 		
-		/* If true, then the player should come to a stop then go the other way. */
-		private bool changedDirections = false;
-		
 		
 		/* Constructor. */
 		public ProfessorWalkingState(Player player) : base(player) {
@@ -65,54 +63,40 @@ namespace Quantum.States {
 		
 		public override void Logic() {
 			HandleAnimationDirection();
+			float xAxisTilt = Input.GetAxis("Horizontal");
 			
 			//Debug.Log ("Player linear velocity: " + attachedPlayer.body.LinearVelocity);
-			if (attachedPlayer.currentDirection != attachedPlayer.previousDirection) {
-				changedDirections = true;	
-			}
-
 			
-			float xAxisTilt = Input.GetAxis("Horizontal");
-			FVector2 currentVelocity = attachedPlayer.body.LinearVelocity;
-			
-			/* If player is moving, then apply opposing force until he stops. */
-			if (xAxisTilt == 0.0f || changedDirections) {
-				attachedPlayer.body.ApplyLinearImpulse(
-					new FVector2(-attachedPlayer.walkSlowingRate*currentVelocity.X, 
-						0.0f
-					)
-				);
+			/* If the player is no longer tilting the control stick, the character should quit moving soon. *
+			if (xAxisTilt == 0.0f) {
+				Debug.Log ("Walking State: xAxis Tilt is 0.");
+				//attachedPlayer.body.ApplyLinearImpulse(new FVector2(-attachedPlayer.body.LinearVelocity.X, 0.0f));
+				attachedPlayer.body.LinearVelocity = new FVector2(0.0f, 0.0f);
+				Debug.Log ("Walking State: Player velocity when not hitting stick: " + attachedPlayer.body.LinearVelocity);
 			}
-			/* If the player hasn't hit the max velocity limit, then apply force to move the player. */
-			else if (Mathf.Abs(currentVelocity.X) < attachedPlayer.walkingMaxVelocity) {
+			/* If the player hasn't hit the max velocity limit, then apply force to move the player. *
+			else if (Mathf.Abs(attachedPlayer.body.LinearVelocity.X) <= attachedPlayer.maxWalkingVelocity) {
 				
-				Debug.Log ("Walking State: Player velocity: " + attachedPlayer.body.LinearVelocity);
-				
-				/* Move the player based on the tilt of the control stick. */
-				FVector2 movement = new FVector2(
-					currentVelocity.X + xAxisTilt*attachedPlayer.walkingAcceleration*Time.deltaTime, 
-					0.0f
-				);
+				/* Move the player based on the tilt of the control stick. *
+				FVector2 movement = new FVector2(xAxisTilt * attachedPlayer.walkingVelocity * Time.deltaTime, 0);
 				attachedPlayer.body.ApplyLinearImpulse(movement);
-			}
+			}*/
 			
-			/* If stopped, then reset the player as no longer changing directions. */
-			if (currentVelocity.X == 0.0f) {
-				changedDirections = false;	
-			}
-			
+			float velChange = (xAxisTilt * attachedPlayer.walkingVelocity) - attachedPlayer.body.LinearVelocity.X;
+			FVector2 impulse = new FVector2(attachedPlayer.body.Mass * velChange, 0f);
+			attachedPlayer.body.ApplyLinearImpulse(impulse);
 		}
 		
 		
 		public override GameState NextState() {
-			FVector2 currentVelocity = attachedPlayer.body.LinearVelocity;
+			float xAxisTilt = Input.GetAxis("Horizontal");
 			
 			/* If player is hitting jump, then next state is jumping. */
 			if (Input.GetButtonDown("Jump")) {
 				return new ProfessorJumpingState(attachedPlayer);
 			}
-			/* Otherwise if the player is stationary, then the next state is standing. */
-			else if (currentVelocity.X == 0.0f && !changedDirections) {
+			/* Otherwise if the player is not pressing left or right, then the next state is standing. */
+			else if (xAxisTilt == 0.0f) {
 				return new ProfessorStandingState(attachedPlayer);	
 			}
 			else {
@@ -143,13 +127,16 @@ namespace Quantum.States {
 			
 			/* If player is touching the ground. */
 			if (attachedPlayer.IsGrounded()) {
-				FVector2 verticalMovement = new FVector2(0.0f, attachedPlayer.jumpingVelocity);
+				float impulse = attachedPlayer.jumpingVelocity * attachedPlayer.body.Mass;
+				FVector2 verticalMovement = new FVector2(0.0f, impulse);
 				attachedPlayer.body.ApplyLinearImpulse(verticalMovement);				
 			}
 			
 			/* Handle left/right movement. */
-			FVector2 horizontalMovement = new FVector2(xAxisTilt*attachedPlayer.walkingAcceleration*Time.deltaTime, 0.0f);
-			attachedPlayer.body.ApplyLinearImpulse(horizontalMovement);
+			float velChange = (xAxisTilt * attachedPlayer.walkingVelocity) - attachedPlayer.body.LinearVelocity.X;
+			FVector2 horizImpulse = new FVector2(attachedPlayer.body.Mass * velChange, 0f);
+			//FVector2 horizontalMovement = new FVector2(xAxisTilt * attachedPlayer.walkingVelocity * Time.deltaTime, 0.0f);
+			attachedPlayer.body.ApplyLinearImpulse(horizImpulse);
 			
 			/* If player releases jump button, then stop jump. */
 			//if (Input.GetButtonUp("Jump")) {
@@ -199,11 +186,13 @@ namespace Quantum.States {
 			float xAxisTilt = Input.GetAxis("Horizontal");
 			
 			/* Handle left/right movement. */
-			FVector2 horizontalMovement = new FVector2(
-				fallingMovementRatio*xAxisTilt*attachedPlayer.walkingAcceleration*Time.deltaTime, 
-				0.0f
-			);
-			attachedPlayer.body.ApplyLinearImpulse(horizontalMovement);
+			float velChange = (xAxisTilt * attachedPlayer.walkingVelocity) - attachedPlayer.body.LinearVelocity.X;
+			FVector2 horizImpulse = new FVector2(attachedPlayer.body.Mass * velChange, 0f);
+			//FVector2 horizontalMovement = new FVector2(
+			//	fallingMovementRatio * xAxisTilt * attachedPlayer.walkingVelocity * Time.deltaTime, 
+			//	0.0f
+			//);
+			attachedPlayer.body.ApplyLinearImpulse(horizImpulse);
 		}
 		
 		

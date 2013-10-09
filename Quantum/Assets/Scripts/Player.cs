@@ -40,9 +40,8 @@ public class Player : MonoBehaviour {
 	
 	
 	/* The walking speed of the player. */
-	public float walkingAcceleration = 10.0f;
-	public float walkingMaxVelocity = 40.0f;
-	public float walkSlowingRate = 0.3f;
+	public float walkingVelocity = 20.0f;
+	public float maxWalkingVelocity = 6.0f;
 	
 	/* The jumping speed of the player. */
 	public float jumpingVelocity = 500.0f;
@@ -194,6 +193,11 @@ public class Player : MonoBehaviour {
 				Warp(triggeredVortex);	
 			}
 			currentActionButtonState = ActionButtonStates.CAN_ACTIVATE_VORTEX;	
+		}
+		
+		else if (other.tag.CompareTo("Finish") == 0){
+			Debug.Log ("Winner!");
+			Application.LoadLevel("scene_prototype_win");
 		}
     }
 	
