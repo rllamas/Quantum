@@ -53,7 +53,10 @@ public class Pickup : MonoBehaviour {
 		
 		this.transform.parent = null;
 		
-		GameObject.Instantiate(this, this.transform.position, Quaternion.identity);
+		Vector3 newPosition = new Vector3(GameObject.FindGameObjectWithTag("Player").transform.position.x + offsetFromPlayer.x,
+											GameObject.FindGameObjectWithTag("Player").transform.position.y,
+											GameObject.FindGameObjectWithTag("Player").transform.position.z);
+		GameObject.Instantiate(this, newPosition, Quaternion.identity);
 		GameObject.Destroy(this.gameObject);
 	}
 	

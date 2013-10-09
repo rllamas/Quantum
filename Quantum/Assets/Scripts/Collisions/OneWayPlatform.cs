@@ -18,7 +18,9 @@ public class OneWayPlatform : MonoBehaviour {
 	
 	void Start () {
 
-		body = this.GetComponent<FSBodyComponent>().PhysicsBody;
+		body = GetComponent<FSBodyComponent>().PhysicsBody;
+		body.Restitution = 0.1f;
+		body.Friction = 0.0f;
 		
 		/* Register collision callback. */
 		body.OnCollision += OnCollisionEvent;
@@ -29,8 +31,8 @@ public class OneWayPlatform : MonoBehaviour {
 	private bool OnCollisionEvent(Fixture thisObjectFixture, Fixture otherObjectFixture, Contact contact) {
 		
 		/* If other object's velocity is negative, then it is above the platform and thus a collision should occur. */
-		return (otherObjectFixture.Body.LinearVelocity.Y <= 0);
-		
+		//return (otherObjectFixture.Body.LinearVelocity.Y <= 0);
+		return true;
 	}
 	
 	

@@ -44,7 +44,7 @@ public class Plant : Pickup {
 			futurePlant.SetActive(false);	
 		}
 		else {
-			pastPlant.SetActive(false);	
+			pastPlant.SetActive(false);
 			futurePlant.SetActive(true);	
 		}
 	}
