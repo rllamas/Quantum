@@ -1,16 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Tilemaps/GenerateTilemapColliders.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GameStates\ProfessorStates.cs">
     <Files>
-      <File FileName="Assets/Scripts/Audio/AudioManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Player.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Tilemaps/GenerateTilemapColliders.cs" Line="264" Column="1" />
-      <File FileName="Assets/Scripts/Vortex.cs" Line="1" Column="1" />
-      <File FileName="Assets/iTween/Plugins/iTween.cs" Line="1" Column="1" />
-      <File FileName="Assets/TK2DROOT/tk2d_demo/tk2dParallax/tk2dParallaxCamera.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/GameStates/ProfessorStates.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Pickups/Plant.cs" Line="1" Column="1212" />
-      <File FileName="../../../../../../Dropbox/Classwork/cs354s_2d_capstone/Unity/Quantum/Quantum/Assets/Scripts/Collisions/OneWayPlatform.cs" Line="23" Column="3" />
+      <File FileName="Assets\Scripts\GameStates\ProfessorStates.cs" Line="88" Column="90" />
+      <File FileName="Assets\Scripts\Pickups\Plant.cs" Line="48" Column="1" />
+      <File FileName="Assets\Scripts\Pickups\Pickup.cs" Line="58" Column="77" />
+      <File FileName="Assets\Scripts\Player.cs" Line="103" Column="15" />
+      <File FileName="Assets\Scripts\Collisions\OneWayPlatform.cs" Line="23" Column="24" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

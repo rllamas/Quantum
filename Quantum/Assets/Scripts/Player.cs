@@ -100,7 +100,7 @@ public class Player : MonoBehaviour {
 		body.FixtureList[0].UserTag = "Player";
 		
 		PolygonShape footSensor = new PolygonShape(0.0f);
-		footSensor.SetAsBox(0.1f, 2f);
+		footSensor.SetAsBox(0.1f, 0.3f, new FVector2(0f, -2.0f), 0f);
 		
 		footFixture = body.CreateFixture(footSensor);
 		footFixture.UserData = "FootFixture";
@@ -177,7 +177,7 @@ public class Player : MonoBehaviour {
 
 	void OnTriggerStay(Collider other) {
 		/* If other is the collider of an object you can pick up, then pick it up if possible. */
-		Debug.Log("In OnTriggerStay");
+		//Debug.Log("In OnTriggerStay");
 		if (CanPickup(other.gameObject)) {
 			if (Input.GetButtonDown("Action1")) {
 				Pickup triggeredPickup = other.gameObject.GetComponent<Pickup>();	
@@ -190,7 +190,7 @@ public class Player : MonoBehaviour {
 		}
 		/* If other is the collider of a Vortex, then warp if possible. */
 		else if (CanWarp(other.gameObject)) {
-			Debug.Log ("Near portal!");
+			//Debug.Log ("Near portal!");
 			if (Input.GetButtonDown("Action1")) {
 				Vortex triggeredVortex = other.gameObject.GetComponent<Vortex>();	
 				Warp(triggeredVortex);	

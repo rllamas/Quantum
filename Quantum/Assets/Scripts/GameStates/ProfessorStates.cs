@@ -27,7 +27,6 @@ namespace Quantum.States {
 			HandleAnimationDirection();
 			float currentVelocity = attachedPlayer.body.LinearVelocity.X;
 			currentVelocity -= Mathf.Min(Mathf.Abs(currentVelocity), attachedPlayer.body.Friction) * Mathf.Sign(currentVelocity);
-			//attachedPlayer.body.LinearVelocity = new FVector2(0.0f, attachedPlayer.body.LinearVelocity.Y);
 			attachedPlayer.body.LinearVelocity = new FVector2(currentVelocity, attachedPlayer.body.LinearVelocity.Y);
 		}
 		
@@ -69,21 +68,6 @@ namespace Quantum.States {
 			float xAxisTilt = Input.GetAxis("Horizontal");
 			
 			//Debug.Log ("Player linear velocity: " + attachedPlayer.body.LinearVelocity);
-			
-			/* If the player is no longer tilting the control stick, the character should quit moving soon. *
-			if (xAxisTilt == 0.0f) {
-				Debug.Log ("Walking State: xAxis Tilt is 0.");
-				//attachedPlayer.body.ApplyLinearImpulse(new FVector2(-attachedPlayer.body.LinearVelocity.X, 0.0f));
-				attachedPlayer.body.LinearVelocity = new FVector2(0.0f, 0.0f);
-				Debug.Log ("Walking State: Player velocity when not hitting stick: " + attachedPlayer.body.LinearVelocity);
-			}
-			/* If the player hasn't hit the max velocity limit, then apply force to move the player. *
-			else if (Mathf.Abs(attachedPlayer.body.LinearVelocity.X) <= attachedPlayer.maxWalkingVelocity) {
-				
-				/* Move the player based on the tilt of the control stick. *
-				FVector2 movement = new FVector2(xAxisTilt * attachedPlayer.walkingVelocity * Time.deltaTime, 0);
-				attachedPlayer.body.ApplyLinearImpulse(movement);
-			}*/
 			
 			float velChange = (xAxisTilt * attachedPlayer.walkingVelocity) - attachedPlayer.body.LinearVelocity.X;
 			FVector2 impulse = new FVector2(attachedPlayer.body.Mass * velChange, 0f);
@@ -150,6 +134,8 @@ namespace Quantum.States {
 			if (attachedPlayer.IsFalling()) {
 				attachedPlayer.animator.Play("Jump Midair");	
 			}
+			
+			Debug.Log ("Player linear velocity: " + attachedPlayer.body.LinearVelocity);
 		}
 		
 		
@@ -174,7 +160,7 @@ namespace Quantum.States {
 		
 		/* How fast the player should be able to move left or right during falling in relation 
 		 * to the player's walking velocity. */
-		float fallingMovementRatio = 0.5f;
+		//float fallingMovementRatio = 0.5f;
 		
 		
 		/* Constructor. */
