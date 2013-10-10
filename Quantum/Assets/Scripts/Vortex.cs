@@ -41,7 +41,7 @@ public class Vortex : MonoBehaviour {
 		
 		vortexActiveParticles.Play();
 		vortexActiveParticles.startSize = 0.0f;	
-		vortexActiveParticles.Clear();
+		//vortexActiveParticles.Clear();
 		vortexInactiveParticles.Play();
 		
 		sfxPlayer01 = this.transform.FindChild("SFX Player 01").GetComponent<AudioSource>();

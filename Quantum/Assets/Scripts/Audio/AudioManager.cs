@@ -83,6 +83,8 @@ public class AudioManager : MonoBehaviour {
 		musicPlayer01.Play();
 		musicPlayer02.Play();
 		
+		isPast = Vortex.isPast;
+		isPastLastFrame = isPast;
 		
 	}
 	

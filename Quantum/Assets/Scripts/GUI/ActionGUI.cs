@@ -46,7 +46,7 @@ public class ActionGUI : MonoBehaviour {
 			
 			case (Player.ActionButtonStates.CAN_ACTIVATE_VORTEX):
 			
-				actionText.text = "Activate Vortex";
+				actionText.text = "Activate Time Vortex";
 				actionText.color = actionTextFadeInColor;
 				actionButtonSprite.SetSprite("gui_key_x_fade_in");
 				break;
