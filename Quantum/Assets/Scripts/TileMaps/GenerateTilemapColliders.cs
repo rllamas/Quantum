@@ -25,7 +25,11 @@ public class GenerateTilemapColliders : MonoBehaviour {
 	private int maxTilesY;
 	private int maxTilesX;
 
+	/* Whether to round the edges of the tilemap's box colliders. */
+	public bool roundedBoxColliders = false;
 	
+	/* Path to the prefab to use for rounded box colliders, relative to the Resources/ folder. */
+	private string roundBoxColliderPrefabPath = "Colliders/resource_colliders_rounded_box";
 	
 	
 	/* This is called first in the Unity execution order of events, adding new Farseer colliders
@@ -72,18 +76,18 @@ public class GenerateTilemapColliders : MonoBehaviour {
 			Layer currentLayer = tilemap.Layers[layerID];
 			
 			
+			/* Ignore layer if it's empty or set to not generate colliders. */
+			if (currentLayer.IsEmpty || !tilemap.data.Layers[layerID].generateCollider) {
+				continue;
+			}
+			
+			
 			/* Add a layer gameObject to parent all box colliders in this layer.
 			 * This helps dramatically with scene organization. */
 			GameObject currentLayerContainer = new GameObject();
 			currentLayerContainer.name = "Layer " + layerID;
 			currentLayerContainer.transform.position = boxCollidersContainer.transform.position;
 			currentLayerContainer.transform.parent = boxCollidersContainer.transform;
-		
-			
-			/* Ignore layer if it's empty or set to not generate colliders. */
-			if (currentLayer.IsEmpty || !tilemap.data.Layers[layerID].generateCollider) {
-				continue;
-			}
 			
 
 			/* For every row of sprite chunks... */
@@ -107,7 +111,7 @@ public class GenerateTilemapColliders : MonoBehaviour {
 					currentChunkContainer.transform.parent = currentLayerContainer.transform;
 			
 					GenerateCollidersForChunk(chunk, currentChunkContainer);		
-				
+
 				}
 			
 			} 
@@ -148,7 +152,7 @@ public class GenerateTilemapColliders : MonoBehaviour {
 				
 				
 				tk2dSpriteDefinition spriteData = spriteDefinitions[spriteIdx];
-			
+				
 				
 				/* If the tile is marked as User Defined, then add a box collider. */
 				if (spriteData.colliderType == tk2dSpriteDefinition.ColliderType.Unset) {
@@ -159,9 +163,15 @@ public class GenerateTilemapColliders : MonoBehaviour {
 						chunk.gameObject.transform.position.z
 					);
 			
-
-					GameObject newColliderObject = CreateBoxCollider(newBoxColliderPosition, "Box Collider " + x + " " + y);
-				
+					GameObject newColliderObject;
+					
+					if (roundedBoxColliders) {
+						newColliderObject = CreateRoundedBoxCollider(newBoxColliderPosition, "Rounded Box Collider " + x + " " + y);
+					}
+					else {
+						newColliderObject = CreateBoxCollider(newBoxColliderPosition, "Box Collider " + x + " " + y);
+					}
+						
 					newColliderObject.transform.parent = container.transform;
 				}
 			}	
@@ -170,6 +180,27 @@ public class GenerateTilemapColliders : MonoBehaviour {
 		
 	} // End method GenerateCollidersForChunk
 	
+	
+	
+	/* Creates a new GameObject with an attached rounded Farseer Box Collider centered at position. */
+	GameObject CreateRoundedBoxCollider(Vector3 position, string newGameObjectName) {
+	
+		GameObject newColliderGameObject = (GameObject)Instantiate(
+				Resources.Load(roundBoxColliderPrefabPath), 
+				position, 
+				Quaternion.identity
+		);
+		newColliderGameObject.name = newGameObjectName;
+		
+		FSShapeComponent roundedBoxCollider = newColliderGameObject.GetComponent<FSShapeComponent>();
+		roundedBoxCollider.UseUnityCollider = false;
+		roundedBoxCollider.Density = colliderDensity;
+		roundedBoxCollider.Restitution = colliderRestitution;
+		roundedBoxCollider.Friction = colliderFriction;
+
+		return newColliderGameObject;
+	}
+		
 	
 	
 	
