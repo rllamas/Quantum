@@ -135,7 +135,7 @@ namespace Quantum.States {
 				attachedPlayer.animator.Play("Jump Midair");	
 			}
 			
-			Debug.Log ("Player linear velocity: " + attachedPlayer.body.LinearVelocity);
+			//Debug.Log ("Player linear velocity: " + attachedPlayer.body.LinearVelocity);
 		}
 		
 		
