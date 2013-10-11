@@ -16,6 +16,7 @@ public class Plant : Pickup {
 	public override void Start() {
 		body = GetComponent<FSBodyComponent>().PhysicsBody;
 		body.FixedRotation = true;
+		body.IsSensor = true;
 		body.OnCollision += OnCollisionEvent;
 		base.Start();
 		HandleEra();
