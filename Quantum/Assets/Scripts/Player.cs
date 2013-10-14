@@ -79,6 +79,9 @@ public class Player : MonoBehaviour {
 	
 	public ActionButtonStates currentActionButtonState;
 	
+	/* Am I in range of activating a vortex? */
+	private bool nearVortex;
+	
 	
 	
 	
@@ -114,6 +117,8 @@ public class Player : MonoBehaviour {
 		if (!animator) {
 			throw new Exception("No tk2dSpriteAnimator was attached to the Player!!!");	
 		}
+		
+		nearVortex = false;
 	}
 	
 	
@@ -175,6 +180,15 @@ public class Player : MonoBehaviour {
 	
 	
 	
+	void OnTriggerEnter(Collider other) {
+	
+		/* Am I entering the range of a vortex? */
+		if (IsVortex(other.gameObject)) {
+			nearVortex = true;	
+		}
+	}
+	
+	
 
 	void OnTriggerStay(Collider other) {
 		/* If other is the collider of an object you can pick up, then pick it up if possible. */
@@ -190,7 +204,7 @@ public class Player : MonoBehaviour {
 			}
 		}
 		/* If other is the collider of a Vortex, then warp if possible. */
-		else if (CanWarp(other.gameObject)) {
+		else if (CanWarp()) {
 			//Debug.Log ("Near portal!");
 			if (Input.GetButtonDown("Action1")) {
 				Vortex triggeredVortex = other.gameObject.GetComponent<Vortex>();	
@@ -199,7 +213,7 @@ public class Player : MonoBehaviour {
 			currentActionButtonState = ActionButtonStates.CAN_ACTIVATE_VORTEX;	
 		}
 		
-		else if (other.tag.CompareTo("Finish") == 0){
+		else if (other.tag.CompareTo("Finish") == 0) {
 			Debug.Log ("Winner!");
 			Application.LoadLevel("scene_prototype_win");
 		}
@@ -211,6 +225,11 @@ public class Player : MonoBehaviour {
 	
 	void OnTriggerExit(Collider other) {
 		currentActionButtonState = ActionButtonStates.NONE;
+		
+		/* Am I leaving the range of a vortex? */
+		if (IsVortex(other.gameObject)) {
+			nearVortex = false;	
+		}
 	}	
 	
 	
@@ -245,10 +264,17 @@ public class Player : MonoBehaviour {
 	
 	
 	
+	/* Return true if obj is a Vortex. */
+	public bool IsVortex(GameObject obj) {
+		return obj.gameObject.CompareTag("Vortex");
+	}
+	
+	
+	
 	
 	/* Return true if obj is a Vortex. */
-	public bool CanWarp(GameObject obj) {
-		return obj.gameObject.CompareTag("Vortex") && vortexCooldownTimeRemaining == 0;
+	public bool CanWarp() {
+		return nearVortex && vortexCooldownTimeRemaining == 0;
 	}
 	
 	
@@ -264,6 +290,12 @@ public class Player : MonoBehaviour {
 	
 	
 	
+	/* Return true if the player is near a vortex. */
+	public bool NearVortex() {
+		return nearVortex;	
+	}
+	
+	
 	
 	
 	/* Return true if the player is carrying a pickup. */
@@ -277,7 +309,10 @@ public class Player : MonoBehaviour {
 
 	/* Can the player pick obj up? */
 	private bool CanPickup(GameObject obj) {
-		 return obj.gameObject.CompareTag("Pickup") && !CarryingPickup() && Vortex.isPast && pickupCooldownTimeRemaining == 0;
+		 return obj.gameObject.CompareTag("Pickup") && 
+				!CarryingPickup() && 
+				obj.GetComponent<Pickup>().CanPickup() && 
+				pickupCooldownTimeRemaining == 0;
 	}
 	
 	
@@ -289,7 +324,7 @@ public class Player : MonoBehaviour {
 		if (!CarryingPickup()) {
 			throw new Exception("Calling CanDropCarriedPickup() when Player has no held pickup!");	
 		}
-		return pickupCooldownTimeRemaining == 0;	
+		return !nearVortex && pickupCooldownTimeRemaining == 0;	
 	}
 	
 	
@@ -346,11 +381,7 @@ public class Player : MonoBehaviour {
 	/* Returns true if the player is falling. */
 	public bool IsFalling() {
 		
-		return body.LinearVelocity.Y <= 0 &&
-			(previousState.Equals(new ProfessorFallingState(this)) ||
-			 currentState.Equals( new ProfessorFallingState(this)) ||
-			 previousState.Equals(new ProfessorJumpingState(this)) ||
-			 currentState.Equals( new ProfessorJumpingState(this)) );
+		return body.LinearVelocity.Y <= 0;
 	}
 	
 	

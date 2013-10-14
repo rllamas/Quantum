@@ -6,10 +6,13 @@ public class Vortex : MonoBehaviour {
 	private tk2dTileMap pastMap;
 	private tk2dTileMap futureMap;
 	
+	#region class globals
 	/* If true, then the past is loaded. */
 	public static bool isPast = true;
 	
-	//public List<GameObject> itemsInScene;
+	public static List<Pickup> pickups; 
+	#endregion
+	
 	
 	public ParticleSystem vortexActiveParticles;
 	public ParticleSystem vortexInactiveParticles;
@@ -25,6 +28,11 @@ public class Vortex : MonoBehaviour {
 	
 	public MeshFilter animationCurtain;
 	private tk2dCamera mainCamera;
+	
+	public enum TimePeriod {
+		FUTURE,
+		PAST
+	}
 	
 	
 	
@@ -70,6 +78,15 @@ public class Vortex : MonoBehaviour {
 		
 		animationCurtain.gameObject.SetActive(true);
 		animationCurtain.renderer.material.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+		
+		/* Get all pickups from the scene and put variable pickups. */
+		GameObject [] pickupGameObjects = GameObject.FindGameObjectsWithTag("Pickup");
+		//Debug.Log ("pickupGameObjects[0]: " + pickupGameObjects[0].name);
+		
+		pickups = new List<Pickup>();
+		for (int i = 0; i < pickupGameObjects.Length; ++i) {
+			pickups.Add( pickupGameObjects[i].GetComponent<Pickup>() );
+		}
 	}
 	
 	
@@ -85,18 +102,35 @@ public class Vortex : MonoBehaviour {
 	
 	private void TimeTravel() {
 		
+		// *** EVENTUALLY NEED TO LOCK PLAYER MOVEMENT!
+		
 		/* Going from past to future... */
 		if (isPast) {
+			/* Switches out maps. */
 			pastMap.gameObject.SetActive(false);
 			futureMap.gameObject.SetActive(true);
+			
+			/* Tell every pickup in the scene to do whatever it needs to do when switching eras. */
+			for (int i = 0; i < pickups.Count; ++i) {
+				pickups[i].HandleChangeEra(TimePeriod.FUTURE);
+			}
+			
 		}
 		/* Going from future to past... */
 		else {
+			/* Switches out maps. */
 			pastMap.gameObject.SetActive(true);
 			futureMap.gameObject.SetActive(false);
+			
+			/* Tell every pickup in the scene to do whatever it needs to do when switching eras. */
+			for (int i = 0; i < pickups.Count; ++i) {
+				pickups[i].HandleChangeEra(TimePeriod.PAST);
+			}
 		}		
 		
 		isPast = !isPast;
+		
+		// *** EVENTUALLY NEED TO UNLOCK PLAYER MOVEMENT!
 	}
 	
 	
@@ -105,7 +139,7 @@ public class Vortex : MonoBehaviour {
 		Debug.Log (this.name + ": OnWarp().");	
 		StartCoroutine(PlayWarpAnimation());
 		sfxPlayer02.Play();
-		
+		// TimeTravel() is called within PlayWarpAnimation();
 
 	}
 	
@@ -127,6 +161,7 @@ public class Vortex : MonoBehaviour {
 		iTween.AudioTo(sfxPlayer01.gameObject, 0.0f, -whenNearbySoundPitch, whenNearbySoundFadeTime);
 	}
 
+	
 	
 	IEnumerator PlayWarpAnimation() {
 		this.transform.Translate(new Vector3(0.0f, 0.0f, mainCamera.transform.position.z+1.0f));
