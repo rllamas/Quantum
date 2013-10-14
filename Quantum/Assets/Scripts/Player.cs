@@ -149,13 +149,14 @@ public class Player : MonoBehaviour {
 	
 	
 	
-	bool OnCollisionEvent (Fixture A, Fixture B, Contact contact) {
-		if ((string) A.UserData == "FootFixture") {
+	bool OnCollisionEvent (Fixture fixtureA, Fixture fixtureB, Contact contact) {
+		
+		if ((string) fixtureA.UserData == "FootFixture") {
 			//Debug.Log("ENTER: A was the FootFixture");
 			numFootContacts++;
 		}
 		
-		if ((string) B.UserData == "FootFixture") {
+		if ((string) fixtureB.UserData == "FootFixture") {
 			//Debug.Log("ENTER: B was the FootFixture");
 			numFootContacts++;
 		}
@@ -167,13 +168,13 @@ public class Player : MonoBehaviour {
 	
 	
 	
-	void OnCollisionSeparation(Fixture A, Fixture B) {
-		if ((string) A.UserData == "FootFixture") {
+	void OnCollisionSeparation(Fixture fixtureA, Fixture fixtureB) {
+		if ((string) fixtureA.UserData == "FootFixture") {
 			//Debug.Log("EXIT: A was the FootFixture");
 			numFootContacts--;
 		}
 		
-		if ((string) B.UserData == "FootFixture") {
+		if ((string) fixtureB.UserData == "FootFixture") {
 			//Debug.Log("EXIT: B was the FootFixture");
 			numFootContacts--;
 		}

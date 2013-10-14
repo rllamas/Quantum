@@ -11,23 +11,15 @@ public class Plant : Pickup {
 	public GameObject futurePlant; // Plant object use in the future era.
 		
 	
-	private Body body;
+	
 	
 	public override void Start() {
-		body = GetComponent<FSBodyComponent>().PhysicsBody;
-		body.FixedRotation = true;
-		body.IsSensor = true;
-		body.OnCollision += OnCollisionEvent;
+		
 		base.Start();
 		HandleChangeEra(currentEraExistingIn);
 	}
 	
-	bool OnCollisionEvent(Fixture fixtureA, Fixture fixtureB, Contact contact) {
-		if ((string) fixtureB.UserData == "Player") {
-			return false;
-		}
-		return true;
-	}
+	
 	
 	
 	public override void Update() {
@@ -48,24 +40,14 @@ public class Plant : Pickup {
 	
 	/* Handle whatever logic this object needs to do when changing eras. */
 	public override void HandleChangeEra(Vortex.TimePeriod eraChangingTo) {
+		
 		base.HandleChangeEra(eraChangingTo);
-		
-		Debug.Log("Before check, currentEraExistingIn: " + currentEraExistingIn);
-		Debug.Log("Before, eraChangingTo: " + eraChangingTo);
-		
-		
 		
 		/* Switch eras I'm in if player takes me through a portal. */
 		if (this.transform.parent) {
-			Debug.Log (this.name +  " - this.transform.parent: " + this.transform.parent.name);
 			currentEraExistingIn = eraChangingTo;
 		}
-		else {
-			Debug.Log (this.name +  " - no parent.");	
-		}
-		
-		Debug.Log("After check, currentEraExistingIn: " + currentEraExistingIn);
-			
+
 		/* If player is going to the future... */
 		if (eraChangingTo == Vortex.TimePeriod.FUTURE) {
 		

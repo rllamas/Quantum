@@ -51,7 +51,6 @@ public class Vortex : MonoBehaviour {
 		
 		vortexActiveParticles.Play();
 		vortexActiveParticles.startSize = 0.0f;	
-		//vortexActiveParticles.Clear();
 		vortexInactiveParticles.Play();
 		
 		sfxPlayer01 = this.transform.FindChild("SFX Player 01").GetComponent<AudioSource>();
@@ -85,8 +84,7 @@ public class Vortex : MonoBehaviour {
 		
 		/* Get all pickups from the scene and put variable pickups. */
 		GameObject [] pickupGameObjects = GameObject.FindGameObjectsWithTag("Pickup");
-		//Debug.Log ("pickupGameObjects[0]: " + pickupGameObjects[0].name);
-		
+
 		pickups = new List<Pickup>();
 		for (int i = 0; i < pickupGameObjects.Length; ++i) {
 			pickups.Add( pickupGameObjects[i].GetComponent<Pickup>() );
@@ -105,8 +103,6 @@ public class Vortex : MonoBehaviour {
 	
 	
 	private void TimeTravel() {
-		
-		// *** EVENTUALLY NEED TO LOCK PLAYER MOVEMENT!
 		
 		/* Going from past to future... */
 		if (isPast) {
@@ -133,8 +129,7 @@ public class Vortex : MonoBehaviour {
 		}		
 		
 		isPast = !isPast;
-		
-		// *** EVENTUALLY NEED TO UNLOCK PLAYER MOVEMENT!
+
 	}
 	
 	
@@ -169,20 +164,25 @@ public class Vortex : MonoBehaviour {
 	
 	IEnumerator PlayWarpAnimation() {
 		
+		/* Lock player movement. */
 		player.canMove = false;
-		player.GetComponent<FSWorldComponent>().enabled = false;
+		player.GetComponent<FSWorldComponent>().enabled = false; // Pause Farseer Physics simulation.
 		
+		/* Move portal & curtain in front of main camera. */
 		this.transform.Translate(new Vector3(0.0f, 0.0f, mainCamera.transform.position.z+1.0f));
 		animationCurtain.renderer.material.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
 		
+		/* Fade to black animation. */
 		iTween.FadeTo(animationCurtain.gameObject, 1.0f, 2.0f);
 		yield return new WaitForSeconds(2.0f);
 		
 		TimeTravel();
 		
+		/* Unlock player movement. */
 		player.canMove = true;
-		player.GetComponent<FSWorldComponent>().enabled = true;
+		player.GetComponent<FSWorldComponent>().enabled = true; // Unpause Farseer Physics simulation.
 		
+		/* White flash animation. */
 		iTween.ColorFrom(animationCurtain.gameObject, Color.white, 1.0f);	
 		this.transform.Translate(new Vector3(0.0f, 0.0f, -mainCamera.transform.position.z-1.0f));
 		iTween.FadeTo(animationCurtain.gameObject, 0.0f, 1.0f);

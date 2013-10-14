@@ -31,6 +31,12 @@ public class GenerateTilemapColliders : MonoBehaviour {
 	/* Path to the prefab to use for rounded box colliders, relative to the Resources/ folder. */
 	private string roundBoxColliderPrefabPath = "Colliders/resource_colliders_rounded_box";
 	
+	/* Farseer user data string to give to each box collider fixture. */
+	//private string userData = "Environment"; // TODO: implement.
+	
+	/* Farseer user tag string to give to each box collider fixture. */
+	//private string userTag = "Environment"; // TODO: implement.
+	
 	
 	/* This is called first in the Unity execution order of events, adding new Farseer colliders
 	 * to the tilemap before the Farseer physics engine begins. */
@@ -213,13 +219,14 @@ public class GenerateTilemapColliders : MonoBehaviour {
 		newColliderGameObject.name = newGameObjectName;
 		newColliderGameObject.transform.position = position;
 
-		//newColliderGameObject.AddComponent<FSWorldComponent>();
+		
 		newColliderGameObject.AddComponent<FSBodyComponent>();
 		newColliderGameObject.AddComponent<FSShapeComponent>();
 
 	
 		FSBodyComponent body = newColliderGameObject.GetComponent<FSBodyComponent>();
 		body.Type = FarseerPhysics.Dynamics.BodyType.Static;
+		
 		
 		FSShapeComponent boxCollider = newColliderGameObject.GetComponent<FSShapeComponent>();
 		boxCollider.SType = FarseerPhysics.Collision.Shapes.ShapeType.Polygon;

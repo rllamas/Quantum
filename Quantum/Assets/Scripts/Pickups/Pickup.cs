@@ -1,18 +1,32 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using FarseerPhysics;
+using FarseerPhysics.Dynamics;
+using FarseerPhysics.Dynamics.Contacts;
+using FarseerPhysics.Collision;
+
 
 public class Pickup : MonoBehaviour {
 	
 	/* Where the pickup should be positioned relative to the player picking it up. */
 	public Vector3 offsetFromPlayer;
-	
 	public Vortex.TimePeriod currentEraExistingIn;
+	
+	protected Body body;
 	
 	
 	public virtual void Start () {
 		collider.isTrigger = true;
+		
+		body = GetComponent<FSBodyComponent>().PhysicsBody;
+		body.FixtureList[0].UserData = "Pickup";
+		body.FixtureList[0].UserTag = "Pickup";
+		body.FixedRotation = true;
+		//body.IsSensor = true;
 		gameObject.tag = "Pickup";
+		
+		body.OnCollision += OnCollisionEvent;
 		
 		/* Don't allow rotations. */
 		rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | 
@@ -31,6 +45,17 @@ public class Pickup : MonoBehaviour {
 	
 	public virtual void Update () {
 		HandlePosition();
+	}
+	
+	
+	
+	
+	protected virtual bool OnCollisionEvent(Fixture fixtureA, Fixture fixtureB, Contact contact) {
+
+		if ((string) fixtureB.UserData == "Player") {
+			return false;
+		}
+		return true;
 	}
 	
 	
