@@ -23,7 +23,7 @@ public class Pickup : MonoBehaviour {
 		body.FixtureList[0].UserData = "Pickup";
 		body.FixtureList[0].UserTag = "Pickup";
 		body.FixedRotation = true;
-		//body.IsSensor = true;
+		body.IsSensor = true;
 		gameObject.tag = "Pickup";
 		
 		body.OnCollision += OnCollisionEvent;
