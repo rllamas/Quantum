@@ -24,6 +24,11 @@ namespace Quantum.States {
 		
 		
 		public override void Logic() {
+			/* If player isn't allow to move, then just stay frozen until he can. */
+			if (!attachedPlayer.canMove) {
+				return;
+			}
+			
 			HandleAnimationDirection();
 			float currentVelocity = attachedPlayer.body.LinearVelocity.X;
 			currentVelocity -= Mathf.Min(Mathf.Abs(currentVelocity), attachedPlayer.body.Friction) * Mathf.Sign(currentVelocity);
@@ -34,8 +39,12 @@ namespace Quantum.States {
 		public override GameState NextState() {
 			float xAxisTilt = Input.GetAxis("Horizontal");
 			
+			/* If player isn't allow to move, then just stay in this state until he can. */
+			if (!attachedPlayer.canMove) {
+				return this;
+			}
 			/* If player is hitting jump, then next state is jumping. */
-			if (Input.GetButtonDown("Jump")) {
+			else if (Input.GetButtonDown("Jump")) {
 				return new ProfessorJumpingState(attachedPlayer);
 			}
 			/* Otherwise if the player is pressing left or right, then the next state is walking. */
@@ -63,11 +72,14 @@ namespace Quantum.States {
 		}
 		
 		
-		public override void Logic() {
+		public override void Logic() {	
+			/* If player isn't allow to move, then just stay frozen until he can. */
+			if (!attachedPlayer.canMove) {
+				return;
+			}
+			
 			HandleAnimationDirection();
 			float xAxisTilt = Input.GetAxis("Horizontal");
-			
-			//Debug.Log ("Player linear velocity: " + attachedPlayer.body.LinearVelocity);
 			
 			float velChange = (xAxisTilt * attachedPlayer.walkingVelocity) - attachedPlayer.body.LinearVelocity.X;
 			FVector2 impulse = new FVector2(attachedPlayer.body.Mass * velChange, 0f);
@@ -78,6 +90,10 @@ namespace Quantum.States {
 		public override GameState NextState() {
 			float xAxisTilt = Input.GetAxis("Horizontal");
 			
+			/* If player isn't allow to move, then just stay in this state until he can. */
+			if (!attachedPlayer.canMove) {
+				return this;
+			}
 			/* If player is hitting jump, then next state is jumping. */
 			if (Input.GetButtonDown("Jump")) {
 				return new ProfessorJumpingState(attachedPlayer);
@@ -108,6 +124,11 @@ namespace Quantum.States {
 		
 		
 		public override void Logic() {	
+			/* If player isn't allow to move, then just stay frozen until he can. */
+			if (!attachedPlayer.canMove) {
+				return;
+			}
+			
 			HandleAnimationDirection();
 			
 			float xAxisTilt = Input.GetAxis("Horizontal");
@@ -122,25 +143,23 @@ namespace Quantum.States {
 			/* Handle left/right movement. */
 			float velChange = (xAxisTilt * attachedPlayer.walkingVelocity) - attachedPlayer.body.LinearVelocity.X;
 			FVector2 horizImpulse = new FVector2(attachedPlayer.body.Mass * velChange, 0f);
-			//FVector2 horizontalMovement = new FVector2(xAxisTilt * attachedPlayer.walkingVelocity * Time.deltaTime, 0.0f);
 			attachedPlayer.body.ApplyLinearImpulse(horizImpulse);
 			
-			/* If player releases jump button, then stop jump. */
-			//if (Input.GetButtonUp("Jump")) {
-			//	attachedPlayer.body.LinearVelocity = new FVector2(0.0f, 0.0f);
-			//}
 			
 			/* If now falling, go ahead and play jump apex animation. */
 			if (attachedPlayer.IsFalling()) {
 				attachedPlayer.animator.Play("Jump Midair");	
 			}
 			
-			//Debug.Log ("Player linear velocity: " + attachedPlayer.body.LinearVelocity);
 		}
 		
 		
 		public override GameState NextState() {
-			if (attachedPlayer.IsFalling()) {
+			/* If player isn't allow to move, then just stay in this state until he can. */
+			if (!attachedPlayer.canMove) {
+				return this;
+			}
+			else if (attachedPlayer.IsFalling()) {
 				return new ProfessorFallingState(attachedPlayer);
 			}
 			else {
@@ -158,11 +177,6 @@ namespace Quantum.States {
 	public class ProfessorFallingState : PlayerState {
 		
 		
-		/* How fast the player should be able to move left or right during falling in relation 
-		 * to the player's walking velocity. */
-		//float fallingMovementRatio = 0.5f;
-		
-		
 		/* Constructor. */
 		public ProfessorFallingState(Player player) : base(player) {
 			attachedPlayer.animator.Play("Jump Landing");		
@@ -170,6 +184,11 @@ namespace Quantum.States {
 		
 		
 		public override void Logic () {
+			/* If player isn't allow to move, then just stay frozen until he can. */
+			if (!attachedPlayer.canMove) {
+				return;
+			}
+			
 			HandleAnimationDirection();
 			
 			float xAxisTilt = Input.GetAxis("Horizontal");
@@ -177,17 +196,17 @@ namespace Quantum.States {
 			/* Handle left/right movement. */
 			float velChange = (xAxisTilt * attachedPlayer.walkingVelocity) - attachedPlayer.body.LinearVelocity.X;
 			FVector2 horizImpulse = new FVector2(attachedPlayer.body.Mass * velChange, 0f);
-			//FVector2 horizontalMovement = new FVector2(
-			//	fallingMovementRatio * xAxisTilt * attachedPlayer.walkingVelocity * Time.deltaTime, 
-			//	0.0f
-			//);
 			attachedPlayer.body.ApplyLinearImpulse(horizImpulse);
 		}
 		
 		
 		public override GameState NextState() {
 			
-			if (attachedPlayer.IsGrounded()) {
+			/* If player isn't allow to move, then just stay in this state until he can. */
+			if (!attachedPlayer.canMove) {
+				return this;
+			}
+			else if (attachedPlayer.IsGrounded()) {
 				return new ProfessorStandingState(attachedPlayer);
 			}
 			else {

@@ -29,6 +29,8 @@ public class Vortex : MonoBehaviour {
 	public MeshFilter animationCurtain;
 	private tk2dCamera mainCamera;
 	
+	private Player player;
+	
 	public enum TimePeriod {
 		FUTURE,
 		PAST
@@ -78,6 +80,8 @@ public class Vortex : MonoBehaviour {
 		
 		animationCurtain.gameObject.SetActive(true);
 		animationCurtain.renderer.material.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+		
+		player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
 		
 		/* Get all pickups from the scene and put variable pickups. */
 		GameObject [] pickupGameObjects = GameObject.FindGameObjectsWithTag("Pickup");
@@ -164,6 +168,10 @@ public class Vortex : MonoBehaviour {
 	
 	
 	IEnumerator PlayWarpAnimation() {
+		
+		player.canMove = false;
+		player.GetComponent<FSWorldComponent>().enabled = false;
+		
 		this.transform.Translate(new Vector3(0.0f, 0.0f, mainCamera.transform.position.z+1.0f));
 		animationCurtain.renderer.material.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
 		
@@ -172,13 +180,17 @@ public class Vortex : MonoBehaviour {
 		
 		TimeTravel();
 		
+		player.canMove = true;
+		player.GetComponent<FSWorldComponent>().enabled = true;
+		
 		iTween.ColorFrom(animationCurtain.gameObject, Color.white, 1.0f);	
 		this.transform.Translate(new Vector3(0.0f, 0.0f, -mainCamera.transform.position.z-1.0f));
 		iTween.FadeTo(animationCurtain.gameObject, 0.0f, 1.0f);
 		yield return new WaitForSeconds(1.0f);
 		
-		
 		yield return 0;
+		
+		
 	}
 	
 }

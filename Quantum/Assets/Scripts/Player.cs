@@ -82,6 +82,8 @@ public class Player : MonoBehaviour {
 	/* Am I in range of activating a vortex? */
 	private bool nearVortex;
 	
+	/* Am I allowed to move right now? */
+	public bool canMove;
 	
 	
 	
@@ -119,6 +121,7 @@ public class Player : MonoBehaviour {
 		}
 		
 		nearVortex = false;
+		canMove = true;
 	}
 	
 	
