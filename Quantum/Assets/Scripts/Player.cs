@@ -174,7 +174,7 @@ public class Player : MonoBehaviour {
 			//Debug.Log("EXIT: B was the FootFixture");
 			numFootContacts--;
 		}
-		Debug.Log("OnCollisionSeparation: " + numFootContacts);
+		//Debug.Log("OnCollisionSeparation: " + numFootContacts);
 	}
 	
 	
@@ -363,14 +363,14 @@ public class Player : MonoBehaviour {
 	
 	/* Returns true if the player is touching the ground. */
 	public bool IsGrounded() {
-		Debug.Log("Before: " + numFootContacts);
+		//Debug.Log("Before: " + numFootContacts);
 		if (numFootContacts > 2) {
 			numFootContacts = 2;
 		}
 		else if (numFootContacts < 0) {
 			numFootContacts = 0;
 		}
-		Debug.Log("After: " + numFootContacts);
+		//Debug.Log("After: " + numFootContacts);
 		return numFootContacts >= 1;
 	}
 	

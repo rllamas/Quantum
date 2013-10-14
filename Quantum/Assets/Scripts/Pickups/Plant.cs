@@ -53,9 +53,15 @@ public class Plant : Pickup {
 		Debug.Log("Before check, currentEraExistingIn: " + currentEraExistingIn);
 		Debug.Log("Before, eraChangingTo: " + eraChangingTo);
 		
+		
+		
 		/* Switch eras I'm in if player takes me through a portal. */
 		if (this.transform.parent) {
+			Debug.Log (this.name +  " - this.transform.parent: " + this.transform.parent.name);
 			currentEraExistingIn = eraChangingTo;
+		}
+		else {
+			Debug.Log (this.name +  " - no parent.");	
 		}
 		
 		Debug.Log("After check, currentEraExistingIn: " + currentEraExistingIn);
