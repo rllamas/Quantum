@@ -119,7 +119,10 @@ namespace Quantum.States {
 		
 		/* Constructor. */
 		public ProfessorJumpingState(Player player) : base(player) {
-			attachedPlayer.animator.Play("Jump Lift");			
+			if(player.CarryingPickup())
+				attachedPlayer.animator.Play("Jump Lift Carry");
+			else
+				attachedPlayer.animator.Play("Jump Lift");			
 		}
 		
 		
@@ -148,7 +151,10 @@ namespace Quantum.States {
 			
 			/* If now falling, go ahead and play jump apex animation. */
 			if (attachedPlayer.IsFalling()) {
-				attachedPlayer.animator.Play("Jump Midair");	
+//				if(player.CarryingPickup())
+//					attachedPlayer.animator.Play("Jump Midair Carry");
+//				else
+//					attachedPlayer.animator.Play("Jump Midair");	
 			}
 			
 		}
@@ -179,7 +185,10 @@ namespace Quantum.States {
 		
 		/* Constructor. */
 		public ProfessorFallingState(Player player) : base(player) {
-			attachedPlayer.animator.Play("Jump Landing");		
+			if(player.CarryingPickup())
+				attachedPlayer.animator.Play("Jump Landing Carry");
+			else
+				attachedPlayer.animator.Play("Jump Landing");		
 		}
 		
 		
