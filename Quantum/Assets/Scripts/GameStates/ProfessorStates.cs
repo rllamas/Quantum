@@ -19,7 +19,10 @@ namespace Quantum.States {
 		
 		/* Constructor. */
 		public ProfessorStandingState(Player player) : base(player) {
-			attachedPlayer.animator.Play("Standing");		
+			if(player.CarryingPickup())
+				attachedPlayer.animator.Play("Standing Carry");
+			else
+				attachedPlayer.animator.Play("Standing");		
 		}
 		
 		
@@ -68,7 +71,10 @@ namespace Quantum.States {
 		
 		/* Constructor. */
 		public ProfessorWalkingState(Player player) : base(player) {
-			attachedPlayer.animator.Play("Walking");
+			if(player.CarryingPickup())
+				attachedPlayer.animator.Play("Walking Carry");
+			else
+				attachedPlayer.animator.Play("Walking");
 		}
 		
 		
