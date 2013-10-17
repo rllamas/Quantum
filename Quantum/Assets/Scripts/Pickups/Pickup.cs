@@ -121,6 +121,19 @@ public class Pickup : MonoBehaviour {
 		if (this.transform.parent != null) {
 			this.body.Position = new FVector2(this.transform.parent.position.x + offsetFromPlayer.x, this.transform.parent.position.y + offsetFromPlayer.y);
 			
+			/*if (GetPlayer().currentDirection == Player.Direction.LEFT) {
+				this.body.Position = new FVector2(
+					this.transform.parent.position.x + offsetFromPlayer.x, 
+					this.transform.parent.position.y + offsetFromPlayer.y
+					);	
+			}
+			else {
+				this.body.Position = new FVector2(
+					this.transform.parent.position.x - offsetFromPlayer.x, 
+					this.transform.parent.position.y + offsetFromPlayer.y
+					);	
+			}*/
+			
 			/* If the player turns right, turn the pickup with the player. */
 			if (Input.GetAxis("Horizontal") > 0) {
 				this.body.ApplyLinearImpulse(new FVector2(this.transform.parent.position.x + -1.0f*offsetFromPlayer.x, 0));

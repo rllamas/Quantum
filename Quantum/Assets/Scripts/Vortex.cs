@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Vortex : MonoBehaviour {
-	private tk2dTileMap pastMap;
-	private tk2dTileMap futureMap;
+	private static tk2dTileMap pastMap;
+	private static tk2dTileMap futureMap;
 	
 	#region class globals
 	/* If true, then the past is loaded. */
@@ -29,7 +29,7 @@ public class Vortex : MonoBehaviour {
 	public MeshFilter animationCurtain;
 	private tk2dCamera mainCamera;
 	
-	private Player player;
+	private static Player player;
 	
 	public enum TimePeriod {
 		FUTURE,
@@ -43,8 +43,19 @@ public class Vortex : MonoBehaviour {
 	void Start () {
 		gameObject.tag = "Vortex";
 		
-		pastMap = GameObject.Find("Past Map").GetComponent<tk2dTileMap>();
-		futureMap = GameObject.Find("Future Map").GetComponent<tk2dTileMap>();
+		/* Since these are class variables, only do if not initialized yet. */
+		if (!pastMap) {
+			pastMap = GameObject.Find("Past Map").GetComponent<tk2dTileMap>();
+			futureMap = GameObject.Find("Future Map").GetComponent<tk2dTileMap>();
+			
+			/* Set the time period. */
+			if (isPast) {
+					futureMap.gameObject.SetActive(false);
+			}
+			else {
+				pastMap.gameObject.SetActive(false);
+			}
+		}
 		
 		vortexActiveParticles.transform.position = this.transform.position;
 		vortexInactiveParticles.transform.position = this.transform.position;
@@ -67,27 +78,26 @@ public class Vortex : MonoBehaviour {
 		pastMap.transform.position = Vector3.zero;
 		futureMap.transform.position = Vector3.zero;
 		
-		if (isPast) {
-			futureMap.gameObject.SetActive(false);
-		}
-		else {
-			pastMap.gameObject.SetActive(false);
-		}
-		
 		animationCurtain =  this.transform.FindChild("Curtain").GetComponent<MeshFilter>();
 		mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<tk2dCamera>();
 		
 		animationCurtain.gameObject.SetActive(true);
 		animationCurtain.renderer.material.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
 		
-		player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+		/* Since this is a class variable, only do if not initialized yet. */
+		if (!player) {
+			player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+		}
 		
-		/* Get all pickups from the scene and put variable pickups. */
-		GameObject [] pickupGameObjects = GameObject.FindGameObjectsWithTag("Pickup");
-
-		pickups = new List<Pickup>();
-		for (int i = 0; i < pickupGameObjects.Length; ++i) {
-			pickups.Add( pickupGameObjects[i].GetComponent<Pickup>() );
+		/* Since this is a class variable, only do if not initialized yet. */
+		if (pickups == null) {
+			/* Get all pickups from the scene and put variable pickups. */
+			GameObject [] pickupGameObjects = GameObject.FindGameObjectsWithTag("Pickup");
+	
+			pickups = new List<Pickup>();
+			for (int i = 0; i < pickupGameObjects.Length; ++i) {
+				pickups.Add( pickupGameObjects[i].GetComponent<Pickup>() );
+			}
 		}
 	}
 	
