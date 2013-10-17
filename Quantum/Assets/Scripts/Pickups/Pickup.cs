@@ -5,6 +5,7 @@ using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Collision;
+using FVector2 = Microsoft.Xna.Framework.FVector2;
 
 
 public class Pickup : MonoBehaviour {
@@ -23,7 +24,7 @@ public class Pickup : MonoBehaviour {
 		body.FixtureList[0].UserData = "Pickup";
 		body.FixtureList[0].UserTag = "Pickup";
 		body.FixedRotation = true;
-		body.IsSensor = true;
+		//body.IsSensor = true;
 		gameObject.tag = "Pickup";
 		
 		body.OnCollision += OnCollisionEvent;
@@ -84,7 +85,8 @@ public class Pickup : MonoBehaviour {
 		 * player will immediately collide with this object. Instead, we just disable the collider altogether. */
 		this.collider.enabled = false; 
 		
-		this.transform.parent = player.transform;	
+		this.transform.parent = player.transform;
+		this.body.BodyType = BodyType.Static;
 		HandlePosition();
 	}
 	
@@ -99,13 +101,14 @@ public class Pickup : MonoBehaviour {
 		this.collider.enabled = true;	
 		
 		this.transform.parent = null;
+		this.body.BodyType = BodyType.Dynamic;
 		
-		Vector3 newPosition = new Vector3(GameObject.FindGameObjectWithTag("Player").transform.position.x + offsetFromPlayer.x,
-											GameObject.FindGameObjectWithTag("Player").transform.position.y,
-											GameObject.FindGameObjectWithTag("Player").transform.position.z);
+		//Vector3 newPosition = new Vector3(GameObject.FindGameObjectWithTag("Player").transform.position.x + offsetFromPlayer.x,
+		//									GameObject.FindGameObjectWithTag("Player").transform.position.y,
+		//									GameObject.FindGameObjectWithTag("Player").transform.position.z);
 		//GameObject.Instantiate(this, newPosition, Quaternion.identity);
 		//GameObject.Destroy(this.gameObject);
-		this.transform.position = newPosition;
+		//this.transform.position = newPosition;
 	}
 	
 	
@@ -116,15 +119,15 @@ public class Pickup : MonoBehaviour {
 		
 		/* If you have a parent, then move to where you should be relative to him. */
 		if (this.transform.parent != null) {
+			this.body.Position = new FVector2(this.transform.parent.position.x + offsetFromPlayer.x, this.transform.parent.position.y + offsetFromPlayer.y);
 			
 			/* If the player turns right, turn the pickup with the player. */
-			if (GetPlayer().currentDirection == Player.Direction.RIGHT) {
-				this.transform.localPosition = new Vector3(-1.0f*offsetFromPlayer.x, offsetFromPlayer.y, 
-					offsetFromPlayer.z);
+			if (Input.GetAxis("Horizontal") > 0) {
+				this.body.ApplyLinearImpulse(new FVector2(this.transform.parent.position.x + -1.0f*offsetFromPlayer.x, 0));
 			}
 			/* Otherwise, keep pickup at the normal distance from the player. */
-			else {
-				this.transform.localPosition = offsetFromPlayer;
+			else if (Input.GetAxis("Horizontal") < 0) {
+				this.body.ApplyLinearImpulse(new FVector2(this.transform.parent.position.x + offsetFromPlayer.x, 0));
 			}
 		}
 	}
