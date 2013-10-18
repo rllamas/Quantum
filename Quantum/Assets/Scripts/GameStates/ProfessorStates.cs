@@ -51,6 +51,10 @@ namespace Quantum.States {
 			if (!attachedPlayer.canMove) {
 				return this;
 			}
+			/* If the player is now falling, then the next state is falling. */
+			else if (!attachedPlayer.IsGrounded()) {
+				return new ProfessorFallingState(attachedPlayer);
+			}
 			/* If player is hitting jump, then next state is jumping. */
 			else if (Input.GetButtonDown("Jump")) {
 				return new ProfessorJumpingState(attachedPlayer);
@@ -106,6 +110,10 @@ namespace Quantum.States {
 			/* If player isn't allow to move, then just stay in this state until he can. */
 			if (!attachedPlayer.canMove) {
 				return this;
+			}
+			/* If the player is now falling, then the next state is falling. */
+			else if (!attachedPlayer.IsGrounded()) {
+				return new ProfessorFallingState(attachedPlayer);
 			}
 			/* If player is hitting jump, then next state is jumping. */
 			if (Input.GetButtonDown("Jump")) {
@@ -204,10 +212,10 @@ namespace Quantum.States {
 		/* Constructor. */
 		public ProfessorFallingState(Player player) : base(player) {
 			if (player.CarryingPickup()) {
-				attachedPlayer.animator.Play("Jump Landing Carry");
+				attachedPlayer.animator.Play("Jump Midair Carry");
 			}
 			else {
-				attachedPlayer.animator.Play("Jump Landing");		
+				attachedPlayer.animator.Play("Jump Midair");		
 			}
 		}
 		
@@ -227,8 +235,14 @@ namespace Quantum.States {
 			FVector2 horizImpulse = new FVector2(attachedPlayer.body.Mass * velChange, 0f);
 			attachedPlayer.body.ApplyLinearImpulse(horizImpulse);
 			
+			/* Play landing animation. */
 			if (attachedPlayer.IsGrounded()) {
-				attachedPlayer.animator.Stop();	
+				if (attachedPlayer.CarryingPickup()) {
+					attachedPlayer.animator.Play("Jump Landing Carry");
+				}
+				else {
+					attachedPlayer.animator.Play("Jump Landing");			
+				}
 			}
 		}
 		
