@@ -47,7 +47,8 @@ public class Player : MonoBehaviour {
 	
 	public float maxVelocityX = 12.0f;
 	public float maxVelocityY = 18.0f;
-	public float velocityFalloffRate = 0.5f;
+	
+	public float jumpReleaseVelocityFalloffRate = 0.2f;
 	
 	/* The current pickup that the player is carrying. */
 	public Pickup carriedPickup;

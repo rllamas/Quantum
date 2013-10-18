@@ -20,6 +20,8 @@ namespace Quantum.States {
 		
 		/* Constructor. */
 		public ProfessorStandingState(Player player) : base(player) {
+			
+			/* Play standing animation. */
 			if (player.CarryingPickup()) {
 				attachedPlayer.animator.Play("Standing Carry");
 			}
@@ -80,6 +82,8 @@ namespace Quantum.States {
 		
 		/* Constructor. */
 		public ProfessorWalkingState(Player player) : base(player) {
+			
+			/* Play walking animation. */
 			if (player.CarryingPickup()) {
 				attachedPlayer.animator.Play("Walking Carry");
 			}
@@ -138,6 +142,7 @@ namespace Quantum.States {
 	public class ProfessorJumpingState : PlayerState {
 		
 		private bool isGrounded = true;
+		private bool releasedJumpButton = false;
 		
 		/* Constructor. */
 		public ProfessorJumpingState(Player player) : base(player) {
@@ -175,6 +180,20 @@ namespace Quantum.States {
 				float impulse = attachedPlayer.jumpingVelocity * attachedPlayer.body.Mass;
 				FVector2 verticalMovement = new FVector2(0.0f, impulse);
 				attachedPlayer.body.ApplyLinearImpulse(verticalMovement);				
+			}
+			
+			if (Input.GetButtonUp("Jump")) {
+				releasedJumpButton = true;	
+			}
+			
+			/* If you released the jump button, then player's jump should stop sooner. */
+			if (releasedJumpButton) {
+				attachedPlayer.body.ApplyLinearImpulse(
+					new FVector2(
+						0.0f,
+						-attachedPlayer.body.LinearVelocity.Y * attachedPlayer.jumpReleaseVelocityFalloffRate
+					)
+				);
 			}
 			
 			/* Handle left/right movement. */
