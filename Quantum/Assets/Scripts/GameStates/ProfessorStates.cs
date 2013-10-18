@@ -14,6 +14,7 @@ using FVector2 = Microsoft.Xna.Framework.FVector2;
 namespace Quantum.States {
 	
 	
+	
 	public class ProfessorStandingState : PlayerState {
 		
 		
@@ -35,6 +36,8 @@ namespace Quantum.States {
 			}
 			
 			HandleAnimationDirection();
+			
+			/* Add friction. */
 			float currentVelocity = attachedPlayer.body.LinearVelocity.X;
 			currentVelocity -= Mathf.Min(Mathf.Abs(currentVelocity), attachedPlayer.body.Friction) * Mathf.Sign(currentVelocity);
 			attachedPlayer.body.LinearVelocity = new FVector2(currentVelocity, attachedPlayer.body.LinearVelocity.Y);
@@ -130,12 +133,7 @@ namespace Quantum.States {
 		
 		/* Constructor. */
 		public ProfessorJumpingState(Player player) : base(player) {
-			if (player.CarryingPickup()) {
-				attachedPlayer.animator.Play("Jump Lift Carry");
-			}
-			else {
-				attachedPlayer.animator.Play("Jump Lift");			
-			}
+			;
 		}
 		
 		
@@ -155,7 +153,16 @@ namespace Quantum.States {
 			float xAxisTilt = Input.GetAxis("Horizontal");
 			
 			/* If player is touching the ground. */
-			if (IsGrounded()) {
+			if (isGrounded) {
+				
+				/* Play lifting animation. */
+				if (attachedPlayer.CarryingPickup()) {
+					attachedPlayer.animator.Play("Jump Lift Carry");
+				}
+				else {
+					attachedPlayer.animator.Play("Jump Lift");			
+				}
+				
 				isGrounded = false;
 				float impulse = attachedPlayer.jumpingVelocity * attachedPlayer.body.Mass;
 				FVector2 verticalMovement = new FVector2(0.0f, impulse);
@@ -167,16 +174,6 @@ namespace Quantum.States {
 			FVector2 horizImpulse = new FVector2(attachedPlayer.body.Mass * velChange, 0f);
 			attachedPlayer.body.ApplyLinearImpulse(horizImpulse);
 			
-			
-			/* If now falling, go ahead and play jump apex animation. */
-			if (attachedPlayer.IsFalling()) {
-//				if (player.CarryingPickup()) {
-//					attachedPlayer.animator.Play("Jump Midair Carry");
-//			}
-//				else {
-//					attachedPlayer.animator.Play("Jump Midair");
-//			    }
-			}
 			
 		}
 		
@@ -229,6 +226,10 @@ namespace Quantum.States {
 			float velChange = (xAxisTilt * attachedPlayer.walkingVelocity) - attachedPlayer.body.LinearVelocity.X;
 			FVector2 horizImpulse = new FVector2(attachedPlayer.body.Mass * velChange, 0f);
 			attachedPlayer.body.ApplyLinearImpulse(horizImpulse);
+			
+			if (attachedPlayer.IsGrounded()) {
+				attachedPlayer.animator.Stop();	
+			}
 		}
 		
 		

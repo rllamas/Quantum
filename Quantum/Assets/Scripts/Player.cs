@@ -66,9 +66,6 @@ public class Player : MonoBehaviour {
 	public Body body;
 	private Body childBody;
 	
-	private Fixture footFixture;
-	private int numFootContacts = 0;
-	
 	
 	
 	/* The state the action button is currently in. */
@@ -106,14 +103,6 @@ public class Player : MonoBehaviour {
 		body.FixtureList[0].UserData = "Player";
 		body.FixtureList[0].UserTag = "Player";
 		
-		PolygonShape footSensor = new PolygonShape(0.0f);
-		footSensor.SetAsBox(0.1f, 0.3f, new FVector2(0f, -2.0f), 0f);
-		
-		footFixture = body.CreateFixture(footSensor);
-		footFixture.UserData = "FootFixture";
-		footFixture.UserTag = "FootFixture";
-		footFixture.IsSensor = true;
-		
 		body.OnCollision += OnCollisionEvent;
 		body.OnSeparation += OnCollisionSeparation;
 	
@@ -121,6 +110,7 @@ public class Player : MonoBehaviour {
 		if (!animator) {
 			throw new Exception("No tk2dSpriteAnimator was attached to the Player!!!");	
 		}
+		animator.AnimationCompleted = HandleAnimationCompleted;
 		
 		nearVortex = false;
 		canMove = true;
@@ -143,10 +133,10 @@ public class Player : MonoBehaviour {
 		
 		/* Let the current game state do what it needs to do. */
 		currentState.Logic();
-		HandleVelocityCap();
 		HandleExtraLogic();
+		HandleVelocityCap();
 		
-		Debug.Log (body.LinearVelocity);
+		//Debug.Log (body.LinearVelocity);
 	}
 	
 	
@@ -154,19 +144,7 @@ public class Player : MonoBehaviour {
 	
 	
 	bool OnCollisionEvent (Fixture fixtureA, Fixture fixtureB, Contact contact) {
-		
-		Debug.Log ("Player collision.");
-		
-		if ((string) fixtureA.UserData == "FootFixture") {
-			//Debug.Log("ENTER: A was the FootFixture");
-			numFootContacts++;
-		}
-		
-		if ((string) fixtureB.UserData == "FootFixture") {
-			//Debug.Log("ENTER: B was the FootFixture");
-			numFootContacts++;
-		}
-		
+
 		return true;
 	}
 	
@@ -175,16 +153,7 @@ public class Player : MonoBehaviour {
 	
 	
 	void OnCollisionSeparation(Fixture fixtureA, Fixture fixtureB) {
-		if ((string) fixtureA.UserData == "FootFixture") {
-			//Debug.Log("EXIT: A was the FootFixture");
-			numFootContacts--;
-		}
-		
-		if ((string) fixtureB.UserData == "FootFixture") {
-			//Debug.Log("EXIT: B was the FootFixture");
-			numFootContacts--;
-		}
-		//Debug.Log("OnCollisionSeparation: " + numFootContacts);
+		;
 	}
 	
 	
@@ -244,6 +213,12 @@ public class Player : MonoBehaviour {
 	
 	
 	
+	void HandleAnimationCompleted(tk2dSpriteAnimator spriteAnimator, tk2dSpriteAnimationClip clip) {
+		
+		Debug.Log (clip.name + " completed!!");	
+	}
+	
+	
 	
 	
 	/* If the player's velocity gets larger than the predefined limits, then enforce the
@@ -251,7 +226,7 @@ public class Player : MonoBehaviour {
 	void HandleVelocityCap() {
 	
 		FVector2 currentVelocity = body.LinearVelocity;
-		FVector2 cappingForce = new FVector2(0f, 0f);
+		FVector2 cappingForce = new FVector2(0f, 0f); // Use this opposing force to enfore the velocity cap.
 		
 		/* Cap positive/negative x velocity if necessary. */
 		if (Mathf.Abs(currentVelocity.X) > maxVelocityX) {
@@ -398,15 +373,7 @@ public class Player : MonoBehaviour {
 	
 	/* Returns true if the player is touching the ground. */
 	public bool IsGrounded() {
-		//Debug.Log("Before: " + numFootContacts);
-		//if (numFootContacts > 2) {
-		//	numFootContacts = 2;
-		//}
-		//else if (numFootContacts < 0) {
-		//	numFootContacts = 0;
-		//}
-		//Debug.Log("After: " + numFootContacts);
-		//return numFootContacts >= 1;
+		
 		if (currentState.Equals(new ProfessorJumpingState(this))) {
 			return ((ProfessorJumpingState)currentState).IsGrounded(); 	
 		}
