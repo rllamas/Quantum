@@ -40,12 +40,14 @@ public class Player : MonoBehaviour {
 	
 	
 	/* The walking speed of the player. */
-	public float walkingVelocity = 20.0f;
-	public float maxWalkingVelocity = 6.0f;
+	public float walkingVelocity = 10.0f;
 	
 	/* The jumping speed of the player. */
-	public float jumpingVelocity = 500.0f;
+	public float jumpingVelocity = 2.5f;
 	
+	public float maxVelocityX = 12.0f;
+	public float maxVelocityY = 18.0f;
+	public float velocityFalloffRate = 0.5f;
 	
 	/* The current pickup that the player is carrying. */
 	public Pickup carriedPickup;
@@ -141,8 +143,10 @@ public class Player : MonoBehaviour {
 		
 		/* Let the current game state do what it needs to do. */
 		currentState.Logic();
-	
+		HandleVelocityCap();
 		HandleExtraLogic();
+		
+		Debug.Log (body.LinearVelocity);
 	}
 	
 	
@@ -150,6 +154,8 @@ public class Player : MonoBehaviour {
 	
 	
 	bool OnCollisionEvent (Fixture fixtureA, Fixture fixtureB, Contact contact) {
+		
+		Debug.Log ("Player collision.");
 		
 		if ((string) fixtureA.UserData == "FootFixture") {
 			//Debug.Log("ENTER: A was the FootFixture");
@@ -235,6 +241,31 @@ public class Player : MonoBehaviour {
 			nearVortex = false;	
 		}
 	}	
+	
+	
+	
+	
+	
+	/* If the player's velocity gets larger than the predefined limits, then enforce the
+	 * predefined limits by brute force. */
+	void HandleVelocityCap() {
+	
+		FVector2 currentVelocity = body.LinearVelocity;
+		FVector2 cappingForce = new FVector2(0f, 0f);
+		
+		/* Cap positive/negative x velocity if necessary. */
+		if (Mathf.Abs(currentVelocity.X) > maxVelocityX) {
+			cappingForce.X = maxVelocityX - currentVelocity.X;
+		}
+		
+		/* Cap positive y velocity if necessary. Don't mess w/ negative y velocity or you might mess up gravity. */
+		if (currentVelocity.Y > maxVelocityY) {
+			cappingForce.Y = maxVelocityY - currentVelocity.Y;
+		}
+		
+		body.ApplyLinearImpulse(cappingForce);
+		
+	}
 	
 	
 	
@@ -368,14 +399,19 @@ public class Player : MonoBehaviour {
 	/* Returns true if the player is touching the ground. */
 	public bool IsGrounded() {
 		//Debug.Log("Before: " + numFootContacts);
-		if (numFootContacts > 2) {
-			numFootContacts = 2;
-		}
-		else if (numFootContacts < 0) {
-			numFootContacts = 0;
-		}
+		//if (numFootContacts > 2) {
+		//	numFootContacts = 2;
+		//}
+		//else if (numFootContacts < 0) {
+		//	numFootContacts = 0;
+		//}
 		//Debug.Log("After: " + numFootContacts);
-		return numFootContacts >= 1;
+		//return numFootContacts >= 1;
+		if (currentState.Equals(new ProfessorJumpingState(this))) {
+			return ((ProfessorJumpingState)currentState).IsGrounded(); 	
+		}
+		return body.LinearVelocity.Y == 0.0f;
+			
 	}
 	
 	

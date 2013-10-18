@@ -19,10 +19,12 @@ namespace Quantum.States {
 		
 		/* Constructor. */
 		public ProfessorStandingState(Player player) : base(player) {
-			if(player.CarryingPickup())
+			if (player.CarryingPickup()) {
 				attachedPlayer.animator.Play("Standing Carry");
-			else
+			}
+			else {
 				attachedPlayer.animator.Play("Standing");		
+			}
 		}
 		
 		
@@ -71,10 +73,12 @@ namespace Quantum.States {
 		
 		/* Constructor. */
 		public ProfessorWalkingState(Player player) : base(player) {
-			if(player.CarryingPickup())
+			if (player.CarryingPickup()) {
 				attachedPlayer.animator.Play("Walking Carry");
-			else
+			}
+			else {
 				attachedPlayer.animator.Play("Walking");
+			}
 		}
 		
 		
@@ -122,13 +126,21 @@ namespace Quantum.States {
 	
 	public class ProfessorJumpingState : PlayerState {
 		
+		private bool isGrounded = true;
 		
 		/* Constructor. */
 		public ProfessorJumpingState(Player player) : base(player) {
-			if(player.CarryingPickup())
+			if (player.CarryingPickup()) {
 				attachedPlayer.animator.Play("Jump Lift Carry");
-			else
+			}
+			else {
 				attachedPlayer.animator.Play("Jump Lift");			
+			}
+		}
+		
+		
+		public bool IsGrounded() {
+			return isGrounded;	
 		}
 		
 		
@@ -143,7 +155,8 @@ namespace Quantum.States {
 			float xAxisTilt = Input.GetAxis("Horizontal");
 			
 			/* If player is touching the ground. */
-			if (attachedPlayer.IsGrounded()) {
+			if (IsGrounded()) {
+				isGrounded = false;
 				float impulse = attachedPlayer.jumpingVelocity * attachedPlayer.body.Mass;
 				FVector2 verticalMovement = new FVector2(0.0f, impulse);
 				attachedPlayer.body.ApplyLinearImpulse(verticalMovement);				
@@ -157,10 +170,12 @@ namespace Quantum.States {
 			
 			/* If now falling, go ahead and play jump apex animation. */
 			if (attachedPlayer.IsFalling()) {
-//				if(player.CarryingPickup())
+//				if (player.CarryingPickup()) {
 //					attachedPlayer.animator.Play("Jump Midair Carry");
-//				else
-//					attachedPlayer.animator.Play("Jump Midair");	
+//			}
+//				else {
+//					attachedPlayer.animator.Play("Jump Midair");
+//			    }
 			}
 			
 		}
@@ -191,10 +206,12 @@ namespace Quantum.States {
 		
 		/* Constructor. */
 		public ProfessorFallingState(Player player) : base(player) {
-			if(player.CarryingPickup())
+			if (player.CarryingPickup()) {
 				attachedPlayer.animator.Play("Jump Landing Carry");
-			else
+			}
+			else {
 				attachedPlayer.animator.Play("Jump Landing");		
+			}
 		}
 		
 		
