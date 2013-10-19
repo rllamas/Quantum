@@ -119,7 +119,7 @@ public class Pickup : MonoBehaviour {
 		
 		/* If you have a parent, then move to where you should be relative to him. */
 		if (this.transform.parent != null) {
-			this.body.Position = new FVector2(this.transform.parent.position.x + offsetFromPlayer.x, this.transform.parent.position.y + offsetFromPlayer.y);
+			//this.body.Position = new FVector2(this.transform.parent.position.x + offsetFromPlayer.x, this.transform.parent.position.y + offsetFromPlayer.y);
 			
 			/*if (GetPlayer().currentDirection == Player.Direction.LEFT) {
 				this.body.Position = new FVector2(
@@ -135,12 +135,27 @@ public class Pickup : MonoBehaviour {
 			}*/
 			
 			/* If the player turns right, turn the pickup with the player. */
-			if (Input.GetAxis("Horizontal") > 0) {
-				this.body.ApplyLinearImpulse(new FVector2(this.transform.parent.position.x + -1.0f*offsetFromPlayer.x, 0));
-			}
+			//if (Input.GetAxis("Horizontal") > 0) {
+			//	this.body.ApplyLinearImpulse(new FVector2(this.transform.parent.position.x + -1.0f*offsetFromPlayer.x, 0));
+			//}
 			/* Otherwise, keep pickup at the normal distance from the player. */
-			else if (Input.GetAxis("Horizontal") < 0) {
-				this.body.ApplyLinearImpulse(new FVector2(this.transform.parent.position.x + offsetFromPlayer.x, 0));
+			//else if (Input.GetAxis("Horizontal") < 0) {
+			//	this.body.ApplyLinearImpulse(new FVector2(this.transform.parent.position.x + offsetFromPlayer.x, 0));
+			//}
+			
+			if (GetPlayer().currentDirection == Player.Direction.LEFT) {
+				this.body.Position = new FVector2(this.transform.parent.position.x + offsetFromPlayer.x,
+													this.transform.parent.position.y + offsetFromPlayer.y);
+				if (Input.GetKeyDown(KeyCode.A)) {
+					this.body.ApplyLinearImpulse(new FVector2(this.transform.parent.position.x + offsetFromPlayer.x, 0));
+				}
+			}
+			else if (GetPlayer().currentDirection == Player.Direction.RIGHT) {
+				this.body.Position = new FVector2(this.transform.parent.position.x - offsetFromPlayer.x -0.15f,
+													this.transform.parent.position.y + offsetFromPlayer.y);
+				if (Input.GetKeyDown(KeyCode.S)) {
+					this.body.ApplyLinearImpulse(new FVector2(this.transform.parent.position.x - offsetFromPlayer.x -0.15f, 0));
+				}
 			}
 		}
 	}
