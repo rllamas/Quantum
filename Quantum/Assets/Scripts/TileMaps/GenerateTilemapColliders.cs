@@ -7,8 +7,8 @@ using tk2dRuntime.TileMap;
 public class GenerateTilemapColliders : MonoBehaviour {
 	
 	public float colliderDensity = 1.0f;
-	public float colliderRestitution = 0.5f;
-	public float colliderFriction = 0.75f;
+	public float colliderRestitution = 0.0f; // Farseer default is 0.5f
+	public float colliderFriction = 0.0f; // Farseer default is 0.75f
 	
 	
 	/* The tilemap of the GameObject that this script is attached to. */

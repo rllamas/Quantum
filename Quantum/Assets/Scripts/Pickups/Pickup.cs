@@ -12,7 +12,7 @@ public class Pickup : MonoBehaviour {
 	
 	/* Where the pickup should be positioned relative to the player picking it up. */
 	public Vector3 offsetFromPlayer;
-	public Vortex.TimePeriod currentEraExistingIn;
+	public LevelManager.TimePeriod currentEraExistingIn;
 	
 	protected Body body;
 	
@@ -47,7 +47,7 @@ public class Pickup : MonoBehaviour {
 	
 	protected virtual bool OnCollisionEvent(Fixture fixtureA, Fixture fixtureB, Contact contact) {
 
-		if ((string) fixtureB.UserData == "Player") {
+		if ((string) fixtureB.UserTag == "Player") {
 			return false;
 		}
 		return true;
@@ -129,7 +129,7 @@ public class Pickup : MonoBehaviour {
 	
 	
 	/* Handle whatever logic this object needs to do when changing eras. */
-	public virtual void HandleChangeEra(Vortex.TimePeriod eraChangingTo) {
+	public virtual void HandleChangeEra(LevelManager.TimePeriod eraChangingTo) {
 		;
 	}
 		

@@ -16,11 +16,11 @@ public class Plant : Pickup {
 	public override void Start() {
 		
 		base.Start();
-		if (Vortex.IsPast()) {
-			HandleChangeEra(Vortex.TimePeriod.PAST);
+		if (LevelManager.IsPast()) {
+			HandleChangeEra(LevelManager.TimePeriod.PAST);
 		}
 		else {
-			HandleChangeEra(Vortex.TimePeriod.FUTURE);
+			HandleChangeEra(LevelManager.TimePeriod.FUTURE);
 		}
 	}
 	
@@ -44,7 +44,7 @@ public class Plant : Pickup {
 	
 	
 	/* Handle whatever logic this object needs to do when changing eras. */
-	public override void HandleChangeEra(Vortex.TimePeriod eraChangingTo) {
+	public override void HandleChangeEra(LevelManager.TimePeriod eraChangingTo) {
 		
 		base.HandleChangeEra(eraChangingTo);
 		
@@ -54,10 +54,10 @@ public class Plant : Pickup {
 		}
 
 		/* If player is going to the future... */
-		if (eraChangingTo == Vortex.TimePeriod.FUTURE) {
+		if (eraChangingTo == LevelManager.TimePeriod.FUTURE) {
 		
 			/* And I'm in the past... */
-			if (currentEraExistingIn == Vortex.TimePeriod.PAST) {
+			if (currentEraExistingIn == LevelManager.TimePeriod.PAST) {
 				/* Grow plant into beanstalk. */
 				pastPlant.SetActive(false);
 				futurePlant.SetActive(true);
@@ -75,7 +75,7 @@ public class Plant : Pickup {
 		else {
 			
 			/* And I'm in the past... */
-			if (currentEraExistingIn == Vortex.TimePeriod.PAST) {
+			if (currentEraExistingIn == LevelManager.TimePeriod.PAST) {
 				/* Turn back into small plant. */
 				pastPlant.SetActive(true);
 				futurePlant.SetActive(false);

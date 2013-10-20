@@ -6,11 +6,9 @@ public class Vortex : MonoBehaviour {
 	private static tk2dTileMap pastMap;
 	private static tk2dTileMap futureMap;
 	
-	#region class globals
-	/* If true, then the past is loaded. */
-	public static TimePeriod currentEra = TimePeriod.PAST;
-	
+	#region class globals	
 	public static List<Pickup> pickups; 
+	private static Player player;
 	#endregion
 	
 	
@@ -29,13 +27,6 @@ public class Vortex : MonoBehaviour {
 	public MeshFilter animationCurtain;
 	private tk2dCamera mainCamera;
 	
-	private static Player player;
-	
-	public enum TimePeriod {
-		FUTURE,
-		PAST
-	}
-	
 	
 	
 	
@@ -49,7 +40,7 @@ public class Vortex : MonoBehaviour {
 			futureMap = GameObject.Find("Future Map").GetComponent<tk2dTileMap>();
 			
 			/* Set the time period. */
-			if (IsPast()) {
+			if (LevelManager.IsPast()) {
 					futureMap.gameObject.SetActive(false);
 			}
 			else {
@@ -115,14 +106,14 @@ public class Vortex : MonoBehaviour {
 	private void TimeTravel() {
 		
 		/* Going from past to future... */
-		if (IsPast()) {
+		if (LevelManager.IsPast()) {
 			/* Switches out maps. */
 			pastMap.gameObject.SetActive(false);
 			futureMap.gameObject.SetActive(true);
 			
 			/* Tell every pickup in the scene to do whatever it needs to do when switching eras. */
 			for (int i = 0; i < pickups.Count; ++i) {
-				pickups[i].HandleChangeEra(TimePeriod.FUTURE);
+				pickups[i].HandleChangeEra(LevelManager.TimePeriod.FUTURE);
 			}
 			
 		}
@@ -134,15 +125,15 @@ public class Vortex : MonoBehaviour {
 			
 			/* Tell every pickup in the scene to do whatever it needs to do when switching eras. */
 			for (int i = 0; i < pickups.Count; ++i) {
-				pickups[i].HandleChangeEra(TimePeriod.PAST);
+				pickups[i].HandleChangeEra(LevelManager.TimePeriod.PAST);
 			}
 		}		
 		
-		if (currentEra == TimePeriod.PAST) {
-			currentEra = TimePeriod.FUTURE;
+		if (LevelManager.IsPast()) {
+			LevelManager.Instance.CurrentEra = LevelManager.TimePeriod.FUTURE;
 		}
 		else {
-			currentEra = TimePeriod.PAST;	
+			LevelManager.Instance.CurrentEra = LevelManager.TimePeriod.PAST;
 		}
 
 	}
@@ -208,14 +199,5 @@ public class Vortex : MonoBehaviour {
 		
 	}
 	
-	
-	public static bool IsPast() {
-		return currentEra == TimePeriod.PAST;
-	}
-	
-	
-	public static bool IsFuture() {
-		return currentEra == TimePeriod.FUTURE;
-	}
 	
 }

@@ -22,9 +22,11 @@ public class FarseerFollowParent : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		body.Position = new FVector2(
-			parent.position.x + offsetFromParent.x, 
-			parent.position.y + offsetFromParent.y
-		);
+		if (parent) {
+			body.Position = new FVector2(
+				parent.position.x + offsetFromParent.x, 
+				parent.position.y + offsetFromParent.y
+			);
+		}
 	}
 }
