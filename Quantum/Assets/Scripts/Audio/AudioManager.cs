@@ -73,7 +73,7 @@ public class AudioManager : MonoBehaviour {
 		
 		
 		/* Only audibly play the current era's track. */
-		if (Vortex.isPast) {
+		if (Vortex.IsPast()) {
 			musicPlayer02.volume = 0.0f;
 		}
 		else {
@@ -83,7 +83,7 @@ public class AudioManager : MonoBehaviour {
 		musicPlayer01.Play();
 		musicPlayer02.Play();
 		
-		isPast = Vortex.isPast;
+		isPast = Vortex.IsPast();
 		isPastLastFrame = isPast;
 		
 	}
@@ -115,7 +115,7 @@ public class AudioManager : MonoBehaviour {
 		
 		
 		isPastLastFrame = isPast;
-		isPast = Vortex.isPast;
+		isPast = Vortex.IsPast();
 		
 		nearVortexLastFrame = nearVortex;
 		nearVortex = (player.currentActionButtonState == Player.ActionButtonStates.CAN_ACTIVATE_VORTEX);

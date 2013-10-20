@@ -8,7 +8,7 @@ public class Vortex : MonoBehaviour {
 	
 	#region class globals
 	/* If true, then the past is loaded. */
-	public static bool isPast = true;
+	public static TimePeriod currentEra = TimePeriod.PAST;
 	
 	public static List<Pickup> pickups; 
 	#endregion
@@ -49,7 +49,7 @@ public class Vortex : MonoBehaviour {
 			futureMap = GameObject.Find("Future Map").GetComponent<tk2dTileMap>();
 			
 			/* Set the time period. */
-			if (isPast) {
+			if (IsPast()) {
 					futureMap.gameObject.SetActive(false);
 			}
 			else {
@@ -115,7 +115,7 @@ public class Vortex : MonoBehaviour {
 	private void TimeTravel() {
 		
 		/* Going from past to future... */
-		if (isPast) {
+		if (IsPast()) {
 			/* Switches out maps. */
 			pastMap.gameObject.SetActive(false);
 			futureMap.gameObject.SetActive(true);
@@ -138,7 +138,12 @@ public class Vortex : MonoBehaviour {
 			}
 		}		
 		
-		isPast = !isPast;
+		if (currentEra == TimePeriod.PAST) {
+			currentEra = TimePeriod.FUTURE;
+		}
+		else {
+			currentEra = TimePeriod.PAST;	
+		}
 
 	}
 	
@@ -201,6 +206,16 @@ public class Vortex : MonoBehaviour {
 		yield return 0;
 		
 		
+	}
+	
+	
+	public static bool IsPast() {
+		return currentEra == TimePeriod.PAST;
+	}
+	
+	
+	public static bool IsFuture() {
+		return currentEra == TimePeriod.FUTURE;
 	}
 	
 }
