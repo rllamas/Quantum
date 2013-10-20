@@ -33,12 +33,6 @@ public class Pickup : MonoBehaviour {
 		rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | 
 								RigidbodyConstraints.FreezeRotationZ;
 		
-		if (Vortex.isPast) {
-			currentEraExistingIn = Vortex.TimePeriod.PAST;
-		}
-		else {
-			currentEraExistingIn = Vortex.TimePeriod.FUTURE;	
-		}
 	}
 	
 	
@@ -103,12 +97,6 @@ public class Pickup : MonoBehaviour {
 		this.transform.parent = null;
 		this.body.BodyType = BodyType.Dynamic;
 		
-		//Vector3 newPosition = new Vector3(GameObject.FindGameObjectWithTag("Player").transform.position.x + offsetFromPlayer.x,
-		//									GameObject.FindGameObjectWithTag("Player").transform.position.y,
-		//									GameObject.FindGameObjectWithTag("Player").transform.position.z);
-		//GameObject.Instantiate(this, newPosition, Quaternion.identity);
-		//GameObject.Destroy(this.gameObject);
-		//this.transform.position = newPosition;
 	}
 	
 	
@@ -119,29 +107,6 @@ public class Pickup : MonoBehaviour {
 		
 		/* If you have a parent, then move to where you should be relative to him. */
 		if (this.transform.parent != null) {
-			//this.body.Position = new FVector2(this.transform.parent.position.x + offsetFromPlayer.x, this.transform.parent.position.y + offsetFromPlayer.y);
-			
-			/*if (GetPlayer().currentDirection == Player.Direction.LEFT) {
-				this.body.Position = new FVector2(
-					this.transform.parent.position.x + offsetFromPlayer.x, 
-					this.transform.parent.position.y + offsetFromPlayer.y
-					);	
-			}
-			else {
-				this.body.Position = new FVector2(
-					this.transform.parent.position.x - offsetFromPlayer.x, 
-					this.transform.parent.position.y + offsetFromPlayer.y
-					);	
-			}*/
-			
-			/* If the player turns right, turn the pickup with the player. */
-			//if (Input.GetAxis("Horizontal") > 0) {
-			//	this.body.ApplyLinearImpulse(new FVector2(this.transform.parent.position.x + -1.0f*offsetFromPlayer.x, 0));
-			//}
-			/* Otherwise, keep pickup at the normal distance from the player. */
-			//else if (Input.GetAxis("Horizontal") < 0) {
-			//	this.body.ApplyLinearImpulse(new FVector2(this.transform.parent.position.x + offsetFromPlayer.x, 0));
-			//}
 			
 			if (GetPlayer().currentDirection == Player.Direction.LEFT) {
 				this.body.Position = new FVector2(this.transform.parent.position.x + offsetFromPlayer.x,

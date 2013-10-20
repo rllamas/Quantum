@@ -91,7 +91,7 @@ public class Player : MonoBehaviour {
 	void Start () {
 		gameObject.tag = "Player";
 		
-		currentDirection = Direction.RIGHT;
+		//currentDirection = Direction.RIGHT;
 		previousDirection = Direction.RIGHT;
 		
 		currentState = new ProfessorStandingState(this);

@@ -16,7 +16,12 @@ public class Plant : Pickup {
 	public override void Start() {
 		
 		base.Start();
-		HandleChangeEra(currentEraExistingIn);
+		if (Vortex.isPast) {
+			HandleChangeEra(Vortex.TimePeriod.PAST);
+		}
+		else {
+			HandleChangeEra(Vortex.TimePeriod.FUTURE);
+		}
 	}
 	
 	
