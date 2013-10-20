@@ -101,7 +101,6 @@ public class Player : MonoBehaviour {
 		
 		body = GetComponent<FSBodyComponent>().PhysicsBody;
 		body.FixedRotation = true;
-		//body.FixtureList[0] = new Fixture(body, GetComponent<FSShapeComponent>().GetShape());
 		body.FixtureList[0].UserData = "Player";
 		body.FixtureList[0].UserTag = "Player";
 		
