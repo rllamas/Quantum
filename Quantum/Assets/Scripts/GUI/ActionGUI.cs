@@ -30,6 +30,14 @@ public class ActionGUI : MonoBehaviour {
 		
 		/* Update content and look of action gui based on if player can action or not. */
 		switch (player.currentActionButtonState) {
+
+			case (Player.ActionButtonStates.CAN_WIN):
+			
+				actionText.text = "Obtain Machine Piece";
+				actionText.color = actionTextFadeInColor;
+				actionButtonSprite.SetSprite("gui_key_x_fade_in");
+				break;
+
 			case (Player.ActionButtonStates.CAN_PICKUP):
 			
 				actionText.text = "Pick Up";

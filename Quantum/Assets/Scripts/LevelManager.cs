@@ -1,19 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 /* 
- * 	A LevelManager is a singleton containing information global to the game.
+ * 	A LevelManager is a singletonto govern switching in and out of levels.
  * 
  * */
 public class LevelManager : MonoBehaviour {
 	
-	public enum TimePeriod {
-		FUTURE,
-		PAST
-	}
-	
+
 	public TimePeriod CurrentEra;
 	private static LevelManager singletonInstance = null;
+	public int CurrentLevel = 1;
+	public string[] Levels = {
+		"scene_tutorial",
+		"scene_level_001",
+		"scene_level_easy_01",
+		"scene_level_medium_01"
+	};
+
 	
 	public static LevelManager Instance {
 		get {
@@ -38,7 +43,7 @@ public class LevelManager : MonoBehaviour {
  
 	
 	void Awake () {
-		return;
+		
 		/* Add necessary tilemap scripts to any tilemaps. */
 		tk2dTileMap [] tilemaps = (tk2dTileMap [])FindObjectsOfType(typeof(tk2dTileMap));
 		for (int i = 0; i < tilemaps.Length; ++i) {
@@ -51,29 +56,11 @@ public class LevelManager : MonoBehaviour {
 		}
 	}
 	
-	void Start() {
-		
-		/* Add necessary Farseer scripts to any Farseer shapes. This is done in Start(), after 
-		 * any Farseer shape instances are dynamically created at runtime so that the scripts are
-		 * attached to them, too. */
-		FSShapeComponent [] shapeComponents = (FSShapeComponent [])FindObjectsOfType(typeof(FSShapeComponent));
-		for (int i = 0; i < shapeComponents.Length; ++i) {
-			FSShapeComponent currentShapeComponent = shapeComponents[i];
-			
-			if (!currentShapeComponent.gameObject.GetComponent<FarseerFollowParent>()) {
-				currentShapeComponent.gameObject.AddComponent<FarseerFollowParent>();
-			}
-			
-			if (!currentShapeComponent.gameObject.GetComponent<FarseerEnableDisable>()) {
-				currentShapeComponent.gameObject.AddComponent<FarseerEnableDisable>();
-			}
-		}
-	}
-	
 	
    
     void OnApplicationQuit() {
         singletonInstance = null;
+
     }
  
 	
@@ -85,6 +72,11 @@ public class LevelManager : MonoBehaviour {
 	
 	public static bool IsFuture() {
 		return Instance.CurrentEra == TimePeriod.FUTURE;
+	}
+
+
+	public void OnLevelComplete() {
+		Application.LoadLevel(Levels[++CurrentLevel]);
 	}
 
  

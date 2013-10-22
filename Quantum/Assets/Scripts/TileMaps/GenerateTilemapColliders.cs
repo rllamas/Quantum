@@ -179,6 +179,8 @@ public class GenerateTilemapColliders : MonoBehaviour {
 					}
 						
 					newColliderObject.transform.parent = container.transform;
+					newColliderObject.gameObject.AddComponent<FarseerFollowParent>();
+					newColliderObject.gameObject.AddComponent<FarseerEnableDisable>();
 				}
 			}	
 		}

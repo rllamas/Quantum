@@ -75,6 +75,7 @@ public class Player : MonoBehaviour {
 		CAN_DROP,
 		CAN_PICKUP,
 		CAN_ACTIVATE_VORTEX,
+		CAN_WIN,
 	};
 	
 	public ActionButtonStates currentActionButtonState;
@@ -171,8 +172,19 @@ public class Player : MonoBehaviour {
 	
 
 	void OnTriggerStay(Collider other) {
-		/* If other is the collider of an object you can pick up, then pick it up if possible. */
 		//Debug.Log("In OnTriggerStay");
+		/* If other is the collider of an goal object, then win the level if possible. */
+		if (IsGoal(other.gameObject)) {
+			if (Input.GetButtonDown("Action1")) {
+				Goal goal = other.gameObject.GetComponent<Goal>();	
+				goal.OnActivate(this);
+				currentActionButtonState = ActionButtonStates.NONE;
+			}
+			else {
+				currentActionButtonState = ActionButtonStates.CAN_WIN;	
+			}
+		}
+		/* If other is the collider of an object you can pick up, then pick it up if possible. */
 		if (CanPickup(other.gameObject)) {
 			if (Input.GetButtonDown("Action1")) {
 				Pickup triggeredPickup = other.gameObject.GetComponent<Pickup>();	
@@ -307,6 +319,11 @@ public class Player : MonoBehaviour {
 	}
 	
 	
+
+	public bool IsGoal(GameObject obj) {
+		return obj.gameObject.CompareTag("Goal");
+	}
+
 	
 	
 	/* Return true if the player is carrying a pickup. */

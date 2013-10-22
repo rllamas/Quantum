@@ -12,7 +12,7 @@ public class Pickup : MonoBehaviour {
 	
 	/* Where the pickup should be positioned relative to the player picking it up. */
 	public Vector3 offsetFromPlayer;
-	public LevelManager.TimePeriod currentEraExistingIn;
+	public TimePeriod currentEraExistingIn;
 	
 	protected Body body;
 	
@@ -24,7 +24,6 @@ public class Pickup : MonoBehaviour {
 		body.FixtureList[0].UserData = "Pickup";
 		body.FixtureList[0].UserTag = "Pickup";
 		body.FixedRotation = true;
-		//body.IsSensor = true;
 		gameObject.tag = "Pickup";
 		
 		body.OnCollision += OnCollisionEvent;
@@ -129,7 +128,7 @@ public class Pickup : MonoBehaviour {
 	
 	
 	/* Handle whatever logic this object needs to do when changing eras. */
-	public virtual void HandleChangeEra(LevelManager.TimePeriod eraChangingTo) {
+	public virtual void HandleChangeEra(TimePeriod eraChangingTo) {
 		;
 	}
 		

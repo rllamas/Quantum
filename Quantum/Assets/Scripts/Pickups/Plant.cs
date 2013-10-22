@@ -17,10 +17,10 @@ public class Plant : Pickup {
 		
 		base.Start();
 		if (LevelManager.IsPast()) {
-			HandleChangeEra(LevelManager.TimePeriod.PAST);
+			HandleChangeEra(TimePeriod.PAST);
 		}
 		else {
-			HandleChangeEra(LevelManager.TimePeriod.FUTURE);
+			HandleChangeEra(TimePeriod.FUTURE);
 		}
 	}
 	
@@ -44,7 +44,7 @@ public class Plant : Pickup {
 	
 	
 	/* Handle whatever logic this object needs to do when changing eras. */
-	public override void HandleChangeEra(LevelManager.TimePeriod eraChangingTo) {
+	public override void HandleChangeEra(TimePeriod eraChangingTo) {
 		
 		base.HandleChangeEra(eraChangingTo);
 		
@@ -54,10 +54,10 @@ public class Plant : Pickup {
 		}
 
 		/* If player is going to the future... */
-		if (eraChangingTo == LevelManager.TimePeriod.FUTURE) {
+		if (eraChangingTo == TimePeriod.FUTURE) {
 		
 			/* And I'm in the past... */
-			if (currentEraExistingIn == LevelManager.TimePeriod.PAST) {
+			if (currentEraExistingIn == TimePeriod.PAST) {
 				/* Grow plant into beanstalk. */
 				pastPlant.SetActive(false);
 				futurePlant.SetActive(true);
@@ -75,7 +75,7 @@ public class Plant : Pickup {
 		else {
 			
 			/* And I'm in the past... */
-			if (currentEraExistingIn == LevelManager.TimePeriod.PAST) {
+			if (currentEraExistingIn == TimePeriod.PAST) {
 				/* Turn back into small plant. */
 				pastPlant.SetActive(true);
 				futurePlant.SetActive(false);
