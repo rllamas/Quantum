@@ -200,5 +200,10 @@ public class Vortex : MonoBehaviour {
 		
 	}
 	
+
+
+	void OnDestroy() {
+		pickups = null;
+	}
 	
 }

@@ -91,6 +91,12 @@ public class Plant : Pickup {
 		}
 		
 	}
+
+
+
+	void OnDestroy() {
+		this.transform.parent = null;
+	}
 		
 	
 	
