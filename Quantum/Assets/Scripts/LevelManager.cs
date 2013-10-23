@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 
@@ -11,13 +12,18 @@ public class LevelManager : MonoBehaviour {
 
 	public TimePeriod CurrentEra;
 	private static LevelManager singletonInstance = null;
-	public int CurrentLevel = 1;
+	private int CurrentLevel = 1;
 	public string[] Levels = {
 		"scene_tutorial",
 		"scene_level_001",
 		"scene_level_easy_01",
 		"scene_level_medium_01"
 	};
+
+	public MeshFilter animationCurtain;
+
+	/* The animation manager to display the current era on level transitions. */
+	public tk2dSpriteAnimator eraAnimator;
 
 	
 	public static LevelManager Instance {
@@ -42,7 +48,7 @@ public class LevelManager : MonoBehaviour {
     }
  
 	
-	void Awake () {
+	void Awake() {
 		
 		/* Add necessary tilemap scripts to any tilemaps. */
 		tk2dTileMap [] tilemaps = (tk2dTileMap [])FindObjectsOfType(typeof(tk2dTileMap));
@@ -55,6 +61,19 @@ public class LevelManager : MonoBehaviour {
 			
 		}
 	}
+
+
+
+	void Start() {
+		CurrentLevel = GetCurrentLevelNumber();
+
+		animationCurtain =  this.transform.FindChild("Curtain").GetComponent<MeshFilter>();
+		animationCurtain.gameObject.SetActive(true);
+		//animationCurtain.renderer.material.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+
+		eraAnimator =  this.transform.FindChild("Current Era Animation").GetComponent<tk2dSpriteAnimator>();
+		StartCoroutine("StartLevelAnimation");
+	}
 	
 	
    
@@ -62,9 +81,34 @@ public class LevelManager : MonoBehaviour {
         singletonInstance = null;
 
     }
+
+    public void FadeLevelToBlack(float time) {
+    	iTween.FadeTo(animationCurtain.gameObject, 1.0f, time);
+    }
+
+
+    public void FadeBlackToLevel(float time) {
+    	iTween.FadeTo(animationCurtain.gameObject, 0.0f, time);
+    }
  
-	
-	
+
+	IEnumerator StartLevelAnimation() {
+		eraAnimator.gameObject.SetActive(true);
+		if (IsPast()) {
+			eraAnimator.Play("clockBCE");
+		}
+		else {
+			eraAnimator.Play("clockCE");
+		}
+		yield return new WaitForSeconds(1.0f);
+
+		FadeBlackToLevel(1.0f);
+		yield return new WaitForSeconds(2.5f);
+
+		eraAnimator.gameObject.SetActive(false);
+	}
+
+
 	public static bool IsPast() {
 		return Instance.CurrentEra == TimePeriod.PAST;
 	}
@@ -76,11 +120,25 @@ public class LevelManager : MonoBehaviour {
 
 
 	public void OnLevelComplete() {
+		if (CurrentLevel == -1) {
+			throw new Exception("There's no subsequent level to go to!");
+		}
+
 		Application.LoadLevel(Levels[++CurrentLevel]);
 	}
 
+
+	private int GetCurrentLevelNumber() {
+		for (int i = 0; i < Levels.Length; ++i) {
+			if (Levels[i].Equals(Application.loadedLevelName)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
  
- }
+}
 
 
 

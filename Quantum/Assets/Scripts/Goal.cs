@@ -7,8 +7,11 @@ using FarseerPhysics.Collision;
 
 public class Goal : MonoBehaviour {
 	
+	Player player;
+
 	void Start() {
 		gameObject.tag = "Goal";
+		player = GameObject.FindWithTag("Player").GetComponent<Player>();
 
 		/* 
 			A hack. Something resets the goal's box collider to other settings when the game starts,
@@ -26,7 +29,20 @@ public class Goal : MonoBehaviour {
 	public void OnActivate(Player player) {
 		Debug.Log (this.name + ": OnActivate().");
 		
+		StartCoroutine("OnLevelCompleteAnimation");
+	}
+
+
+	IEnumerator OnLevelCompleteAnimation() {
+		player.canMove = false;
 		GetComponent<AudioSource>().Play();
+		yield return new WaitForSeconds(2.0f);
+
+		LevelManager.Instance.FadeLevelToBlack(1.0f);
+		yield return new WaitForSeconds(1.0f);
+
+		player.canMove = true;
+		LevelManager.Instance.OnLevelComplete();
 		
 	}
 		
