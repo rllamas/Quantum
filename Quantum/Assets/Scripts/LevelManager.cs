@@ -12,9 +12,9 @@ public class LevelManager : MonoBehaviour {
 
 	public TimePeriod CurrentEra;
 	private static LevelManager singletonInstance = null;
-	private int CurrentLevel = 1;
-	public string[] Levels = {
-		"scene_tutorial",
+	private int CurrentLevel = 0;
+	private string[] Levels = {
+		"scene_level_tutorial",
 		"scene_level_001",
 		"scene_level_easy_01",
 		"scene_level_medium_01"
@@ -130,6 +130,7 @@ public class LevelManager : MonoBehaviour {
 
 	private int GetCurrentLevelNumber() {
 		for (int i = 0; i < Levels.Length; ++i) {
+
 			if (Levels[i].Equals(Application.loadedLevelName)) {
 				return i;
 			}
