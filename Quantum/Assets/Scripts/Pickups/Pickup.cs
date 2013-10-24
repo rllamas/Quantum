@@ -15,7 +15,7 @@ public class Pickup : MonoBehaviour {
 	public TimePeriod currentEraExistingIn;
 	
 	protected Body body;
-	
+	protected Player player;
 	
 	public virtual void Start () {
 		collider.isTrigger = true;
@@ -32,6 +32,7 @@ public class Pickup : MonoBehaviour {
 		rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | 
 								RigidbodyConstraints.FreezeRotationZ;
 		
+		player = GameObject.FindWithTag("Player").GetComponent<Player>();
 	}
 	
 	
@@ -107,14 +108,14 @@ public class Pickup : MonoBehaviour {
 		/* If you have a parent, then move to where you should be relative to him. */
 		if (this.transform.parent != null) {
 			
-			if (GetPlayer().currentDirection == Player.Direction.LEFT) {
+			if (player.currentDirection == Player.Direction.LEFT) {
 				this.body.Position = new FVector2(this.transform.parent.position.x + offsetFromPlayer.x,
 													this.transform.parent.position.y + offsetFromPlayer.y);
 				if (Input.GetKeyDown(KeyCode.A)) {
 					this.body.ApplyLinearImpulse(new FVector2(this.transform.parent.position.x + offsetFromPlayer.x, 0));
 				}
 			}
-			else if (GetPlayer().currentDirection == Player.Direction.RIGHT) {
+			else if (player.currentDirection == Player.Direction.RIGHT) {
 				this.body.Position = new FVector2(this.transform.parent.position.x - offsetFromPlayer.x -0.15f,
 													this.transform.parent.position.y + offsetFromPlayer.y);
 				if (Input.GetKeyDown(KeyCode.S)) {
@@ -133,12 +134,5 @@ public class Pickup : MonoBehaviour {
 	}
 		
 		
-		
-		
-	
-	/* Returns the player picking up this pickup. */
-	private Player GetPlayer() {
-		return this.transform.parent.GetComponent<Player>();	
-	}
 
 }

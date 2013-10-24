@@ -35,9 +35,6 @@ public class Player : MonoBehaviour {
 	public Direction previousDirection;
 	
 	
-	/* The animation manager of the player. */
-	public tk2dSpriteAnimator animator;
-	
 	
 	/* The walking speed of the player. */
 	public float walkingVelocity = 10.0f;
@@ -49,6 +46,7 @@ public class Player : MonoBehaviour {
 	public float maxVelocityY = 18.0f;
 	
 	public float jumpReleaseVelocityFalloffRate = 0.2f;
+	
 	
 	/* The current pickup that the player is carrying. */
 	public Pickup carriedPickup;
@@ -63,9 +61,20 @@ public class Player : MonoBehaviour {
 	private float vortexCooldownTimeRemaining = 0.0f;
 	
 	
-	
 	public Body body;
 	private Body childBody;
+	
+	
+	/* The animation manager of the player. */
+	public tk2dSpriteAnimator animator;
+	
+	
+	/* The sound effects manager of the player. */
+	public AudioSource sfxPlayer;
+	
+	public AudioClip jumpSound;
+	public AudioClip pickUpPlantSound;
+	
 	
 	
 	
@@ -92,8 +101,7 @@ public class Player : MonoBehaviour {
 	void Start () {
 		gameObject.tag = "Player";
 		
-		//currentDirection = Direction.RIGHT;
-		previousDirection = Direction.RIGHT;
+		previousDirection = currentDirection;
 		
 		currentState = new ProfessorStandingState(this);
 		currentStateString = currentState.ToString();
@@ -116,6 +124,8 @@ public class Player : MonoBehaviour {
 		
 		nearVortex = false;
 		canMove = true;
+		
+		sfxPlayer = GetComponent<AudioSource>();
 	}
 	
 	

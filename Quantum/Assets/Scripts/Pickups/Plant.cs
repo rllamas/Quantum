@@ -100,5 +100,18 @@ public class Plant : Pickup {
 		
 	
 	
+	public override void OnPickup (Player player) {
+		base.OnPickup(player);
+		
+		/* Play digging up sound. */
+		player.sfxPlayer.clip = player.pickUpPlantSound;
+		player.sfxPlayer.loop = false;
+		if (!player.NearVortex()) {
+			player.sfxPlayer.pitch = 1.0f;
+		}
+		player.sfxPlayer.Play();
+	}
+	
+	
 
 }

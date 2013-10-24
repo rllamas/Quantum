@@ -179,7 +179,16 @@ namespace Quantum.States {
 				isGrounded = false;
 				float impulse = attachedPlayer.jumpingVelocity * attachedPlayer.body.Mass;
 				FVector2 verticalMovement = new FVector2(0.0f, impulse);
-				attachedPlayer.body.ApplyLinearImpulse(verticalMovement);				
+				attachedPlayer.body.ApplyLinearImpulse(verticalMovement);		
+				
+				/* Play jumping sound. */
+				attachedPlayer.sfxPlayer.clip = attachedPlayer.jumpSound;
+				attachedPlayer.sfxPlayer.loop = false;
+				/* Give some variation to the jump pitch. */
+				if (!attachedPlayer.NearVortex()) {
+					attachedPlayer.sfxPlayer.pitch = 1.0f + 0.02f*UnityEngine.Random.Range(-11, 6);
+				}
+				attachedPlayer.sfxPlayer.Play();
 			}
 			
 			if (Input.GetButtonUp("Jump")) {

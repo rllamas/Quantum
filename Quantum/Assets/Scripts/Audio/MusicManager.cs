@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class AudioManager : MonoBehaviour {
+public class MusicManager : MonoBehaviour {
 	
 	private Player player;
 	
@@ -12,7 +12,7 @@ public class AudioManager : MonoBehaviour {
 	private AudioSource musicPlayer01; // Reserved for past music.
 	private AudioSource musicPlayer02; // Reserved for future music.
 	private AudioSource sfxPlayer01; // Reserved for player sounds.
-	private AudioSource sfxPlayer02; // Reserved for portal sounds.
+
 	
 	public bool mute = false;
 	private bool mutedLastFrame = false;
@@ -31,6 +31,8 @@ public class AudioManager : MonoBehaviour {
 	private float originalMusicVolume;
 	private float originalMusicPitch;
 	
+	private float originalSfxVolume;
+
 	
 	/* These keep track of state for the frame. */
 	private bool isPast;
@@ -57,13 +59,13 @@ public class AudioManager : MonoBehaviour {
 		
 		musicPlayer01 = this.transform.FindChild("Music Player 01").GetComponent<AudioSource>();
 		musicPlayer02 = this.transform.FindChild("Music Player 02").GetComponent<AudioSource>();
-		sfxPlayer01 = this.transform.FindChild("SFX Player 01").GetComponent<AudioSource>();
-		sfxPlayer02 = this.transform.FindChild("SFX Player 02").GetComponent<AudioSource>();
+		sfxPlayer01 = player.GetComponent<AudioSource>();
 		
 		
 		originalMusicVolume = 1.0f;
 		originalMusicPitch = 1.0f;
 		
+		originalSfxVolume = sfxPlayer01.volume;
 		
 		musicPlayer01.clip = pastMusicTracks[0];
 		musicPlayer02.clip = futureMusicTracks[0];
@@ -99,16 +101,14 @@ public class AudioManager : MonoBehaviour {
 		if (mute && !mutedLastFrame) {
 			musicPlayer01.Pause();
 			musicPlayer02.Pause();
-			sfxPlayer01.Pause();
-			sfxPlayer02.Pause();
+			//sfxPlayer01.Pause();
 			mutedLastFrame = mute;
 			return;
 		}
 		else if (!mute && mutedLastFrame) {
 			musicPlayer01.Play();
 			musicPlayer02.Play();
-			sfxPlayer01.Play();
-			sfxPlayer02.Play();
+			//sfxPlayer01.Play();
 		}
 		
 		mutedLastFrame = mute;
@@ -136,8 +136,13 @@ public class AudioManager : MonoBehaviour {
 		
 		/* Change volume and pitch if entering/leaving a vortex zone. */
 		
-		/* Dim music if player is near a vortex. */
+		/* Dim and warp music if player is near a vortex. */
 		if (nearVortex && !nearVortexLastFrame) {
+			
+			/* Warp sfx... */
+			iTween.AudioTo(sfxPlayer01.gameObject, originalSfxVolume, 0.5f, vortexFadeMusicTime);
+			
+			/* Dim music. */
 			if (isPast) {
 				iTween.AudioTo(musicPlayer01.gameObject, vortexFadeMusicVolume, vortexFadeMusicPitch, vortexFadeMusicTime);
 			}
@@ -147,6 +152,11 @@ public class AudioManager : MonoBehaviour {
 		}
 		/* Restore volume to normal if player if leaving a vortex. */
 		else if (!nearVortex && nearVortexLastFrame) {
+			
+			/* Restore sfx... */
+			iTween.AudioTo(sfxPlayer01.gameObject, originalSfxVolume, 1.0f, vortexFadeMusicTime);
+			
+			/* Restore music... */
 			if (isPast) {
 				iTween.AudioTo(musicPlayer01.gameObject, originalMusicVolume, originalMusicPitch, vortexFadeMusicTime);
 			}
