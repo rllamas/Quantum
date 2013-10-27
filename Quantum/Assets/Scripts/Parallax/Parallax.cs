@@ -23,7 +23,6 @@ public class Parallax : MonoBehaviour {
 	void Update () {
 		
 		if (lastPlayerPosition == player.transform.position) {
-			Debug.Log ("Same!");
 			return;	
 		}
 		
