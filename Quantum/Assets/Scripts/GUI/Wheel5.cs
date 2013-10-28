@@ -46,7 +46,7 @@ public class Wheel5 : MonoBehaviour {
 	}
 	
 	void Scroll(){
-		switch (1){
+		switch (level){
 			case 1:
         		Debug.Log("Case 1");
 				iTween.MoveTo(tiles[0], new Vector3( 0.0f,0.0f, 0.0f), 2.00f);	//tile1
@@ -66,6 +66,10 @@ public class Wheel5 : MonoBehaviour {
 				tiles[1].GetComponent<Tile>().fade = false;
 				iTween.MoveTo(tiles[2], new Vector3( 2.0f,0.0f, 2.0f), 2.00f);	//tile3
 				tiles[2].GetComponent<Tile>().fade = true;
+				iTween.MoveTo(tiles[3], new Vector3( 1.8f,0.0f, 4.0f), 2.00f);	//tile4
+				tiles[3].GetComponent<Tile>().fade = true;
+				iTween.MoveTo(tiles[4], new Vector3(-1.8f,0.0f, 4.0f), 2.00f);	//tile5
+				tiles[4].GetComponent<Tile>().fade = true;
 				iTween.MoveTo(tiles[0], new Vector3(-2.0f,0.0f, 2.0f), 2.00f);	//tile1
 				tiles[0].GetComponent<Tile>().fade = true;
         		break;
@@ -73,11 +77,41 @@ public class Wheel5 : MonoBehaviour {
         		Debug.Log("Case 3");
 				iTween.MoveTo(tiles[2], new Vector3( 0.0f,0.0f, 0.0f), 2.00f);	//tile3
 				tiles[2].GetComponent<Tile>().fade = false;
-				iTween.MoveTo(tiles[0], new Vector3( 2.0f,0.0f, 2.0f), 2.00f);	//tile1
+				iTween.MoveTo(tiles[3], new Vector3( 2.0f,0.0f, 2.0f), 2.00f);	//tile4
+				tiles[3].GetComponent<Tile>().fade = true;
+				iTween.MoveTo(tiles[4], new Vector3( 1.8f,0.0f, 4.0f), 2.00f);	//tile5
+				tiles[4].GetComponent<Tile>().fade = true;
+				iTween.MoveTo(tiles[0], new Vector3(-1.8f,0.0f, 4.0f), 2.00f);	//tile1
 				tiles[0].GetComponent<Tile>().fade = true;
 				iTween.MoveTo(tiles[1], new Vector3(-2.0f,0.0f, 2.0f), 2.00f);	//tile2
 				tiles[1].GetComponent<Tile>().fade = true;
-        		break;	
+        		break;
+			case 4:
+        		Debug.Log("Case 4");
+				iTween.MoveTo(tiles[3], new Vector3( 0.0f,0.0f, 0.0f), 2.00f);	//tile4
+				tiles[3].GetComponent<Tile>().fade = false;
+				iTween.MoveTo(tiles[4], new Vector3( 2.0f,0.0f, 2.0f), 2.00f);	//tile5
+				tiles[4].GetComponent<Tile>().fade = true;
+				iTween.MoveTo(tiles[0], new Vector3( 1.8f,0.0f, 4.0f), 2.00f);	//tile1
+				tiles[0].GetComponent<Tile>().fade = true;
+				iTween.MoveTo(tiles[1], new Vector3(-1.8f,0.0f, 4.0f), 2.00f);	//tile2
+				tiles[1].GetComponent<Tile>().fade = true;
+				iTween.MoveTo(tiles[2], new Vector3(-2.0f,0.0f, 2.0f), 2.00f);	//tile3
+				tiles[2].GetComponent<Tile>().fade = true;
+        		break;
+			case 5:
+        		Debug.Log("Case 5");
+				iTween.MoveTo(tiles[4], new Vector3( 0.0f,0.0f, 0.0f), 2.00f);	//tile5
+				tiles[4].GetComponent<Tile>().fade = false;
+				iTween.MoveTo(tiles[0], new Vector3( 2.0f,0.0f, 2.0f), 2.00f);	//tile1
+				tiles[0].GetComponent<Tile>().fade = true;
+				iTween.MoveTo(tiles[1], new Vector3( 1.8f,0.0f, 4.0f), 2.00f);	//tile2
+				tiles[1].GetComponent<Tile>().fade = true;
+				iTween.MoveTo(tiles[2], new Vector3(-1.8f,0.0f, 4.0f), 2.00f);	//tile3
+				tiles[2].GetComponent<Tile>().fade = true;
+				iTween.MoveTo(tiles[3], new Vector3(-2.0f,0.0f, 2.0f), 2.00f);	//tile4
+				tiles[3].GetComponent<Tile>().fade = true;
+        		break;
 		}
 	}
 }
