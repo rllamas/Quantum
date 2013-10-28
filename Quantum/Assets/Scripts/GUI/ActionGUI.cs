@@ -53,8 +53,12 @@ public class ActionGUI : MonoBehaviour {
 				break;
 			
 			case (Player.ActionButtonStates.CAN_ACTIVATE_VORTEX):
-			
-				actionText.text = "Activate Time Vortex";
+				if (LevelManager.IsPast()) {
+					actionText.text = "Warp To The Future!";
+				}
+				else {
+					actionText.text = "Warp To The Past!";
+				}
 				actionText.color = actionTextFadeInColor;
 				actionButtonSprite.SetSprite("gui_key_x_fade_in");
 				break;

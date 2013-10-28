@@ -97,9 +97,13 @@ public class Player : MonoBehaviour {
 	
 	
 	
+	void Awake() {
+		gameObject.tag = "Player";	
+	}
+	
+	
 	
 	void Start () {
-		gameObject.tag = "Player";
 		
 		previousDirection = currentDirection;
 		
@@ -305,7 +309,7 @@ public class Player : MonoBehaviour {
 	
 	
 	
-	/* Return true if obj is a Vortex. */
+	/* Return true if the player can currently warp. */
 	public bool CanWarp() {
 		return nearVortex && vortexCooldownTimeRemaining == 0;
 	}
@@ -320,6 +324,15 @@ public class Player : MonoBehaviour {
 		
 		vortexCooldownTimeRemaining = vortexCooldown;
 	}
+	
+	
+	
+	
+	/* Return true if the player can currently win. */
+	public bool CanWin() {
+		return currentActionButtonState == ActionButtonStates.CAN_WIN;
+	}
+	
 	
 	
 	
