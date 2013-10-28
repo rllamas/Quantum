@@ -8,9 +8,15 @@ using FarseerPhysics.Collision;
 public class Goal : MonoBehaviour {
 	
 	Player player;
-
+	
+	void Awake() {
+		gameObject.tag = "Goal";	
+	}
+	
+	
+	
 	void Start() {
-		gameObject.tag = "Goal";
+		
 		player = GameObject.FindWithTag("Player").GetComponent<Player>();
 
 		/* 

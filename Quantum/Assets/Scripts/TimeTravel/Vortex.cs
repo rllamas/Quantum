@@ -29,11 +29,15 @@ public class Vortex : MonoBehaviour {
 	public MeshFilter animationCurtain;
 	private tk2dCamera mainCamera;
 	
+	private static bool currentlyWarping;
+	
+	void Awake() {
+		gameObject.tag = "Vortex";	
+	}
 	
 	
 	// Use this for initialization
 	void Start () {
-		gameObject.tag = "Vortex";
 		
 		/* Since these are class variables, only do if not initialized yet. */
 		if (!pastMap) {
@@ -91,6 +95,8 @@ public class Vortex : MonoBehaviour {
 				pickups.Add( pickupGameObjects[i].GetComponent<Pickup>() );
 			}
 		}
+		
+		currentlyWarping = false;
 	}
 	
 	
@@ -171,6 +177,8 @@ public class Vortex : MonoBehaviour {
 	
 	IEnumerator PlayWarpAnimation() {
 		
+		currentlyWarping = true;
+		
 		/* Lock player movement. */
 		player.canMove = false;
 		player.GetComponent<FSWorldComponent>().enabled = false; // Pause Farseer Physics simulation.
@@ -184,6 +192,8 @@ public class Vortex : MonoBehaviour {
 		yield return new WaitForSeconds(2.0f);
 		
 		TimeTravel();
+		
+		currentlyWarping = false;
 		
 		/* Unlock player movement. */
 		player.canMove = true;
@@ -204,6 +214,11 @@ public class Vortex : MonoBehaviour {
 
 	void OnDestroy() {
 		pickups = null;
+	}
+	
+	
+	public static bool CurrentlyWarping() {
+		return currentlyWarping;	
 	}
 	
 }

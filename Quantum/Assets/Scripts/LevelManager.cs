@@ -22,9 +22,6 @@ public class LevelManager : MonoBehaviour {
 
 	public MeshFilter animationCurtain;
 
-	/* The animation manager to display the current era on level transitions. */
-	public tk2dSpriteAnimator eraAnimator;
-
 	
 	public static LevelManager Instance {
 		get {
@@ -71,7 +68,6 @@ public class LevelManager : MonoBehaviour {
 		animationCurtain.gameObject.SetActive(true);
 		//animationCurtain.renderer.material.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
 
-		eraAnimator =  this.transform.FindChild("Current Era Animation").GetComponent<tk2dSpriteAnimator>();
 		StartCoroutine("StartLevelAnimation");
 	}
 	
@@ -93,19 +89,19 @@ public class LevelManager : MonoBehaviour {
  
 
 	IEnumerator StartLevelAnimation() {
-		eraAnimator.gameObject.SetActive(true);
-		if (IsPast()) {
-			eraAnimator.Play("clockBCE");
-		}
-		else {
-			eraAnimator.Play("clockCE");
-		}
+		//eraAnimator.gameObject.SetActive(true);
+		//if (IsPast()) {
+		//	eraAnimator.Play("clockBCE");
+		//}
+		//else {
+		//	eraAnimator.Play("clockCE");
+		//}
 		yield return new WaitForSeconds(1.0f);
 
 		FadeBlackToLevel(1.0f);
 		yield return new WaitForSeconds(2.5f);
 
-		eraAnimator.gameObject.SetActive(false);
+		//eraAnimator.gameObject.SetActive(false);
 	}
 
 
