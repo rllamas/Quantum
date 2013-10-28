@@ -19,7 +19,7 @@ public class CompassGUI : MonoBehaviour {
 		goal = GameObject.FindWithTag("Goal").GetComponent<Goal>();
 		
 		arrowSprite = this.transform.FindChild("Arrow Sprite").GetComponent<tk2dSprite>();
-
+		
 	}
 	
 	

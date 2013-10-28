@@ -3,6 +3,8 @@ using System.Collections;
 
 public class ActionGUI : MonoBehaviour {
 	
+	public bool useExclamationPoint = false;
+	
 	private Player player;
 	
 	
@@ -27,6 +29,17 @@ public class ActionGUI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		
+		if (useExclamationPoint) {
+			if (player.currentActionButtonState != Player.ActionButtonStates.NONE) {
+				actionText.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+				actionText.transform.localPosition = new Vector3(actionText.transform.localPosition.x, 23.0f, actionText.transform.localPosition.z);
+				actionText.text = "!";
+				iTween.ShakeRotation(actionText.gameObject, new Vector3(0f, 0f, Random.Range(-5f, 5f)), Time.deltaTime);
+				iTween.ShakePosition(actionText.gameObject, new Vector3(Random.Range(-.1f, .1f), Random.Range(-.1f, .1f), 0f), Time.deltaTime);
+				return;
+			}
+		}
 		
 		/* Update content and look of action gui based on if player can action or not. */
 		switch (player.currentActionButtonState) {
@@ -65,7 +78,7 @@ public class ActionGUI : MonoBehaviour {
 			
 			case (Player.ActionButtonStates.NONE):
 			
-				actionText.text = "---";
+				actionText.text = "";
 				actionText.color = actionTextFadeOutColor;
 				actionButtonSprite.SetSprite("gui_key_x_fade_out");
 				break;
