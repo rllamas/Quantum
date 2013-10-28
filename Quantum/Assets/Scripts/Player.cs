@@ -177,6 +177,7 @@ public class Player : MonoBehaviour {
 		if (IsVortex(other.gameObject)) {
 			nearVortex = true;	
 		}
+
 	}
 	
 	
@@ -216,9 +217,17 @@ public class Player : MonoBehaviour {
 		}
 		
 		else if (other.tag.CompareTo("Finish") == 0) {
-			Debug.Log ("Winner!");
+			//Debug.Log ("Winner!");
 			Application.LoadLevel("scene_prototype_win");
 		}
+		
+		/*else if (CanGrab(other.gameObject)) {
+			Debug.Log("Can Grab Vine!");
+			if (Input.GetKeyDown(KeyCode.L)) {
+				this.transform.parent = other.transform.GetChild(3).transform;
+			}
+		}*/
+		
     }
 	
 	
@@ -238,7 +247,7 @@ public class Player : MonoBehaviour {
 	
 	void HandleAnimationCompleted(tk2dSpriteAnimator spriteAnimator, tk2dSpriteAnimationClip clip) {
 		
-		Debug.Log (clip.name + " completed!!");	
+		//Debug.Log (clip.name + " completed!!");	
 	}
 	
 	
@@ -356,6 +365,18 @@ public class Player : MonoBehaviour {
 	
 	
 	
+	
+	
+	private bool CanGrab(GameObject obj) {
+		//Debug.Log(obj.gameObject.tag);
+		//Debug.Log("CANGRAB TRUE?: " + obj.gameObject.CompareTag("Vine"));
+		return obj.gameObject.CompareTag("Vine") && 
+			!CarryingPickup();
+	}
+	
+	
+	
+	
 
 	/* Can the player drop the currently held pickup? */
 	private bool CanDropCarriedPickup() {
@@ -372,7 +393,7 @@ public class Player : MonoBehaviour {
 	/* Pick up pickup.*/
 	private void GetPickup(Pickup pickup) {
 		
-		Debug.Log(this.name + ": Picking " + pickup.gameObject.name + " up.");
+		//Debug.Log(this.name + ": Picking " + pickup.gameObject.name + " up.");
 		animator.Play("Plant");
 		carriedPickup = pickup;
 		pickup.OnPickup(this);	
@@ -387,7 +408,7 @@ public class Player : MonoBehaviour {
 	/* Drop held pickup. */
 	private void DropPickup() {
 		
-		Debug.Log(this.name + ": Setting " + carriedPickup.gameObject.name + " down.");
+		//Debug.Log(this.name + ": Setting " + carriedPickup.gameObject.name + " down.");
 		animator.Play("Plant");
 		carriedPickup.OnDrop();	
 		carriedPickup = null;

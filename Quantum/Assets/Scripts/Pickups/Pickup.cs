@@ -50,6 +50,9 @@ public class Pickup : MonoBehaviour {
 		if ((string) fixtureB.UserTag == "Player") {
 			return false;
 		}
+		else if ((string) fixtureB.UserTag == "Pickup") {
+			return false;
+		}
 		return true;
 	}
 	
