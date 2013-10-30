@@ -12,7 +12,7 @@ public class LevelManager : MonoBehaviour {
 
 	public TimePeriod CurrentEra;
 	private static LevelManager singletonInstance = null;
-	private int CurrentLevel = 0;
+	private int CurrentLevel = 0; // -1 is used for controls scene
 	private string[] Levels = {
 		"scene_level_00",
 		"scene_level_01",
@@ -63,14 +63,17 @@ public class LevelManager : MonoBehaviour {
 
 	void Start() {
 		CurrentLevel = GetCurrentLevelNumber();
-
-		animationCurtain =  this.transform.FindChild("Curtain").GetComponent<MeshFilter>();
-		animationCurtain.gameObject.SetActive(true);
 		
-		levelNameText = this.transform.FindChild("Level Name").GetComponent<tk2dTextMesh>();
-		levelNameText.gameObject.SetActive(true);
-
-		StartCoroutine("StartLevelAnimation");
+		Transform curtain = this.transform.FindChild("Curtain");
+		if (curtain != null) {
+			animationCurtain =  curtain.GetComponent<MeshFilter>();
+			animationCurtain.gameObject.SetActive(true);
+			
+			levelNameText = this.transform.FindChild("Level Name").GetComponent<tk2dTextMesh>();
+			levelNameText.gameObject.SetActive(true);
+	
+			StartCoroutine("StartLevelAnimation");
+		}
 	}
 	
 	
@@ -108,7 +111,10 @@ public class LevelManager : MonoBehaviour {
  
 
 	IEnumerator StartLevelAnimation() {
-		if (CurrentLevel == 0) {
+		if (CurrentLevel == -1) { // Controls scene
+			levelNameText.text = "";
+		}
+		else if (CurrentLevel == 0) {
 			levelNameText.text = "Tutorial";
 		}
 		else if (CurrentLevel < 10) {
@@ -163,6 +169,13 @@ public class LevelManager : MonoBehaviour {
 		}
 		Instance.CurrentLevel = levelNumber;
 		Application.LoadLevel(Instance.Levels[levelNumber]);
+	}
+	
+	
+	public static void LoadTutorial() {
+
+		Instance.CurrentLevel = -1;
+		Application.LoadLevel("scene_instructions");
 	}
  
 }
