@@ -21,7 +21,7 @@ public class LevelManager : MonoBehaviour {
 	};
 
 	public MeshFilter animationCurtain;
-
+	private tk2dTextMesh levelNameText;
 	
 	public static LevelManager Instance {
 		get {
@@ -66,7 +66,9 @@ public class LevelManager : MonoBehaviour {
 
 		animationCurtain =  this.transform.FindChild("Curtain").GetComponent<MeshFilter>();
 		animationCurtain.gameObject.SetActive(true);
-		//animationCurtain.renderer.material.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+		
+		levelNameText = this.transform.FindChild("Level Name").GetComponent<tk2dTextMesh>();
+		levelNameText.gameObject.SetActive(true);
 
 		StartCoroutine("StartLevelAnimation");
 	}
@@ -83,25 +85,45 @@ public class LevelManager : MonoBehaviour {
     }
 
 
-    public void FadeBlackToLevel(float time) {
+    private void FadeBlackToLevel(float time) {
     	iTween.FadeTo(animationCurtain.gameObject, 0.0f, time);
+    }
+	
+	
+	private IEnumerator FadeLevelName(float time, float rate) {
+    	while (true) {
+			time = Mathf.Max(0.0f, time-rate*Time.deltaTime);
+			
+			Color oldColor = levelNameText.color;
+			levelNameText.color = new Color(oldColor.r, oldColor.g, oldColor.b, 1.0f*time);
+			
+			if (time == 0.0f) {
+				yield break;
+			}
+			
+			yield return null;
+
+		}
     }
  
 
 	IEnumerator StartLevelAnimation() {
-		//eraAnimator.gameObject.SetActive(true);
-		//if (IsPast()) {
-		//	eraAnimator.Play("clockBCE");
-		//}
-		//else {
-		//	eraAnimator.Play("clockCE");
-		//}
+		if (CurrentLevel == 0) {
+			levelNameText.text = "Tutorial";
+		}
+		else if (CurrentLevel < 10) {
+			levelNameText.text = "Level 0" + CurrentLevel;
+		}
+		else {
+			levelNameText.text = "Level " + CurrentLevel;	
+		}
+			
 		yield return new WaitForSeconds(1.0f);
-
+		
+		StartCoroutine( FadeLevelName(1.0f, 2.0f) );
 		FadeBlackToLevel(1.0f);
 		yield return new WaitForSeconds(2.5f);
 
-		//eraAnimator.gameObject.SetActive(false);
 	}
 
 
