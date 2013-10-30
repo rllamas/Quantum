@@ -3,39 +3,43 @@ using System.Collections;
 
 public class TimePeriodGUI : MonoBehaviour {
 	
-	private Player player;
 	
 	/* The animation manager to display the current era on level transitions. */
-	private tk2dSpriteAnimator currentEraAnimator;
+	private tk2dSpriteAnimator timeTravelAnimator;
+	
+	/* Text manager displaying the current era. */
+	private tk2dTextMesh timePeriodText;
 	
 	/* These keep track of state for the frame. */
 	private TimePeriod eraPreviousFrame;
 	private TimePeriod eraCurrentFrame;
 	
-	private tk2dCamera mainCamera;
+	private Vector3 animationMovementOffset = new Vector3(0.0f, -20.0f, 0.0f);
+	
 	
 	private bool playingAnimation;
 
 	// Use this for initialization
 	void Start () {
 		
-		mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<tk2dCamera>();
-		player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+		timeTravelAnimator =  this.transform.FindChild("Time Travel Animation").GetComponent<tk2dSpriteAnimator>();
+		timePeriodText =  this.transform.FindChild("Time Period Text").GetComponent<tk2dTextMesh>();
 		
-		currentEraAnimator =  this.transform.FindChild("Current Era Animation").GetComponent<tk2dSpriteAnimator>();
-	
-		eraPreviousFrame = LevelManager.Instance.CurrentEra;
 		eraCurrentFrame = LevelManager.Instance.CurrentEra;
 		
-		if (eraCurrentFrame == TimePeriod.FUTURE) {
-			currentEraAnimator.Play("clockCE");
-		}
-		else {
-			currentEraAnimator.Play("clockBCE");	
-		}
+		timeTravelAnimator.gameObject.SetActive(true);
+		timeTravelAnimator.gameObject.SetActive(false);
 		
 		playingAnimation = false;
-		StartCoroutine("DelayedPauseAnimation");	
+		
+		if (LevelManager.IsFuture()) {
+			timePeriodText.text = "future";
+		}
+		else {	
+			timePeriodText.text = "past";
+		}	
+		
+		StartCoroutine("PlayTransitionAnimation");
 	}
 	
 	
@@ -43,12 +47,9 @@ public class TimePeriodGUI : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		eraPreviousFrame = eraCurrentFrame;
 		eraCurrentFrame = LevelManager.Instance.CurrentEra;
-
 		
 		if (Vortex.CurrentlyWarping() && !playingAnimation) {
-			Debug.Log("Couroutine.");
 			playingAnimation = true;
 			StopCoroutine("PlayTransitionAnimation");
 			StartCoroutine("PlayTransitionAnimation");	
@@ -66,30 +67,37 @@ public class TimePeriodGUI : MonoBehaviour {
 	
 	IEnumerator DelayedPauseAnimation() {
 		yield return new WaitForSeconds(2.0f);
-		currentEraAnimator.Pause();	
+		timeTravelAnimator.Pause();	
 	}
 	
 	
 	
 	
 	IEnumerator PlayTransitionAnimation() {
-
-		if (eraCurrentFrame == TimePeriod.FUTURE) {
-			currentEraAnimator.Paused = false;
-			currentEraAnimator.Play("clockCEToBCE");
-			yield return new WaitForSeconds(1.5f);
-			currentEraAnimator.Play("clockBCE");
-			yield return new WaitForSeconds(2.0f);
-			currentEraAnimator.Pause();
+		
+		timeTravelAnimator.gameObject.SetActive(true);
+		
+		if (LevelManager.IsPast()) {
+			timeTravelAnimator.Play("clockCEToBCE");
 		}
 		else {
-			currentEraAnimator.Paused = false;
-			currentEraAnimator.Play("clockBCEToCE");	
-			yield return new WaitForSeconds(1.5f);
-			currentEraAnimator.Play("clockCE");
-			yield return new WaitForSeconds(2.0f);
-			currentEraAnimator.Pause();
+			timeTravelAnimator.Play("clockBCEToCE");	
 		}	
+		
+		yield return new WaitForSeconds(2.0f);
+		
+		if (LevelManager.IsFuture()) {
+			timeTravelAnimator.Play("clockCE");
+			timePeriodText.text = "future";
+		}
+		else {
+			timeTravelAnimator.Play("clockBCE");	
+			timePeriodText.text = "past";
+		}	
+		
+		yield return new WaitForSeconds(3.0f);
+		
+		timeTravelAnimator.gameObject.SetActive(false);	
 		
 	}
 }
