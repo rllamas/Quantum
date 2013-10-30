@@ -62,7 +62,7 @@ public class Wheel5 : MonoBehaviour {
 			 * */
 			if (selectedLevel == 0) {
 				//iTween.ShakePosition(tiles[selectedLevel], new Vector3(Random.Range(-0.9f, 0.9f), Random.Range(-0.9f, 0.9f), Random.Range(-0.9f, 0.9f)), 2.0f);
-				LevelManager.LoadLevel(selectedLevel);
+				LevelManager.LoadTutorial();
 				
 			}
 		
