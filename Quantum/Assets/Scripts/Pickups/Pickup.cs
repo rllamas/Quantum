@@ -114,14 +114,14 @@ public class Pickup : MonoBehaviour {
 			if (player.currentDirection == Player.Direction.LEFT) {
 				this.body.Position = new FVector2(this.transform.parent.position.x + offsetFromPlayer.x,
 													this.transform.parent.position.y + offsetFromPlayer.y);
-				if (Input.GetKeyDown(KeyCode.A)) {
+				if (Input.GetKeyDown(KeyCode.LeftArrow)) {
 					this.body.ApplyLinearImpulse(new FVector2(this.transform.parent.position.x + offsetFromPlayer.x, 0));
 				}
 			}
 			else if (player.currentDirection == Player.Direction.RIGHT) {
 				this.body.Position = new FVector2(this.transform.parent.position.x - offsetFromPlayer.x -0.15f,
 													this.transform.parent.position.y + offsetFromPlayer.y);
-				if (Input.GetKeyDown(KeyCode.S)) {
+				if (Input.GetKeyDown(KeyCode.RightArrow)) {
 					this.body.ApplyLinearImpulse(new FVector2(this.transform.parent.position.x - offsetFromPlayer.x -0.15f, 0));
 				}
 			}

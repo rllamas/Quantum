@@ -3,16 +3,19 @@ using System.Collections;
 
 public class HyperJump : Pickup {
 	
-	public GameObject pastPlatform;
-	public GameObject futurePlatform;
+	public GameObject activePlatform;
+	public GameObject inactivePlatform;
 
 	public override void Start() {
 		base.Start();
 		if (LevelManager.IsPast()) {
-			HandleChangeEra(TimePeriod.FUTURE);
+			HandleChangeEra(TimePeriod.PAST);
+			//currentEraExistingIn = TimePeriod.PAST;
+			//activePlatform.SetActive(false);
+			//inactivePlatform.SetActive(false);
 		}
 		else {
-			HandleChangeEra(TimePeriod.PAST);
+			HandleChangeEra(TimePeriod.FUTURE);
 		}
 	}
 	
@@ -22,7 +25,7 @@ public class HyperJump : Pickup {
 	
 	/* Are you allowed to pick up the pickup right now? */
 	public override bool CanPickup() {
-		return pastPlatform.activeInHierarchy;
+		return true;
 	}
 	
 	
@@ -43,16 +46,16 @@ public class HyperJump : Pickup {
 			if (currentEraExistingIn == TimePeriod.PAST) {
 				Debug.Log("1");
 				/* Deactivate Power. */
-				pastPlatform.SetActive(false);
-				futurePlatform.SetActive(true);
+				activePlatform.SetActive(false);
+				inactivePlatform.SetActive(true);
 			}
 			
 			/* And I'm in the future... */
 			else {
 				Debug.Log("2");
 				/* Currently Deactivated */
-				pastPlatform.SetActive(false);
-				futurePlatform.SetActive(false);
+				activePlatform.SetActive(false);
+				inactivePlatform.SetActive(true);
 			}
 			
 		}
@@ -63,15 +66,15 @@ public class HyperJump : Pickup {
 			if (currentEraExistingIn == TimePeriod.PAST) {
 				Debug.Log("3");
 				/* Activate Power */
-				pastPlatform.SetActive(true);
-				futurePlatform.SetActive(false);
+				activePlatform.SetActive(true);
+				inactivePlatform.SetActive(false);
 			}
 			/* And I'm in the future... */
 			else {
 				Debug.Log("4");
 				/* Currently Deactivated */
-				pastPlatform.SetActive(false);
-				futurePlatform.SetActive(false);
+				activePlatform.SetActive(false);
+				inactivePlatform.SetActive(false);
 			}
 			
 			
