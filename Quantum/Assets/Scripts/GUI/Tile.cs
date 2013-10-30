@@ -22,10 +22,10 @@ public class Tile : MonoBehaviour {
 	}
 
 	void Clicked(tk2dUIItem clickedUIItem) {
-		if(!fade){
-    		Debug.Log("Clicked:" + clickedUIItem);
-			iTween.MoveTo(this.gameObject, new Vector3( 0.0f,0.0f,-1.3f), 1.5f);
-		}
+		//if(!fade){
+    		//Debug.Log("Clicked:" + clickedUIItem);
+			//iTween.MoveTo(this.gameObject, new Vector3( 0.0f,0.0f,-1.3f), 1.5f);
+		//}
 	}
 	
 

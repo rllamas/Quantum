@@ -8,6 +8,8 @@ public class Wheel5 : MonoBehaviour {
 	int selectedLevel = 0;
 	GameObject[] tiles;
 	
+	
+	
 	/* Used to control rotation speed when user holds down left/right/analog tilt. */
 	float maxScrollTimeout = 0.2f;
 	float currentScrollTimeout = 0.0f;
@@ -20,6 +22,7 @@ public class Wheel5 : MonoBehaviour {
 			
 			/* Disable button click tweens. */
 			currentTile.transform.FindChild("ButtonGraphic").GetComponent<tk2dUITweenItem>().enabled = false;
+			currentTile.GetComponent<tk2dUIItem>().OnClickUIItem += OnClick;
 			
 			tiles[i] = currentTile;
 		}
@@ -46,6 +49,24 @@ public class Wheel5 : MonoBehaviour {
 			
 			currentScrollTimeout = maxScrollTimeout;
 		}		
+		
+	}
+	
+	
+	
+	void OnClick(tk2dUIItem clickedUIItem) {
+		/* If clicked center button. */
+		if (tiles[selectedLevel] == clickedUIItem.gameObject) {
+			/* 
+			 * TODO: Do checking for if the level is available.
+			 * */
+			if (selectedLevel == 0) {
+				//iTween.ShakePosition(tiles[selectedLevel], new Vector3(Random.Range(-0.9f, 0.9f), Random.Range(-0.9f, 0.9f), Random.Range(-0.9f, 0.9f)), 2.0f);
+				LevelManager.LoadLevel(selectedLevel);
+				
+			}
+		
+		}
 		
 	}
 	

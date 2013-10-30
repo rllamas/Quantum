@@ -14,10 +14,10 @@ public class LevelManager : MonoBehaviour {
 	private static LevelManager singletonInstance = null;
 	private int CurrentLevel = 0;
 	private string[] Levels = {
-		"scene_level_tutorial",
-		"scene_level_001",
-		"scene_level_easy_01",
-		"scene_level_medium_01"
+		"scene_level_00",
+		"scene_level_01",
+		"scene_level_02",
+		"scene_level_03",
 	};
 
 	public MeshFilter animationCurtain;
@@ -155,7 +155,15 @@ public class LevelManager : MonoBehaviour {
 		}
 		return -1;
 	}
-
+	
+	
+	public static void LoadLevel(int levelNumber) {
+		if (levelNumber < 0 || levelNumber >= Instance.Levels.Length) {
+			throw new Exception("Bad value for level number!");	
+		}
+		Instance.CurrentLevel = levelNumber;
+		Application.LoadLevel(Instance.Levels[levelNumber]);
+	}
  
 }
 
