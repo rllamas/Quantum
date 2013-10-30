@@ -2,50 +2,58 @@
 using System.Collections;
 
 public class Wheel3 : MonoBehaviour {
-	public int totalLevels = 3;
+	public int totalGroups = 3;
 	
-	int level = 1;
+	int selectedGroup = 1;
 	GameObject[] tiles;
 	
 	// Use this for initialization
 	void Start () {
-		tiles = new GameObject[totalLevels];
-		for(int i = 1; i <= totalLevels; i++){
+		tiles = new GameObject[totalGroups];
+		for (int i = 1; i <= totalGroups; ++i) {
 			tiles[i - 1] = transform.FindChild("Tile" + i).gameObject;
 		}
 		
 		tiles[0].GetComponent<Tile>().fade = false;
 	}
 	
+	
+	
 	// Update is called once per frame
 	void Update () {
 	
 	}
 	
-	public void ScrollLeft(){
-		if(level < totalLevels){
-			level++;
-		}else{
-			level = 1;
+	
+	
+	public void ScrollLeft() {
+		if (selectedGroup < totalGroups) {
+			selectedGroup++;
+		} else {
+			selectedGroup = 1;
 		}
 		
 		Scroll();
 		
 	}
 	
-	public void ScrollRight(){
-		if(level > 1){
-			level--;
-		}else{
-			level = totalLevels;
+	
+	
+	public void ScrollRight() {
+		if (selectedGroup > 1) {
+			selectedGroup--;
+		} else {
+			selectedGroup = totalGroups;
 		}
 		
 		Scroll();
 		
 	}
 	
-	void Scroll(){
-		switch (level){
+	
+	
+	void Scroll() {
+		switch (selectedGroup) {
 			case 1:
         		Debug.Log("Case 1");
 				iTween.MoveTo(tiles[0], new Vector3( 0.0f,0.0f, 0.0f), 2.00f);	//tile1
