@@ -4,6 +4,7 @@ using System.Collections;
 public class Wheel5 : MonoBehaviour {
 
 	public int totalLevels = 5;
+	bool levelPicked = false;
 	
 	int selectedLevel = 0;
 	GameObject[] tiles;
@@ -42,6 +43,11 @@ public class Wheel5 : MonoBehaviour {
 
 		if(Input.GetKeyDown(KeyCode.RightArrow)){
 			ScrollRight();	
+		}
+		
+		if(!levelPicked && Input.GetKeyDown(KeyCode.Return)){
+			OnClick(tiles[selectedLevel].GetComponent<tk2dUIItem>());
+			levelPicked = true;
 		}
 		
 	}
