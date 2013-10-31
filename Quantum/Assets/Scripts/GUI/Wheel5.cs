@@ -35,24 +35,17 @@ public class Wheel5 : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		currentScrollTimeout = Mathf.Max(0.0f, currentScrollTimeout - Time.deltaTime);
-		
-		float xAxis = Input.GetAxis("Horizontal");
-		
-		if (currentScrollTimeout == 0.0f) {
-			if (xAxis < 0.0f) {
-				ScrollLeft();	
-			}
-			else if (xAxis > 0.0f) {
-				ScrollRight();	
-			}
-			
-			currentScrollTimeout = maxScrollTimeout;
-		}		
+
+		if(Input.GetKeyDown(KeyCode.LeftArrow)){
+			ScrollLeft();	
+		}
+
+		if(Input.GetKeyDown(KeyCode.RightArrow)){
+			ScrollRight();	
+		}
 		
 	}
-	
-	
+
 	
 	void OnClick(tk2dUIItem clickedUIItem) {
 		/* If clicked center button. */
