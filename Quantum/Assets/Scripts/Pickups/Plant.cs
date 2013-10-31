@@ -113,5 +113,20 @@ public class Plant : Pickup {
 	}
 	
 	
+	
+	public override void OnDrop () {
+		base.OnDrop();
+		
+		/* Play digging up sound. */
+		player.sfxPlayer.clip = player.dropPlantSound;
+		player.sfxPlayer.loop = false;
+		if (!player.NearVortex()) {
+			player.sfxPlayer.pitch = 0.5f;
+			player.sfxPlayer.volume = 0.4f;
+		}
+		player.sfxPlayer.Play();
+	}
+	
+	
 
 }

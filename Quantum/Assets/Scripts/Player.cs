@@ -74,7 +74,7 @@ public class Player : MonoBehaviour {
 	
 	public AudioClip jumpSound;
 	public AudioClip pickUpPlantSound;
-	
+	public AudioClip dropPlantSound;
 	
 	
 	
