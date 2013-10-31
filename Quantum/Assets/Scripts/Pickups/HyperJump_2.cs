@@ -25,7 +25,7 @@ public class HyperJump_2 : Pickup {
 		}
 		else {
 			currentJumpFactor = jumpFactor;
-			/sprite.SetSprite("animation_hyperjump_pad");
+			//sprite.SetSprite("animation_hyperjump_pad");
 		}
 	}
 	
@@ -63,12 +63,15 @@ public class HyperJump_2 : Pickup {
 				attachedPlayer.sfxPlayer.Play();
 			}
 		}
-		else if (B.Body.UserTag == "Pickup") {
+		
+		if (B.Body.UserTag == "Pickup") {
 			return false;
 		}
 		
 		return true;
 	}
 	
-	public override void
+	public override void HandleChangeEra(TimePeriod eraChangingTo) {
+		base.HandleChangeEra(eraChangingTo);
+	}
 }
