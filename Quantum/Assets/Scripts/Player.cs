@@ -407,7 +407,7 @@ public class Player : MonoBehaviour {
 	private void GetPickup(Pickup pickup) {
 		
 		//Debug.Log(this.name + ": Picking " + pickup.gameObject.name + " up.");
-		animator.Play("Plant");
+		
 		carriedPickup = pickup;
 		pickup.OnPickup(this);	
 		
@@ -422,7 +422,7 @@ public class Player : MonoBehaviour {
 	private void DropPickup() {
 		
 		//Debug.Log(this.name + ": Setting " + carriedPickup.gameObject.name + " down.");
-		animator.Play("Plant");
+
 		carriedPickup.OnDrop();	
 		carriedPickup = null;
 		
