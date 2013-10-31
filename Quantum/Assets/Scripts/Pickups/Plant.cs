@@ -109,6 +109,9 @@ public class Plant : Pickup {
 		if (!player.NearVortex()) {
 			player.sfxPlayer.pitch = 1.0f;
 		}
+		else {
+			player.sfxPlayer.pitch = 0.5f;
+		}
 		player.sfxPlayer.Play();
 	}
 	
@@ -122,6 +125,10 @@ public class Plant : Pickup {
 		player.sfxPlayer.loop = false;
 		if (!player.NearVortex()) {
 			player.sfxPlayer.pitch = 0.5f;
+			player.sfxPlayer.volume = 0.4f;
+		}
+		else {
+			player.sfxPlayer.pitch = 0.25f;
 			player.sfxPlayer.volume = 0.4f;
 		}
 		player.sfxPlayer.Play();
