@@ -1,21 +1,6 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GUI\Wheel5.cs">
-    <Files>
-<<<<<<< HEAD
-      <File FileName="Assets\Scripts\Pickups\HyperJump_2.cs" Line="75" Column="37" />
-      <File FileName="Assets\Scripts\Pickups\HyperJump.cs" Line="35" Column="39" />
-      <File FileName="Assets\Scripts\Pickups\Pickup.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\BouncyPlatform.cs" Line="24" Column="1" />
-=======
-      <File FileName="Assets\Scripts\GUI\Tile.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Levels\InstructionsScene.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GUI\Wheel5.cs" Line="30" Column="37" />
-      <File FileName="Assets\Scripts\GUI\Wheel3.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
->>>>>>> 9b66ceb4cbe92218d194327a8f5996543e925ce4
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

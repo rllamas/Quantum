@@ -17,6 +17,7 @@ namespace Quantum.States {
 	
 	public class ProfessorStandingState : PlayerState {
 		
+		private bool carryingLastFrame = false;
 		
 		/* Constructor. */
 		public ProfessorStandingState(Player player) : base(player) {
@@ -32,6 +33,15 @@ namespace Quantum.States {
 		
 		
 		public override void Logic() {
+			
+			/* Switch animations if picking something up. */
+			if (attachedPlayer.CarryingPickup() && !carryingLastFrame) {
+				attachedPlayer.animator.Play("Standing Carry");
+			}
+			else if (!attachedPlayer.CarryingPickup() && carryingLastFrame) {
+				attachedPlayer.animator.Play("Standing");		
+			}
+			
 			/* If player isn't allow to move, then just stay frozen until he can. */
 			if (!attachedPlayer.canMove) {
 				return;
@@ -43,6 +53,8 @@ namespace Quantum.States {
 			float currentVelocity = attachedPlayer.body.LinearVelocity.X;
 			currentVelocity -= Mathf.Min(Mathf.Abs(currentVelocity), attachedPlayer.body.Friction) * Mathf.Sign(currentVelocity);
 			attachedPlayer.body.LinearVelocity = new FVector2(currentVelocity, attachedPlayer.body.LinearVelocity.Y);
+			
+			carryingLastFrame = attachedPlayer.CarryingPickup();
 		}
 		
 		
@@ -79,6 +91,7 @@ namespace Quantum.States {
 	
 	public class ProfessorWalkingState : PlayerState {
 		
+		private bool carryingLastFrame = false;
 		
 		/* Constructor. */
 		public ProfessorWalkingState(Player player) : base(player) {
@@ -94,6 +107,15 @@ namespace Quantum.States {
 		
 		
 		public override void Logic() {	
+			
+			/* Switch animations if picking something up. */
+			if (attachedPlayer.CarryingPickup() && !carryingLastFrame) {
+				attachedPlayer.animator.Play("Walking Carry");
+			}
+			else if (!attachedPlayer.CarryingPickup() && carryingLastFrame) {
+				attachedPlayer.animator.Play("Walking");		
+			}
+			
 			/* If player isn't allow to move, then just stay frozen until he can. */
 			if (!attachedPlayer.canMove) {
 				return;
@@ -105,6 +127,8 @@ namespace Quantum.States {
 			float velChange = (xAxisTilt * attachedPlayer.walkingVelocity) - attachedPlayer.body.LinearVelocity.X;
 			FVector2 impulse = new FVector2(attachedPlayer.body.Mass * velChange, 0f);
 			attachedPlayer.body.ApplyLinearImpulse(impulse);
+			
+			carryingLastFrame = attachedPlayer.CarryingPickup();
 		}
 		
 		
@@ -143,6 +167,7 @@ namespace Quantum.States {
 		
 		private bool isGrounded = true;
 		private bool releasedJumpButton = false;
+		private bool carryingLastFrame = false;
 		
 		/* Constructor. */
 		public ProfessorJumpingState(Player player) : base(player) {
@@ -156,6 +181,15 @@ namespace Quantum.States {
 		
 		
 		public override void Logic() {	
+			
+			/* Switch animations if picking something up. */
+			if (attachedPlayer.CarryingPickup() && !carryingLastFrame) {
+				attachedPlayer.animator.Play("Jump Lift Carry");
+			}
+			else if (!attachedPlayer.CarryingPickup() && carryingLastFrame) {
+				attachedPlayer.animator.Play("Jump Lift");		
+			}
+			
 			/* If player isn't allow to move, then just stay frozen until he can. */
 			if (!attachedPlayer.canMove) {
 				return;
@@ -210,7 +244,7 @@ namespace Quantum.States {
 			FVector2 horizImpulse = new FVector2(attachedPlayer.body.Mass * velChange, 0f);
 			attachedPlayer.body.ApplyLinearImpulse(horizImpulse);
 			
-			
+			carryingLastFrame = attachedPlayer.CarryingPickup();
 		}
 		
 		
@@ -236,10 +270,11 @@ namespace Quantum.States {
 	
 	public class ProfessorFallingState : PlayerState {
 		
+		private bool carryingLastFrame = false;
 		
 		/* Constructor. */
 		public ProfessorFallingState(Player player) : base(player) {
-			if (player.CarryingPickup()) {
+			if (attachedPlayer.CarryingPickup()) {
 				attachedPlayer.animator.Play("Jump Midair Carry");
 			}
 			else {
@@ -249,6 +284,15 @@ namespace Quantum.States {
 		
 		
 		public override void Logic () {
+			
+			/* Switch animations if picking something up. */
+			if (attachedPlayer.CarryingPickup() && !carryingLastFrame) {
+				attachedPlayer.animator.Play("Jump Midair Carry");
+			}
+			else if (!attachedPlayer.CarryingPickup() && carryingLastFrame) {
+				attachedPlayer.animator.Play("Jump Midair");		
+			}
+			
 			/* If player isn't allow to move, then just stay frozen until he can. */
 			if (!attachedPlayer.canMove) {
 				return;
@@ -272,6 +316,8 @@ namespace Quantum.States {
 					attachedPlayer.animator.Play("Jump Landing");			
 				}
 			}
+			
+			carryingLastFrame = attachedPlayer.CarryingPickup();
 		}
 		
 		
