@@ -12,6 +12,8 @@ public class HyperJump : Pickup {
 			HandleChangeEra(TimePeriod.PAST);
 			//currentEraExistingIn = TimePeriod.PAST;
 			//activePlatform.SetActive(false);
+			//activePlatform.GetComponent<BouncyPlatform>().enabled = false;
+			//activePlatform.GetComponent<FSBodyComponent>().PhysicsBody.IsSensor = true;
 			//inactivePlatform.SetActive(false);
 		}
 		else {
@@ -25,7 +27,7 @@ public class HyperJump : Pickup {
 	
 	/* Are you allowed to pick up the pickup right now? */
 	public override bool CanPickup() {
-		return true;
+		return inactivePlatform.activeInHierarchy;
 	}
 	
 	
@@ -47,6 +49,7 @@ public class HyperJump : Pickup {
 				Debug.Log("1");
 				/* Deactivate Power. */
 				activePlatform.SetActive(false);
+				//activePlatform.GetComponent<BouncyPlatform>().enabled = false;
 				inactivePlatform.SetActive(true);
 			}
 			
@@ -54,8 +57,9 @@ public class HyperJump : Pickup {
 			else {
 				Debug.Log("2");
 				/* Currently Deactivated */
-				activePlatform.SetActive(false);
-				inactivePlatform.SetActive(true);
+				activePlatform.SetActive(true);
+				//activePlatform.GetComponent<BouncyPlatform>().enabled = false;
+				inactivePlatform.SetActive(false);
 			}
 			
 		}
@@ -67,6 +71,7 @@ public class HyperJump : Pickup {
 				Debug.Log("3");
 				/* Activate Power */
 				activePlatform.SetActive(true);
+				//activePlatform.GetComponent<BouncyPlatform>().enabled = true;
 				inactivePlatform.SetActive(false);
 			}
 			/* And I'm in the future... */
@@ -74,6 +79,7 @@ public class HyperJump : Pickup {
 				Debug.Log("4");
 				/* Currently Deactivated */
 				activePlatform.SetActive(false);
+				//activePlatform.GetComponent<BouncyPlatform>().enabled = false;
 				inactivePlatform.SetActive(false);
 			}
 			
