@@ -10,7 +10,6 @@ public class Wheel5 : MonoBehaviour {
 	GameObject[] tiles;
 	
 	
-	
 	/* Used to control rotation speed when user holds down left/right/analog tilt. */
 	float maxScrollTimeout = 0.2f;
 	float currentScrollTimeout = 0.0f;
@@ -48,6 +47,14 @@ public class Wheel5 : MonoBehaviour {
 		if(!levelPicked && Input.GetKeyDown(KeyCode.Return)){
 			OnClick(tiles[selectedLevel].GetComponent<tk2dUIItem>());
 			levelPicked = true;
+		}
+		
+		if(Input.GetKeyDown(KeyCode.Escape)){
+			Application.LoadLevel("level_select_main");	
+			foreach (GameObject tile in tiles)
+				tile.SetActive(false);
+			transform.FindChild("LeftButton").gameObject.SetActive(false);
+			transform.FindChild("RightButton").gameObject.SetActive(false);
 		}
 		
 	}
