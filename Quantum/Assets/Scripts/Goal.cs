@@ -26,7 +26,7 @@ public class Goal : MonoBehaviour {
 		BoxCollider colliderComponent = GetComponent<BoxCollider>();
 		colliderComponent.isTrigger = true;
 		colliderComponent.center = Vector3.zero;
-		colliderComponent.size = new Vector3(3f, 3f, 3f);
+		colliderComponent.size = new Vector3(3f, 3f, 30f);
 	}
 
 	
