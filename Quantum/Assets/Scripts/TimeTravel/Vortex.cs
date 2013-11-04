@@ -26,6 +26,8 @@ public class Vortex : MonoBehaviour {
 	private AudioSource sfxPlayer01;
 	private AudioSource sfxPlayer02;
 	
+	private Light glow;
+	
 	public MeshFilter animationCurtain;
 	private tk2dCamera mainCamera;
 	
@@ -70,6 +72,8 @@ public class Vortex : MonoBehaviour {
 		
 		sfxPlayer02.clip = warpSound;
 		sfxPlayer02.Pause();
+		
+		glow = this.transform.FindChild("Point light").GetComponent<Light>();
 		
 		pastMap.transform.position = Vector3.zero;
 		futureMap.transform.position = Vector3.zero;
@@ -162,6 +166,7 @@ public class Vortex : MonoBehaviour {
 		vortexInactiveParticles.startSize = 0.0f;	
 		vortexActiveParticles.startSize = particleStartSize;	
 		iTween.AudioTo(sfxPlayer01.gameObject, 1.0f, whenNearbySoundPitch, whenNearbySoundFadeTime);
+		iTween.ColorTo(glow.gameObject, Color.red, 2.0f*whenNearbySoundFadeTime);
 	}
 	
 	
@@ -171,6 +176,7 @@ public class Vortex : MonoBehaviour {
 		vortexInactiveParticles.startSize = particleStartSize;	
 		vortexActiveParticles.startSize = 0.0f;	
 		iTween.AudioTo(sfxPlayer01.gameObject, 0.0f, -whenNearbySoundPitch, whenNearbySoundFadeTime);
+		iTween.ColorTo(glow.gameObject, Color.blue, 2.0f*whenNearbySoundFadeTime);
 	}
 
 	
