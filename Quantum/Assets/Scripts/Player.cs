@@ -181,10 +181,15 @@ public class Player : MonoBehaviour {
 		if (IsVortex(other.gameObject)) {
 			nearVortex = true;	
 		}
-
+		else if (IsJump(other.gameObject)) {
+			maxVelocityY = 50.0f;
+		}
 	}
 	
-	
+	bool IsJump(GameObject obj) {
+		Body tempBody = obj.GetComponent<FSBodyComponent>().PhysicsBody;
+		return tempBody.FixtureList[0].UserData == "HyperJump";
+	}
 
 	void OnTriggerStay(Collider other) {
 		//Debug.Log("In OnTriggerStay");
@@ -237,6 +242,9 @@ public class Player : MonoBehaviour {
 		/* Am I leaving the range of a vortex? */
 		if (IsVortex(other.gameObject)) {
 			nearVortex = false;	
+		}
+		else if (IsJump(other.gameObject)) {
+			maxVelocityY = 19.0f;
 		}
 	}	
 	

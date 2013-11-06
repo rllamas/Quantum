@@ -18,6 +18,9 @@ public class HyperJump_2 : Pickup {
 		sprite = GetComponent<tk2dSprite>();
 		anim = GetComponent<tk2dSpriteAnimator>();
 		
+		body.FixtureList[0].UserData = "HyperJump";
+		body.FixtureList[0].UserTag = "HyperJump";
+		
 		if (LevelManager.IsPast()) {
 			currentJumpFactor = 0f;
 			GetComponent<MeshRenderer>().enabled = false;
@@ -34,11 +37,11 @@ public class HyperJump_2 : Pickup {
 	
 	/* Are you allowed to pick up the pickup right now? */
 	public override bool CanPickup() {
-		return GetComponent<MeshRenderer>().enabled && currentJumpFactor == 0;
+		return GetComponent<MeshRenderer>().enabled;// && currentJumpFactor == 0;
 	}
 	
 	protected override bool OnCollisionEvent(Fixture A, Fixture B, Contact contact) {
-		if (!GetComponent<MeshRenderer>().enabled && B.Body.UserTag == "Player") {
+		/*if (!GetComponent<MeshRenderer>().enabled && B.Body.UserTag == "Player") {
 			return false;
 		}
 		else if (CanPickup() && B.Body.UserTag == "Player") {
@@ -49,11 +52,11 @@ public class HyperJump_2 : Pickup {
 				B.Body.ApplyLinearImpulse(new FVector2(0, -B.Body.LinearVelocity.Y * currentJumpFactor));
 				
 				if (currentJumpFactor > 0 && B.Body.LinearVelocity.Y > 0) {
-					/* Play jumping sound. */
+					/* Play jumping sound. *
 					Player attachedPlayer = GameObject.FindWithTag("Player").GetComponent<Player>();
 					attachedPlayer.sfxPlayer.clip = attachedPlayer.jumpSound;
 					attachedPlayer.sfxPlayer.loop = false;
-					/* Give some variation to the jump pitch. */
+					/* Give some variation to the jump pitch. *
 					if (!attachedPlayer.NearVortex()) {
 						attachedPlayer.sfxPlayer.pitch = 1.0f + 0.02f*UnityEngine.Random.Range(-11, 6);
 					}
@@ -62,6 +65,45 @@ public class HyperJump_2 : Pickup {
 		}
 		else if (!CanPickup() && this.transform.parent == player.transform) {
 			return false;
+		}
+		else if (B.Body.UserTag == "Pickup") {
+			return false;
+		}*/
+		
+		if (B.Body.UserTag == "Player") {
+			if (!CanPickup()) {
+				return false;
+			}
+			else if (currentEraExistingIn == TimePeriod.FUTURE && LevelManager.IsFuture()) {
+				return false;
+			}
+			else if (currentEraExistingIn == TimePeriod.PAST && LevelManager.IsPast()) {
+				if (this.transform.parent == null) {
+					if (B.Body.LinearVelocity.Y < 0) {
+						B.Body.ApplyLinearImpulse(new FVector2(0, -B.Body.LinearVelocity.Y * currentJumpFactor));
+
+					}
+					else {
+						B.Body.ApplyLinearImpulse(new FVector2(0, B.Body.LinearVelocity.Y * currentJumpFactor));
+					}
+				
+					if (currentJumpFactor > 0 && B.Body.LinearVelocity.Y > 0) {
+						/* Play jumping sound. */
+						Player attachedPlayer = GameObject.FindWithTag("Player").GetComponent<Player>();
+						attachedPlayer.sfxPlayer.clip = attachedPlayer.jumpSound;
+						attachedPlayer.sfxPlayer.loop = false;
+						/* Give some variation to the jump pitch. */
+						if (!attachedPlayer.NearVortex()) {
+							attachedPlayer.sfxPlayer.pitch = 1.0f + 0.02f*UnityEngine.Random.Range(-11, 6);
+						}
+						attachedPlayer.sfxPlayer.Play();
+					}
+					return false;
+				}
+				else {
+					return false;
+				}
+			}
 		}
 		else if (B.Body.UserTag == "Pickup") {
 			return false;
@@ -87,6 +129,7 @@ public class HyperJump_2 : Pickup {
 				/* Deactivate Power. */
 				currentJumpFactor = 0f;
 				sprite.SetSprite("amimation_hyperjump_pad01");
+				GetComponent<MeshRenderer>().enabled = false;
 			}
 			
 			/* And I'm in the future... */
@@ -106,7 +149,7 @@ public class HyperJump_2 : Pickup {
 			if (currentEraExistingIn == TimePeriod.PAST) {
 				/* Activate Power */
 				currentJumpFactor = jumpFactor;
-				//Debug.Log(this.transform.parent);//sprite.GetSpriteIdByName("amimation_hyperjump_pad01"));
+				GetComponent<MeshRenderer>().enabled = true;
 				if (sprite.spriteId == sprite.GetSpriteIdByName("amimation_hyperjump_pad01")
 					&& this.transform.parent == null) {
 					sprite.SetSprite("amimation_hyperjump_pad12");
@@ -129,8 +172,8 @@ public class HyperJump_2 : Pickup {
 	public override void OnPickup (Player player) {
 		base.OnPickup(player);
 		
-		if (currentEraExistingIn == TimePeriod.PAST) {
-			
+		if (currentEraExistingIn == TimePeriod.PAST && LevelManager.IsPast()) {
+			anim.Play("deactivation");
 		}
 		
 		/* Play digging up sound. */
@@ -145,7 +188,7 @@ public class HyperJump_2 : Pickup {
 	public override void OnDrop () {
 		base.OnDrop();
 		
-		if (currentEraExistingIn == TimePeriod.PAST) {
+		if (currentEraExistingIn == TimePeriod.PAST && LevelManager.IsPast()) {
 			anim.Play("activation");
 		}
 		
