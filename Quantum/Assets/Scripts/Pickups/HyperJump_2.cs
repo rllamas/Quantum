@@ -9,6 +9,7 @@ public class HyperJump_2 : Pickup {
 	private float currentJumpFactor;
 		
 	private tk2dSprite sprite;
+	private tk2dSpriteAnimation anim;
 
 	/* Use this for initialization */
 	public override void Start () {
@@ -122,6 +123,10 @@ public class HyperJump_2 : Pickup {
 	
 	public override void OnPickup (Player player) {
 		base.OnPickup(player);
+		
+		if (currentEraExistingIn == TimePeriod.PAST) {
+			
+		}
 		
 		/* Play digging up sound. */
 		player.sfxPlayer.clip = player.pickUpPlantSound;
