@@ -9,12 +9,14 @@ public class HyperJump_2 : Pickup {
 	private float currentJumpFactor;
 		
 	private tk2dSprite sprite;
+	private tk2dSpriteAnimator anim;
 
 	/* Use this for initialization */
 	public override void Start () {
 		base.Start();
 		
 		sprite = GetComponent<tk2dSprite>();
+		anim = GetComponent<tk2dSpriteAnimator>();
 		
 		if (LevelManager.IsPast()) {
 			currentJumpFactor = 0f;
@@ -104,7 +106,11 @@ public class HyperJump_2 : Pickup {
 			if (currentEraExistingIn == TimePeriod.PAST) {
 				/* Activate Power */
 				currentJumpFactor = jumpFactor;
-				sprite.SetSprite("amimation_hyperjump_pad12");
+				//Debug.Log(this.transform.parent);//sprite.GetSpriteIdByName("amimation_hyperjump_pad01"));
+				if (sprite.spriteId == sprite.GetSpriteIdByName("amimation_hyperjump_pad01")
+					&& this.transform.parent == null) {
+					sprite.SetSprite("amimation_hyperjump_pad12");
+				}
 			}
 			/* And I'm in the future... */
 			else {
@@ -123,6 +129,10 @@ public class HyperJump_2 : Pickup {
 	public override void OnPickup (Player player) {
 		base.OnPickup(player);
 		
+		if (currentEraExistingIn == TimePeriod.PAST) {
+			
+		}
+		
 		/* Play digging up sound. */
 		player.sfxPlayer.clip = player.pickUpPlantSound;
 		player.sfxPlayer.loop = false;
@@ -134,6 +144,10 @@ public class HyperJump_2 : Pickup {
 	
 	public override void OnDrop () {
 		base.OnDrop();
+		
+		if (currentEraExistingIn == TimePeriod.PAST) {
+			anim.Play("activation");
+		}
 		
 		/* Play digging up sound. */
 		player.sfxPlayer.clip = player.dropPlantSound;
