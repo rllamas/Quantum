@@ -25,6 +25,7 @@ public class Back : MonoBehaviour {
 	void Clicked(tk2dUIItem clickedUIItem) {
 		
 		Application.LoadLevel("level_select_main");
+		wheel.SetActive(false);
 		
 	}
 
