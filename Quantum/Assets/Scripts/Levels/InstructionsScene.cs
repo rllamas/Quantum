@@ -6,6 +6,10 @@ public class InstructionsScene : MonoBehaviour {
 	private int currentPage = 0;
 	tk2dSprite currentPageSprite;
 	
+	public float clickCooldown = 0.25f;
+	private float clickCooldownTimeRemaining = 0.0f;
+	
+	
 	// Use this for initialization
 	void Start () {
 		currentPageSprite = GetComponent<tk2dSprite>();
@@ -16,7 +20,7 @@ public class InstructionsScene : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
-		if (Input.anyKeyDown) {
+		if (Input.anyKeyDown && clickCooldownTimeRemaining == 0.0f) {
 			switch (currentPage) {
 				case 0:
 					++currentPage;
@@ -27,6 +31,10 @@ public class InstructionsScene : MonoBehaviour {
 					LevelManager.LoadLevel(0);	
 					break;
 			}
+			clickCooldownTimeRemaining = clickCooldown;
+		}
+		else {
+			clickCooldownTimeRemaining = Mathf.Max(0.0f, clickCooldownTimeRemaining - Time.deltaTime);	
 		}
 	}
 	
