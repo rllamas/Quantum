@@ -225,13 +225,6 @@ public class Player : MonoBehaviour {
 			Application.LoadLevel("scene_prototype_win");
 		}
 		
-		/*else if (CanGrab(other.gameObject)) {
-			Debug.Log("Can Grab Vine!");
-			if (Input.GetKeyDown(KeyCode.L)) {
-				this.transform.parent = other.transform.GetChild(3).transform;
-			}
-		}*/
-		
     }
 	
 	
@@ -373,18 +366,6 @@ public class Player : MonoBehaviour {
 				!CarryingPickup() && 
 				obj.GetComponent<Pickup>().CanPickup() && 
 				pickupCooldownTimeRemaining == 0;
-	}
-	
-	
-	
-	
-	
-	
-	private bool CanGrab(GameObject obj) {
-		//Debug.Log(obj.gameObject.tag);
-		//Debug.Log("CANGRAB TRUE?: " + obj.gameObject.CompareTag("Vine"));
-		return obj.gameObject.CompareTag("Vine") && 
-			!CarryingPickup();
 	}
 	
 	
