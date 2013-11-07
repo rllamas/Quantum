@@ -19,6 +19,8 @@ public class LevelManager : MonoBehaviour {
 		"scene_level_02",
 		"scene_level_03",
 		"scene_level_04",
+		"scene_level_05",
+		"scene_level_06",
 	};
 
 	public MeshFilter animationCurtain;
