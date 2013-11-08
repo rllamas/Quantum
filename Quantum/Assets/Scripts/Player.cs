@@ -192,7 +192,16 @@ public class Player : MonoBehaviour {
 	}
 
 	void OnTriggerStay(Collider other) {
-		//Debug.Log("In OnTriggerStay");
+		
+		/* If other is the collider of a player event, then activate the event if possible. */
+		if (IsPlayerEvent(other.gameObject)) {
+			if (Input.GetButtonDown("Action1")) {
+				PlayerEvent playerEvent = other.gameObject.GetComponent<PlayerEvent>();	
+				playerEvent.OnActivate(this);
+	
+			}
+		}
+		
 		/* If other is the collider of an goal object, then win the level if possible. */
 		if (IsGoal(other.gameObject)) {
 			if (Input.GetButtonDown("Action1")) {
@@ -205,7 +214,7 @@ public class Player : MonoBehaviour {
 			}
 		}
 		/* If other is the collider of an object you can pick up, then pick it up if possible. */
-		if (CanPickup(other.gameObject)) {
+		else if (CanPickup(other.gameObject)) {
 			if (Input.GetButtonUp("Action1")) {
 				Pickup triggeredPickup = other.gameObject.GetComponent<Pickup>();	
 				GetPickup(triggeredPickup);	
@@ -319,6 +328,22 @@ public class Player : MonoBehaviour {
 	
 	
 	
+	/* Return true if obj is a Player Event. */
+	public bool IsPlayerEvent(GameObject obj) {
+		return obj.gameObject.CompareTag("Player Event");
+	}
+	
+	
+	
+	
+	/* Return true if obj is a Goal. */
+	public bool IsGoal(GameObject obj) {
+		return obj.gameObject.CompareTag("Goal");
+	}
+	
+	
+	
+	
 	/* Return true if the player can currently warp. */
 	public bool CanWarp() {
 		return nearVortex && vortexCooldownTimeRemaining == 0;
@@ -350,12 +375,7 @@ public class Player : MonoBehaviour {
 	public bool NearVortex() {
 		return nearVortex;	
 	}
-	
-	
 
-	public bool IsGoal(GameObject obj) {
-		return obj.gameObject.CompareTag("Goal");
-	}
 
 	
 	

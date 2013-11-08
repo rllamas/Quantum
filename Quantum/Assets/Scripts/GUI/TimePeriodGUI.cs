@@ -10,22 +10,16 @@ public class TimePeriodGUI : MonoBehaviour {
 	/* Text manager displaying the current era. */
 	private tk2dTextMesh timePeriodText;
 	
-	/* These keep track of state for the frame. */
-	private TimePeriod eraPreviousFrame;
-	private TimePeriod eraCurrentFrame;
-	
-	private Vector3 animationMovementOffset = new Vector3(0.0f, -20.0f, 0.0f);
-	
 	
 	private bool playingAnimation;
+	
 
 	// Use this for initialization
 	void Start () {
 		
 		timeTravelAnimator =  this.transform.FindChild("Time Travel Animation").GetComponent<tk2dSpriteAnimator>();
 		timePeriodText =  this.transform.FindChild("Time Period Text").GetComponent<tk2dTextMesh>();
-		
-		eraCurrentFrame = LevelManager.Instance.CurrentEra;
+	
 		
 		timeTravelAnimator.gameObject.SetActive(true);
 		timeTravelAnimator.gameObject.SetActive(false);
@@ -47,8 +41,7 @@ public class TimePeriodGUI : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		eraCurrentFrame = LevelManager.Instance.CurrentEra;
-		
+
 		if (Vortex.CurrentlyWarping() && !playingAnimation) {
 			playingAnimation = true;
 			StopCoroutine("PlayTransitionAnimation");
