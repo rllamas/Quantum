@@ -206,7 +206,7 @@ public class Player : MonoBehaviour {
 		}
 		/* If other is the collider of an object you can pick up, then pick it up if possible. */
 		if (CanPickup(other.gameObject)) {
-			if (Input.GetButtonDown("Action1")) {
+			if (Input.GetButtonUp("Action1")) {
 				Pickup triggeredPickup = other.gameObject.GetComponent<Pickup>();	
 				GetPickup(triggeredPickup);	
 				currentActionButtonState = ActionButtonStates.CAN_DROP;
