@@ -76,6 +76,8 @@ public class Player : MonoBehaviour {
 	public AudioClip pickUpPlantSound;
 	public AudioClip dropPlantSound;
 	
+	/* GUI used by player to say things. */
+	public GameObject dialogueGUI;
 	
 	
 	/* The state the action button is currently in. */
@@ -130,6 +132,9 @@ public class Player : MonoBehaviour {
 		canMove = true;
 		
 		sfxPlayer = GetComponent<AudioSource>();
+		
+		dialogueGUI = GameObject.Find("Dialogue GUI").gameObject;
+		dialogueGUI.transform.localScale = Vector3.zero;
 	}
 	
 	
@@ -186,20 +191,24 @@ public class Player : MonoBehaviour {
 		}
 	}
 	
+	
 	bool IsJump(GameObject obj) {
-		Body tempBody = obj.GetComponent<FSBodyComponent>().PhysicsBody;
-		return tempBody.FixtureList[0].UserData == "HyperJump";
+		FSBodyComponent tempBody = obj.GetComponent<FSBodyComponent>();
+		
+		if (tempBody != null) {
+			return (string)tempBody.PhysicsBody.FixtureList[0].UserData == "HyperJump";
+		}
+		
+		return false;
 	}
 
 	void OnTriggerStay(Collider other) {
 		
 		/* If other is the collider of a player event, then activate the event if possible. */
 		if (IsPlayerEvent(other.gameObject)) {
-			if (Input.GetButtonDown("Action1")) {
+			
 				PlayerEvent playerEvent = other.gameObject.GetComponent<PlayerEvent>();	
 				playerEvent.OnActivate(this);
-	
-			}
 		}
 		
 		/* If other is the collider of an goal object, then win the level if possible. */
@@ -317,6 +326,49 @@ public class Player : MonoBehaviour {
 		vortexCooldownTimeRemaining = Math.Max(0.0f, vortexCooldownTimeRemaining);
 	}
 	
+	
+	
+	public bool IsDialogBoxHidden() {
+		return dialogueGUI.transform.localScale == Vector3.zero;	
+	}
+	
+	
+	
+	public void ShowDialogueBox(float time = 1.0f) {
+		iTween.ScaleTo(dialogueGUI.gameObject, new Vector3(1.0f, 1.0f, 1.0f), time);
+	}
+	
+	
+	
+	public void HideDialogueBox(float time = 1.0f) {
+		iTween.ScaleTo(dialogueGUI.gameObject, new Vector3(1.0f, 0.0f, 1.0f), time);
+	}
+	
+	
+	
+	/* Player will set text in the dialogue box. */
+	public void SetDialogue(string text) {
+	
+		StartCoroutine( SetDialogueHelper(text) );
+		return;
+	}
+	
+	
+	
+	private IEnumerator SetDialogueHelper(string text) {
+		
+		tk2dTextMesh textManager = dialogueGUI.GetComponentInChildren<tk2dTextMesh>();
+		textManager.text = text;
+		
+		yield break;
+		
+		// Todo: Implement multi-line dialogue
+		while (!Input.GetButtonDown("Action1")) {
+			yield return null;	
+		}
+		
+		
+	}
 	
 	
 	

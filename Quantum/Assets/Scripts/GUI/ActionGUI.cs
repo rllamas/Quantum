@@ -25,23 +25,23 @@ public class ActionGUI : MonoBehaviour {
 		switch (player.currentActionButtonState) {
 
 			case (Player.ActionButtonStates.CAN_WIN):
-				actionText.text = "Obtain Machine Piece";
+				actionText.text = "[SHIFT] Obtain Machine Piece";
 				break;
 
 			case (Player.ActionButtonStates.CAN_PICKUP):
-				actionText.text = "Pick Up";
+				actionText.text = "[SHIFT] Pick Up";
 				break;
 			
 			case (Player.ActionButtonStates.CAN_DROP):
-				actionText.text = "Drop";
+				actionText.text = "[SHIFT] Drop";
 				break;
 			
 			case (Player.ActionButtonStates.CAN_ACTIVATE_VORTEX):
 				if (LevelManager.IsPast()) {
-					actionText.text = "Warp To The Future!";
+					actionText.text = "[SHIFT] To The Future!";
 				}
 				else {
-					actionText.text = "Warp To The Past!";
+					actionText.text = "[SHIFT] To The Past!";
 				}
 				break;
 			

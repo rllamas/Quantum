@@ -41,6 +41,8 @@ public class Goal : MonoBehaviour {
 
 	IEnumerator OnLevelCompleteAnimation() {
 		player.canMove = false;
+		player.GetComponent<FSWorldComponent>().enabled = false; // Pause Farseer Physics simulation.
+		
 		GetComponent<AudioSource>().Play();
 		yield return new WaitForSeconds(2.0f);
 

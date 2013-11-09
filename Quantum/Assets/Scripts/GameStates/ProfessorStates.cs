@@ -135,9 +135,9 @@ namespace Quantum.States {
 		public override GameState NextState() {
 			float xAxisTilt = Input.GetAxis("Horizontal");
 			
-			/* If player isn't allow to move, then just stay in this state until he can. */
+			/* If player isn't allow to move, then move to standing. */
 			if (!attachedPlayer.canMove) {
-				return this;
+				return new ProfessorStandingState(attachedPlayer);
 			}
 			/* If the player is now falling, then the next state is falling. */
 			else if (!attachedPlayer.IsGrounded()) {
@@ -323,8 +323,11 @@ namespace Quantum.States {
 		
 		public override GameState NextState() {
 			
-			/* If player isn't allow to move, then just stay in this state until he can. */
+			/* If player isn't allow to move... */
 			if (!attachedPlayer.canMove) {
+				if (attachedPlayer.IsGrounded()) {
+					return new ProfessorStandingState(attachedPlayer);
+				}
 				return this;
 			}
 			else if (attachedPlayer.IsGrounded()) {
