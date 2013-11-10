@@ -87,6 +87,7 @@ public class Player : MonoBehaviour {
 		CAN_PICKUP,
 		CAN_ACTIVATE_VORTEX,
 		CAN_WIN,
+		WON
 	};
 	
 	public ActionButtonStates currentActionButtonState;
@@ -237,7 +238,8 @@ public class Player : MonoBehaviour {
 		else if (CanWarp()) {
 			//Debug.Log ("Near portal!");
 			if (Input.GetButtonDown("Action1")) {
-				Vortex triggeredVortex = other.gameObject.GetComponent<Vortex>();	
+				Vortex triggeredVortex = other.gameObject.GetComponent<Vortex>();
+				
 				Warp(triggeredVortex);	
 			}
 			currentActionButtonState = ActionButtonStates.CAN_ACTIVATE_VORTEX;	
@@ -407,6 +409,7 @@ public class Player : MonoBehaviour {
 	
 	/* Warp the player to another era. */
 	private void Warp(Vortex vortex) {
+	
 		vortex.OnWarp();
 		
 		vortexCooldownTimeRemaining = vortexCooldown;
@@ -418,6 +421,13 @@ public class Player : MonoBehaviour {
 	/* Return true if the player can currently win. */
 	public bool CanWin() {
 		return currentActionButtonState == ActionButtonStates.CAN_WIN;
+	}
+	
+	
+	
+	/* Return true if the player has won. */
+	public bool HasWon() {
+		return currentActionButtonState == ActionButtonStates.WON;
 	}
 	
 	

@@ -45,6 +45,10 @@ public class ActionGUI : MonoBehaviour {
 				}
 				break;
 			
+			case (Player.ActionButtonStates.WON):		
+				actionText.text = "";
+				break;
+			
 			case (Player.ActionButtonStates.NONE):		
 				actionText.text = "";
 				break;
