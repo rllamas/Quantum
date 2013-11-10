@@ -9,21 +9,25 @@ public class TutorialEvent007: PlayerEvent {
 	
 	public override void OnActivate(Player player) {
 		
-		if (currentlyActivated || !player.CarryingPickup()) {
-			return;	
-		}
-		
 		base.OnActivate(player);
-
-		StartCoroutine( DoEvent() );
 		
 	}
 	
 	
 	
-	private IEnumerator DoEvent() {
+	void OnTriggerEnter() {
 		
-		currentlyActivated = true;
+		if (!player.CarryingPickup()) {
+			return;	
+		}
+		
+		StartCoroutine( DoEvent() );	
+	}
+	
+	
+	
+	private IEnumerator DoEvent() {
+
 		
 		if (!player.IsDialogBoxHidden()) {
 			yield return new WaitForSeconds(1.0f);
@@ -31,7 +35,6 @@ public class TutorialEvent007: PlayerEvent {
 			
 		player.ShowDialogueBox();
 		
-		Debug.Log ("Already activated? " + alreadyActivated);
 		
 		if (!alreadyActivated) {
 			player.SetDialogue("Was it helpful to take this sapling to the future...?");	
@@ -42,7 +45,6 @@ public class TutorialEvent007: PlayerEvent {
 		
 		alreadyActivated = true;	
 		
-		Debug.Log ("Already activated? " + alreadyActivated);
 		
 		yield return new WaitForSeconds(1.0f);
 		
@@ -50,14 +52,7 @@ public class TutorialEvent007: PlayerEvent {
 			yield return null;
 		}
 		
-		player.HideDialogueBox();
-		
-		yield return new WaitForSeconds(1.0f);
-		currentlyActivated = false;
-		
-		
-		
-		
+		player.HideDialogueBox();		
 		
 	}
 	
