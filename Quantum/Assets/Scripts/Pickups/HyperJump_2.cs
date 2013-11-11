@@ -6,7 +6,7 @@ using FVector2 = Microsoft.Xna.Framework.FVector2;
 
 public class HyperJump_2 : Pickup {
 	public float jumpFactor = 0f;
-	private float currentJumpFactor;
+	public float currentJumpFactor;
 		
 	private tk2dSprite sprite;
 	private tk2dSpriteAnimator anim;

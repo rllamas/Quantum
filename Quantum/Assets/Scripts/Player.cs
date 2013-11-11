@@ -187,21 +187,11 @@ public class Player : MonoBehaviour {
 		if (IsVortex(other.gameObject)) {
 			nearVortex = true;	
 		}
-		else if (IsJump(other.gameObject)) {
-			maxVelocityY = 50.0f;
-		}
+		
 	}
 	
 	
-	bool IsJump(GameObject obj) {
-		FSBodyComponent tempBody = obj.GetComponent<FSBodyComponent>();
-		
-		if (tempBody != null) {
-			return (string)tempBody.PhysicsBody.FixtureList[0].UserData == "HyperJump";
-		}
-		
-		return false;
-	}
+
 
 	void OnTriggerStay(Collider other) {
 		
@@ -250,8 +240,24 @@ public class Player : MonoBehaviour {
 			Application.LoadLevel("scene_prototype_win");
 		}
 		
+		else if (IsJump(other.gameObject)) {
+			Debug.Log("In IsJump");
+			Debug.Log("Current children: " + this.transform.childCount);
+			float tempFactor = other.gameObject.GetComponent<HyperJump_2>().currentJumpFactor;
+			if (LevelManager.IsPast()) {
+				if (this.transform.childCount > 4) {
+					Body tempBody = other.gameObject.GetComponent<FSBodyComponent>().PhysicsBody;
+					if (tempBody.UserData != "HyperJump") {
+						maxVelocityY = 50.0f;
+					}
+				}
+				else {
+					maxVelocityY = 50.0f;
+				}
+			}
+		}
+		
     }
-	
 	
 	
 	
@@ -267,6 +273,7 @@ public class Player : MonoBehaviour {
 			maxVelocityY = 19.0f;
 		}
 	}	
+	
 	
 	
 	
@@ -385,6 +392,19 @@ public class Player : MonoBehaviour {
 	/* Return true if obj is a Player Event. */
 	public bool IsPlayerEvent(GameObject obj) {
 		return obj.gameObject.CompareTag("Player Event");
+	}
+	
+	
+	
+	
+	bool IsJump(GameObject obj) {
+		FSBodyComponent tempBody = obj.GetComponent<FSBodyComponent>();
+		
+		if (tempBody != null) {
+			return (string)tempBody.PhysicsBody.FixtureList[0].UserData == "HyperJump";
+		}
+		
+		return false;
 	}
 	
 	
