@@ -1,20 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GUI/CompassGUI.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Temp\Compiled-UnlitAlphaWithFade.shader">
     <Files>
-      <File FileName="Assets/Scripts/Player.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/GUI/ActionGUI.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/GameStates/ProfessorStates.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Player Events/PlayerEvent.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/TimeTravel/Vortex.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Player Events/MysteriousHeights/MysteriousHeightsEvent001.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Player Events/MysteriousHeights/MysteriousHeightsEvent002.cs" Line="31" Column="43" />
-      <File FileName="Assets/Scripts/Player Events/CliffsideDrop/CliffsideDropEvent001.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Player Events/LeapingCanyon/LeapingCanyonEvent001.cs" Line="39" Column="41" />
-      <File FileName="Assets/Scripts/Player Events/SlimyLake/SlimyLakeEvent001.cs" Line="80" Column="5" />
-      <File FileName="Assets/Scripts/GUI/TimePeriodGUI.cs" Line="90" Column="4" />
-      <File FileName="Assets/Scripts/Levels/LevelManager.cs" Line="186" Column="2" />
-      <File FileName="Assets/Scripts/GUI/CompassGUI.cs" Line="53" Column="57" />
+      <File FileName="Temp\Compiled-UnlitAlphaWithFade.shader" Line="32" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

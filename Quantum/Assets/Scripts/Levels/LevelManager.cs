@@ -185,7 +185,7 @@ public class LevelManager : MonoBehaviour {
 	
 	
 	public int GetCurrentLevel () {
-		return CurrentLevel;	
+		return GetCurrentLevelNumber();	
 	}
  
 }
