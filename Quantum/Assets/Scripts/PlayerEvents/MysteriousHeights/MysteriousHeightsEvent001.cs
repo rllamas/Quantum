@@ -10,7 +10,7 @@ public class MysteriousHeightsEvent001 : PlayerEvent {
 	
 	public override void OnActivate(Player player) {
 		
-		if (alreadyActivated) {
+		if (alreadyActivated || MysteriousHeightsEvent002.alreadyActivated) {
 			return;	
 		}
 

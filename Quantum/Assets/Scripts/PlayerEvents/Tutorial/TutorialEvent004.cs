@@ -36,6 +36,13 @@ public class TutorialEvent004 : PlayerEvent {
 		yield return new WaitForSeconds(1.0f);
 		
 		while (!Input.GetButton("Jump")) {
+			
+			/* End dialogue if player goes into a vortex.  */
+			if (Vortex.CurrentlyWarping()) {
+				player.HideDialogueBox();
+				yield break;
+			}
+			
 			yield return null;	
 		}
 		

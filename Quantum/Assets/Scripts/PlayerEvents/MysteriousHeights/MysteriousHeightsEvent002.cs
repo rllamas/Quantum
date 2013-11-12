@@ -4,7 +4,7 @@ using System.Collections;
 public class MysteriousHeightsEvent002 : PlayerEvent {
 	
 	
-	private bool alreadyActivated;
+	public static bool alreadyActivated; // Looked at by other scripts.
 	private bool leftTrigger;
 	
 	

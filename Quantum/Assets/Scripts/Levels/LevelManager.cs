@@ -150,8 +150,9 @@ public class LevelManager : MonoBehaviour {
 		if (CurrentLevel == -1) {
 			throw new Exception("There's no subsequent level to go to!");
 		}
-
-		Application.LoadLevel(Levels[++CurrentLevel]);
+		
+		++CurrentLevel;
+		Application.LoadLevel(Levels[CurrentLevel]);
 	}
 	
 

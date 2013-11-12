@@ -10,7 +10,7 @@ public class SlimyLakeEvent001 : PlayerEvent {
 	public GameObject compassGUI;
 	
 	private float currentAnimationCooldown;
-	private float animationCooldownMaxTime = 0.4f;
+	private float animationCooldownMaxTime = 0.3f;
 	private bool shouldAnimate = false;
 	
 	private Vector3 compassOriginalSize;
@@ -46,8 +46,8 @@ public class SlimyLakeEvent001 : PlayerEvent {
 
 		
 		compassGUI.gameObject.SetActive(true);
-		iTween.ScaleTo(compassGUI.gameObject, new Vector3(1.3f*compassOriginalSize.x, 1.3f*compassOriginalSize.y, 1.0f), 2.0f);
-		yield return new WaitForSeconds(2.0f);
+		iTween.ScaleTo(compassGUI.gameObject, new Vector3(1.3f*compassOriginalSize.x, 1.3f*compassOriginalSize.y, 1.0f), 1.5f);
+		yield return new WaitForSeconds(1.5f);
 		
 		
 		alreadyActivated = true;	
