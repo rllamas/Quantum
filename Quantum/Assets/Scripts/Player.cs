@@ -84,7 +84,8 @@ public class Player : MonoBehaviour {
 	public enum ActionButtonStates {
 		NONE,
 		CAN_DROP,
-		CAN_PICKUP,
+		CAN_PICKUP_PLANT,
+		CAN_PICKUP_BOUNCER,
 		CAN_ACTIVATE_VORTEX,
 		CAN_WIN,
 		WON
@@ -221,7 +222,13 @@ public class Player : MonoBehaviour {
 				currentActionButtonState = ActionButtonStates.CAN_DROP;
 			}
 			else {
-				currentActionButtonState = ActionButtonStates.CAN_PICKUP;	
+				if (IsPlant(other.gameObject)) {
+					Debug.Log ("IsPlant!");
+					currentActionButtonState = ActionButtonStates.CAN_PICKUP_PLANT;
+				}
+				else {
+					currentActionButtonState = ActionButtonStates.CAN_PICKUP_BOUNCER;		
+				}
 			}
 		}
 		/* If other is the collider of a Vortex, then warp if possible. */
@@ -384,6 +391,13 @@ public class Player : MonoBehaviour {
 	/* Return true if obj is a Vortex. */
 	public bool IsVortex(GameObject obj) {
 		return obj.gameObject.CompareTag("Vortex");
+	}
+	
+	
+	
+	/* Return true if obj is a Plant. */
+	public bool IsPlant(GameObject obj) {
+		return obj.gameObject.GetComponent<Plant>() != null;
 	}
 	
 	

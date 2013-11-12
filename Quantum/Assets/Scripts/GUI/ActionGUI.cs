@@ -5,7 +5,7 @@ public class ActionGUI : MonoBehaviour {
 	
 	private Player player;
 	private tk2dTextMesh actionText;
-
+	
 
 	// Use this for initialization
 	void Start () {
@@ -25,11 +25,15 @@ public class ActionGUI : MonoBehaviour {
 		switch (player.currentActionButtonState) {
 
 			case (Player.ActionButtonStates.CAN_WIN):
-				actionText.text = "[SHIFT] Obtain Machine Piece";
+				actionText.text = "[SHIFT] Grab Machine Piece";
 				break;
 
-			case (Player.ActionButtonStates.CAN_PICKUP):
-				actionText.text = "[SHIFT] Pick Up";
+			case (Player.ActionButtonStates.CAN_PICKUP_PLANT):
+				actionText.text = "[SHIFT] Pick Up Sapling";
+				break;
+			
+			case (Player.ActionButtonStates.CAN_PICKUP_BOUNCER):
+				actionText.text = "[SHIFT] Pick Up B.O.U.N.C.E.R.";
 				break;
 			
 			case (Player.ActionButtonStates.CAN_DROP):

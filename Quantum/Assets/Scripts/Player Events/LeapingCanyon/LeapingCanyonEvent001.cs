@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MysteriousHeightsEvent001 : PlayerEvent {
+public class LeapingCanyonEvent001 : PlayerEvent {
 	
 	
 	private bool alreadyActivated;
@@ -27,14 +27,16 @@ public class MysteriousHeightsEvent001 : PlayerEvent {
 		if (!player.IsDialogBoxHidden()) {
 			yield return new WaitForSeconds(1.0f);
 		}
+		else {
+			yield return new WaitForSeconds(0.25f);
+		}
 			
 		player.ShowDialogueBox();
-		player.SetDialogue("There's no plant here, hmm...");
+		player.SetDialogue("This must be one of those new-fangled solar jump pods! It's too dark to use right here, tho.");
 		
 		alreadyActivated = true;	
 		
 		yield return new WaitForSeconds(1.0f);
-		
 		while (!leftTrigger) {
 			yield return null;	
 		}
