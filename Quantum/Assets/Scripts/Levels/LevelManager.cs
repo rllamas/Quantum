@@ -4,7 +4,7 @@ using System.Collections;
 
 
 /* 
- * 	A LevelManager is a singletonto govern switching in and out of levels.
+ * 	A LevelManager is a singleton to govern switching in and out of levels.
  * 
  * */
 public class LevelManager : MonoBehaviour {
@@ -153,6 +153,7 @@ public class LevelManager : MonoBehaviour {
 
 		Application.LoadLevel(Levels[++CurrentLevel]);
 	}
+	
 
 
 	private int GetCurrentLevelNumber() {
@@ -179,6 +180,11 @@ public class LevelManager : MonoBehaviour {
 
 		Instance.CurrentLevel = -1;
 		Application.LoadLevel("scene_instructions");
+	}
+	
+	
+	public int GetCurrentLevel () {
+		return CurrentLevel;	
 	}
  
 }

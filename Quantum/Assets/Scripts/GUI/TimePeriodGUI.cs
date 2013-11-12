@@ -8,7 +8,8 @@ public class TimePeriodGUI : MonoBehaviour {
 	private tk2dSpriteAnimator timeTravelAnimator;
 	
 	/* Text manager displaying the current era. */
-	private tk2dTextMesh timePeriodText;
+	//private tk2dTextMesh timePeriodText;
+	private tk2dSprite timePeriodImage;
 	
 	
 	private bool playingAnimation;
@@ -18,7 +19,8 @@ public class TimePeriodGUI : MonoBehaviour {
 	void Start () {
 		
 		timeTravelAnimator =  this.transform.FindChild("Time Travel Animation").GetComponent<tk2dSpriteAnimator>();
-		timePeriodText =  this.transform.FindChild("Time Period Text").GetComponent<tk2dTextMesh>();
+		//timePeriodText =  this.transform.FindChild("Time Period Text").GetComponent<tk2dTextMesh>();
+		timePeriodImage =  this.transform.FindChild("Time Period Image").GetComponent<tk2dSprite>();
 	
 		
 		timeTravelAnimator.gameObject.SetActive(true);
@@ -27,10 +29,12 @@ public class TimePeriodGUI : MonoBehaviour {
 		playingAnimation = false;
 		
 		if (LevelManager.IsFuture()) {
-			timePeriodText.text = "future";
+			//timePeriodText.text = "future";
+			timePeriodImage.SetSprite("gui_future_text");
 		}
 		else {	
-			timePeriodText.text = "past";
+			//timePeriodText.text = "past";
+			timePeriodImage.SetSprite("gui_past_text");
 		}	
 		
 		StartCoroutine("PlayTransitionAnimation");
@@ -81,11 +85,13 @@ public class TimePeriodGUI : MonoBehaviour {
 		
 		if (LevelManager.IsFuture()) {
 			timeTravelAnimator.Play("clockCE");
-			timePeriodText.text = "future";
+			//timePeriodText.text = "future";
+			timePeriodImage.SetSprite("gui_future_text");
 		}
 		else {
 			timeTravelAnimator.Play("clockBCE");	
-			timePeriodText.text = "past";
+			//timePeriodText.text = "past";
+			timePeriodImage.SetSprite("gui_past_text");
 		}	
 		
 		yield return new WaitForSeconds(3.0f);

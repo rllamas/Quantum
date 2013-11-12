@@ -20,6 +20,21 @@ public class CompassGUI : MonoBehaviour {
 		
 		arrowSprite = this.transform.FindChild("Arrow Sprite").GetComponent<tk2dSprite>();
 		
+		/* Hide/unhide the Compass GUI depending on the level. */
+		switch (LevelManager.Instance.GetCurrentLevel()) {
+			case 0:
+				this.gameObject.SetActive(false);
+				break;
+			
+			case 1:
+				this.gameObject.SetActive(false);
+				break;
+			
+			default:
+				this.gameObject.SetActive(true);
+				break;
+			
+		}
 	}
 	
 	
@@ -35,7 +50,7 @@ public class CompassGUI : MonoBehaviour {
 			}
 		
 			/* Make the arrow turn smoothly towards the goal. */
-			Quaternion newRotation = Quaternion.LookRotation(player.transform.position - goal.transform.position, Vector3.forward);
+			Quaternion newRotation = Quaternion.LookRotation(this.transform.position - goal.transform.position, Vector3.forward);
 			newRotation.x = 0.0f;
 			newRotation.y = 0.0f;
 	
