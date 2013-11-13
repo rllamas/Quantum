@@ -52,7 +52,8 @@ public class Wheel3 : MonoBehaviour {
 			//iTween.ShakePosition(tiles[selectedLevel], new Vector3(Random.Range(-0.9f, 0.9f), Random.Range(-0.9f, 0.9f), Random.Range(-0.9f, 0.9f)), 2.0f);
 			
 			if(selectedLevel == 0){
-				Application.LoadLevel("level_select_group_" + selectedLevel);
+				//Application.LoadLevel("level_select_group_" + selectedLevel);
+				LevelManager.LoadLevel(0);
 				
 //				foreach (GameObject tile in tiles)
 //					tile.SetActive(false);

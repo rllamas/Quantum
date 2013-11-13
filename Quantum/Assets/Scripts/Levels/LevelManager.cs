@@ -177,10 +177,10 @@ public class LevelManager : MonoBehaviour {
 	}
 	
 	
-	public static void LoadTutorial() {
+	public static void LoadLevelSelect() {
 
 		Instance.CurrentLevel = -1;
-		Application.LoadLevel("scene_instructions");
+		Application.LoadLevel("level_select_main");
 	}
 	
 	
