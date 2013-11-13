@@ -25,15 +25,15 @@ public class ActionGUI : MonoBehaviour {
 		switch (player.currentActionButtonState) {
 
 			case (Player.ActionButtonStates.CAN_WIN):
-				actionText.text = "[SHIFT] Grab Machine Piece";
+				actionText.text = "[SHIFT] Grab ^cFF0FMachine Piece^cFFFF";
 				break;
 
 			case (Player.ActionButtonStates.CAN_PICKUP_PLANT):
-				actionText.text = "[SHIFT] Pick Up Sapling";
+				actionText.text = "[SHIFT] Pick Up ^c0F0FSapling^cFFFF";
 				break;
 			
 			case (Player.ActionButtonStates.CAN_PICKUP_BOUNCER):
-				actionText.text = "[SHIFT] Pick Up B.O.U.N.C.E.R.";
+				actionText.text = "^[SHIFT] Pick Up ^c0DFFB.O.U.N.C.E.R.^cFFFF";
 				break;
 			
 			case (Player.ActionButtonStates.CAN_DROP):
@@ -42,10 +42,10 @@ public class ActionGUI : MonoBehaviour {
 			
 			case (Player.ActionButtonStates.CAN_ACTIVATE_VORTEX):
 				if (LevelManager.IsPast()) {
-					actionText.text = "[SHIFT] To The Future!";
+					actionText.text = "[SHIFT] To The ^cF08FFuture^cFFFF!";
 				}
 				else {
-					actionText.text = "[SHIFT] To The Past!";
+					actionText.text = "[SHIFT] To The ^cF08FPast^cFFFF!";
 				}
 				break;
 			

@@ -42,7 +42,7 @@ public class SlimyLakeEvent001 : PlayerEvent {
 	private IEnumerator DoEvent() {
 	
 		player.ShowDialogueBox();
-		player.SetDialogue("Lucky I've got my handy dandy COMPASS to point out those 'hard-to-see' time machine pieces!");
+		player.SetDialogue("Lucky I've got my handy dandy ^cFF0FCOMPASS^cFFFF to point out those 'hard-to-see' ^cFF0Ftime machine pieces^cFFFF!");
 
 		
 		compassGUI.gameObject.SetActive(true);

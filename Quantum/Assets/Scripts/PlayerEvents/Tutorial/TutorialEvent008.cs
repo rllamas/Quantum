@@ -29,7 +29,7 @@ public class TutorialEvent008 : PlayerEvent {
 		}
 			
 		player.ShowDialogueBox();
-		player.SetDialogue("Aha, a time machine piece!");
+		player.SetDialogue("Aha, a ^cFF0Ftime machine piece^cFFFF!");
 		
 		alreadyActivated = true;	
 		

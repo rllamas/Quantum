@@ -29,7 +29,7 @@ public class TutorialEvent006 : PlayerEvent {
 		}
 			
 		player.ShowDialogueBox();
-		player.SetDialogue("I bet these plants grow over time. Hmm, if I moved this sapling and time traveled...");
+		player.SetDialogue("I bet these ^c0F0Fplants^cFFFF ^cF08Fgrow over time^cFFFF. Hmm, if I moved this ^c0F0Fsapling^cFFFF and ^cF08Ftime traveled^cFFFF...");
 		
 		alreadyActivated = true;	
 		

@@ -29,7 +29,7 @@ public class MysteriousHeightsEvent001 : PlayerEvent {
 		}
 			
 		player.ShowDialogueBox();
-		player.SetDialogue("There's no plant here, hmm...");
+		player.SetDialogue("There's no ^c0F0Fplant^cFFFF here, hmm...");
 		
 		alreadyActivated = true;	
 		

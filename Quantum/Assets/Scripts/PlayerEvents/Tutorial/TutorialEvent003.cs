@@ -29,7 +29,7 @@ public class TutorialEvent003 : PlayerEvent {
 		}
 			
 		player.ShowDialogueBox();
-		player.SetDialogue("I can use that vortex to [SHIFT] into the future!");
+		player.SetDialogue("I can use that ^cF08Fvortex^cFFFF to [SHIFT] into the ^cF08Ffuture^cFFFF!");
 		
 		alreadyActivated = true;	
 		

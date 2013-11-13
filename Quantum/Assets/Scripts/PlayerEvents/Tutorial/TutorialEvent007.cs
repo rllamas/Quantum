@@ -37,7 +37,7 @@ public class TutorialEvent007: PlayerEvent {
 		
 		
 		if (!alreadyActivated) {
-			player.SetDialogue("Was it helpful to take this sapling to the future...?");	
+			player.SetDialogue("Was it helpful to take this ^c0F0Fsapling^cFFFF to the ^cF08Ffuture^cFFFF...?");	
 		}
 		else {
 			player.SetDialogue("This again? Man, I'm getting old! At least I'm handsome.");

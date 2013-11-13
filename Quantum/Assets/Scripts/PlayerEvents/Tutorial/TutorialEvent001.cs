@@ -29,7 +29,7 @@ public class TutorialEvent001 : PlayerEvent {
 		yield return new WaitForSeconds(0.125f);
 		
 		player.ShowDialogueBox();
-		player.SetDialogue("Time to get down and BOOGIE! \n\tIt seems I can move with [<-->].");
+		player.SetDialogue("Time to get down and ^gF80F0F0FBOOGIE!^cFFFF \n\tIt seems I can move with [<-->].");
 		
 		
 		alreadyActivated = true;	

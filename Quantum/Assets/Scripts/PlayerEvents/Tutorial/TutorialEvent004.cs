@@ -29,7 +29,7 @@ public class TutorialEvent004 : PlayerEvent {
 		}
 			
 		player.ShowDialogueBox();
-		player.SetDialogue("Wowza, check out the size of that plant!");
+		player.SetDialogue("Wowza, check out the size of that ^c0F0Fplant^cFFFF!");
 		
 		alreadyActivated = true;	
 		

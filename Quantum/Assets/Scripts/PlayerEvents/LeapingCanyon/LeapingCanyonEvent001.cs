@@ -32,7 +32,7 @@ public class LeapingCanyonEvent001 : PlayerEvent {
 		}
 			
 		player.ShowDialogueBox();
-		player.SetDialogue("This must be one of those new-fangled solar jump pods! It's too dark to use right here, tho.");
+		player.SetDialogue("This must be one of those new-fangled ^c0DFFsolar jump pads^cFFFF! It's too dark to use here, tho.");
 		
 		alreadyActivated = true;	
 		
