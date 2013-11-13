@@ -5,6 +5,7 @@ public class ActionGUI : MonoBehaviour {
 	
 	private Player player;
 	private tk2dTextMesh actionText;
+	private tk2dSprite actionButton;
 	
 	private float maxTimeUntilFade = 4.5f;
 	private float timeLeftUntilFade;
@@ -17,6 +18,7 @@ public class ActionGUI : MonoBehaviour {
 		
 		player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
 		actionText = this.transform.FindChild("Action Text").GetComponent<tk2dTextMesh>();
+		actionButton = this.transform.FindChild("Action Button").GetComponent<tk2dSprite>();
 	
 		timeLeftUntilFade = maxTimeUntilFade;
 	}
@@ -30,6 +32,7 @@ public class ActionGUI : MonoBehaviour {
 		
 		if (Vortex.CurrentlyWarping()) {
 			actionText.text = "";
+			actionButton.gameObject.SetActive(false);
 			return;
 		}
 		
@@ -38,42 +41,55 @@ public class ActionGUI : MonoBehaviour {
 		switch (player.currentActionButtonState) {
 
 			case (Player.ActionButtonStates.CAN_WIN):
-				actionText.text = "[SHIFT] Grab ^cFF0FMachine Piece^cFFFF";
+				actionText.text = "Grab ^cFF0FMachine Piece^cFFFF";
 				break;
 
 			case (Player.ActionButtonStates.CAN_PICKUP_PLANT):
-				actionText.text = "[SHIFT] Pick Up ^c0F0FSapling^cFFFF";
+				actionText.text = "Pick Up ^c0F0FSapling^cFFFF";
 				break;
 			
 			case (Player.ActionButtonStates.CAN_PICKUP_BOUNCER):
-				actionText.text = "^[SHIFT] Pick Up ^c0DFFB.O.U.N.C.E.R.^cFFFF";
+				actionText.text = "^Pick Up ^c0DFFB.O.U.N.C.E.R.^cFFFF";
 				break;
 			
 			case (Player.ActionButtonStates.CAN_DROP):
-				actionText.text = "[SHIFT] Drop";
+				actionText.text = "Drop";
 				break;
 			
 			case (Player.ActionButtonStates.CAN_ACTIVATE_VORTEX):
 				if (LevelManager.IsPast()) {
-					actionText.text = "[SHIFT] To The ^cF08FFuture^cFFFF!";
+					actionText.text = "To The ^cF08FFuture^cFFFF!";
 				}
 				else {
-					actionText.text = "[SHIFT] To The ^cF08FPast^cFFFF!";
+					actionText.text = "To The ^cF08FPast^cFFFF!";
 				}
 				break;
 			
-			case (Player.ActionButtonStates.WON):		
+			case (Player.ActionButtonStates.WON):	
+				actionButton.gameObject.SetActive(false);
 				actionText.text = "";
+				return;
 				break;
 			
 			case (Player.ActionButtonStates.NONE):		
 				actionText.text = "";
+				actionButton.gameObject.SetActive(false);
 				break;
 		}
+		
+		
+		if (actionText.text.Equals("")) {
+			actionButton.SetSprite("");	
+		}
+		else {
+			actionButton.SetSprite("gui_button_shift");		
+		}
+		
 		
 		/* Redisplay the text if it has recently changed. */
 		if (!actionText.text.Equals(actionTextLastFrame)) {
 			actionText.gameObject.SetActive(true);	
+			actionButton.gameObject.SetActive(true);
 		}
 		
 		
@@ -90,6 +106,7 @@ public class ActionGUI : MonoBehaviour {
 		if (timeLeftUntilFade == 0f) {
 			timeLeftUntilFade = maxTimeUntilFade;
 			actionText.gameObject.SetActive(false);
+			actionButton.gameObject.SetActive(false);
 		}
 			
 	}
