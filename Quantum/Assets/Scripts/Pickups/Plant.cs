@@ -10,10 +10,13 @@ public class Plant : Pickup {
 	public GameObject pastPlant; // Plant object used in the past era.
 	public GameObject futurePlant; // Plant object use in the future era.
 		
-	
+	private tk2dCamera mainCamera;
+	string animationPrefabPath = "Animations/resource_animation_plant_grow";
 	
 	
 	public override void Start() {
+		
+		mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<tk2dCamera>();
 		
 		base.Start();
 		if (LevelManager.IsPast()) {
@@ -91,6 +94,50 @@ public class Plant : Pickup {
 		}
 		
 	}
+	
+	
+	
+	
+	/* Handle whatever logic this object needs to do right before changing eras. */
+	public override void HandleBeforeChangeEra(TimePeriod eraChangingTo) {
+		
+		base.HandleBeforeChangeEra(eraChangingTo);
+
+		/* If player is going to the future... */
+		if (eraChangingTo == TimePeriod.FUTURE) {
+		
+			/* And I'm in the past... */
+			if (currentEraExistingIn == TimePeriod.PAST) {
+
+				/* Play grow animation. */
+				//this.transform.Translate(new Vector3(0.0f, 0.0f, mainCamera.transform.position.z+1.0f));
+				Instantiate(
+					Resources.Load(animationPrefabPath),
+					new Vector3(0.0f, 0.0f, mainCamera.transform.position.z+1.0f),
+					Quaternion.identity
+				);
+			}
+			
+			/* And I'm in the future... */
+			else {
+			}
+			
+		}
+		/* Else if player is going to the past.. */
+		else {
+			
+			/* And I'm in the past... */
+			if (currentEraExistingIn == TimePeriod.PAST) {
+			}
+			/* And I'm in the future... */
+			else {
+			}
+			
+			
+		}
+		
+	}
+	
 
 
 

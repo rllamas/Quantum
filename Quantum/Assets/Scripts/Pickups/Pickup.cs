@@ -135,6 +135,13 @@ public class Pickup : MonoBehaviour {
 	public virtual void HandleChangeEra(TimePeriod eraChangingTo) {
 		;
 	}
+	
+	
+	
+	/* Handle whatever logic this object needs to do right before changing eras. */
+	public virtual void HandleBeforeChangeEra(TimePeriod eraChangingTo) {
+		;
+	}
 		
 		
 

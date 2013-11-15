@@ -113,7 +113,7 @@ public class Vortex : MonoBehaviour {
 	
 	
 	
-	
+	/* Any logic to handle for the actual time travel stage. */
 	private void TimeTravel() {
 		
 		/* Going from past to future... */
@@ -148,6 +148,32 @@ public class Vortex : MonoBehaviour {
 		}
 
 	}
+	
+	
+	
+	/* Any logic to handle right before the actual time travel stage. */
+	private void BeforeTimeTravel() {
+		
+		/* Going from past to future... */
+		if (LevelManager.IsPast()) {
+
+			/* Tell every pickup in the scene to do whatever it needs to do when switching eras. */
+			for (int i = 0; i < pickups.Count; ++i) {
+				pickups[i].HandleBeforeChangeEra(TimePeriod.FUTURE);
+			}
+			
+		}
+		/* Going from future to past... */
+		else {
+		
+			/* Tell every pickup in the scene to do whatever it needs to do when switching eras. */
+			for (int i = 0; i < pickups.Count; ++i) {
+				pickups[i].HandleBeforeChangeEra(TimePeriod.PAST);
+			}
+		}		
+
+	}
+	
 	
 	
 	
@@ -193,8 +219,10 @@ public class Vortex : MonoBehaviour {
 		this.transform.Translate(new Vector3(0.0f, 0.0f, mainCamera.transform.position.z+1.0f));
 		animationCurtain.renderer.material.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
 		
+		BeforeTimeTravel();
+		
 		/* Fade to black animation. */
-		iTween.FadeTo(animationCurtain.gameObject, 1.0f, 2.0f);
+		//iTween.FadeTo(animationCurtain.gameObject, 1.0f, 2.0f);
 		yield return new WaitForSeconds(2.0f);
 		
 		TimeTravel();
