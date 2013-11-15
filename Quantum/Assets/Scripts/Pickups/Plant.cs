@@ -11,7 +11,8 @@ public class Plant : Pickup {
 	public GameObject futurePlant; // Plant object use in the future era.
 		
 	private tk2dCamera mainCamera;
-	string animationPrefabPath = "Animations/resource_animation_plant_grow";
+	string growAnimationPrefabPath = "Animations/resource_animation_plant_grow";
+	string reverseGrowAnimationPrefabPath = "Animations/resource_animation_plant_reverse_grow";
 	
 	
 	public override void Start() {
@@ -110,17 +111,24 @@ public class Plant : Pickup {
 			if (currentEraExistingIn == TimePeriod.PAST) {
 
 				/* Play grow animation. */
-				//this.transform.Translate(new Vector3(0.0f, 0.0f, mainCamera.transform.position.z+1.0f));
-				Instantiate(
-					Resources.Load(animationPrefabPath),
-					new Vector3(0.0f, 0.0f, mainCamera.transform.position.z+1.0f),
+				pastPlant.SetActive(false);
+
+				GameObject plantAnimation = (GameObject)Instantiate(
+					Resources.Load(growAnimationPrefabPath),
+					new Vector3(pastPlant.transform.position.x, pastPlant.transform.position.y, mainCamera.transform.position.z+0.5f),
 					Quaternion.identity
 				);
+				
+				plantAnimation.transform.localScale = new Vector3(0.75f, 0.75f, 1.0f);
+				plantAnimation.transform.Translate(0.75f, 10.0f, 0.0f);
 			}
 			
 			/* And I'm in the future... */
 			else {
+
+				
 			}
+			
 			
 		}
 		/* Else if player is going to the past.. */
@@ -128,9 +136,21 @@ public class Plant : Pickup {
 			
 			/* And I'm in the past... */
 			if (currentEraExistingIn == TimePeriod.PAST) {
+				/* Play reverse grow animation. */
+				futurePlant.SetActive(false);
+
+				GameObject plantAnimation = (GameObject)Instantiate(
+					Resources.Load(reverseGrowAnimationPrefabPath),
+					new Vector3(pastPlant.transform.position.x, pastPlant.transform.position.y, mainCamera.transform.position.z+0.5f),
+					Quaternion.identity
+				);
+				
+				plantAnimation.transform.localScale = new Vector3(0.75f, 0.75f, 1.0f);
+				plantAnimation.transform.Translate(0.75f, 10.0f, 0.0f);
 			}
 			/* And I'm in the future... */
 			else {
+				;
 			}
 			
 			

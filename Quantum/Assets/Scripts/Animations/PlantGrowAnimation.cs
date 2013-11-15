@@ -8,14 +8,13 @@ public class PlantGrowAnimation : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		animator = GetComponent<tk2dSpriteAnimator>();
-		animator.Play();
-		//StartCoroutine( DoAnimation() );
+		StartCoroutine( DoAnimation() );
 	}
 	
 	
 	IEnumerator DoAnimation() {
-		//animator.Play();
-		yield return new WaitForSeconds(animator.ClipTimeSeconds);
-		//Destroy(this);
+		animator.Play();
+		yield return new WaitForSeconds(2.0f);
+		Destroy(this.gameObject);
 	}
 }

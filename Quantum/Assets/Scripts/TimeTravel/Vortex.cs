@@ -222,7 +222,7 @@ public class Vortex : MonoBehaviour {
 		BeforeTimeTravel();
 		
 		/* Fade to black animation. */
-		//iTween.FadeTo(animationCurtain.gameObject, 1.0f, 2.0f);
+		iTween.FadeTo(animationCurtain.gameObject, 1.0f, 2.0f);
 		yield return new WaitForSeconds(2.0f);
 		
 		TimeTravel();
