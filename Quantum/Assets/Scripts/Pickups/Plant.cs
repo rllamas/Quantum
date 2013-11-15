@@ -103,6 +103,11 @@ public class Plant : Pickup {
 	public override void HandleBeforeChangeEra(TimePeriod eraChangingTo) {
 		
 		base.HandleBeforeChangeEra(eraChangingTo);
+		
+		/* Don't play animation if I'm held. */
+		if (transform.parent != null) {
+			return;	
+		}
 
 		/* If player is going to the future... */
 		if (eraChangingTo == TimePeriod.FUTURE) {
