@@ -7,7 +7,7 @@ public class Pause : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		pCam = transform.FindChild("PauseCamera").gameObject;
+		pCam = GameObject.Find("PauseCamera").gameObject;
 		normCam = GameObject.Find("tk2dCamera").gameObject;
 		Debug.Log("Hello");
 		pCam.SetActive(false);
@@ -17,12 +17,19 @@ public class Pause : MonoBehaviour {
 	void Update () {
 		if (Input.GetKeyDown(KeyCode.Escape)) {
 			
-			pauseGame ();
+			pauseGame();
 			changeCamera();
 		}
 	}
-	
-	void changeCamera(){
+
+	public void pauseGame(){
+		if (Time.timeScale == 1.0F)
+            Time.timeScale = 0.0F;
+        else
+        	Time.timeScale = 1.0F;
+	}
+
+	public void changeCamera(){
 		if(!pCam.activeSelf){
 			normCam.SetActive(false);
 			pCam.SetActive(true);
@@ -30,13 +37,5 @@ public class Pause : MonoBehaviour {
 			normCam.SetActive(true);
 			pCam.SetActive(false);
 		}
-	}
-	
-	
-	void pauseGame(){
-		if (Time.timeScale == 1.0F)
-            Time.timeScale = 0.0F;
-        else
-        	Time.timeScale = 1.0F;
 	}
 }
