@@ -78,6 +78,7 @@ public class Player : MonoBehaviour {
 	
 	/* GUI used by player to say things. */
 	public GameObject dialogueGUI;
+	private Vector3 dialogueGUIExpandedScale;
 	
 	
 	/* The state the action button is currently in. */
@@ -136,6 +137,7 @@ public class Player : MonoBehaviour {
 		sfxPlayer = GetComponent<AudioSource>();
 		
 		dialogueGUI = GameObject.Find("Dialogue GUI").gameObject;
+		dialogueGUIExpandedScale = dialogueGUI.transform.localScale;
 		dialogueGUI.transform.localScale = Vector3.zero;
 	}
 	
@@ -351,13 +353,21 @@ public class Player : MonoBehaviour {
 	
 	
 	public void ShowDialogueBox(float time = 1.0f) {
-		iTween.ScaleTo(dialogueGUI.gameObject, new Vector3(1.0f, 1.0f, 1.0f), time);
+		iTween.ScaleTo(
+			dialogueGUI.gameObject, 
+			new Vector3(dialogueGUIExpandedScale.x, dialogueGUIExpandedScale.y, dialogueGUIExpandedScale.z), 
+			time
+		);
 	}
 	
 	
 	
 	public void HideDialogueBox(float time = 1.0f) {
-		iTween.ScaleTo(dialogueGUI.gameObject, new Vector3(1.0f, 0.0f, 1.0f), time);
+		iTween.ScaleTo(
+			dialogueGUI.gameObject, 
+			new Vector3(dialogueGUIExpandedScale.x+0.1f, 0.0f, dialogueGUIExpandedScale.z), 
+			time
+		);
 	}
 	
 	

@@ -79,7 +79,7 @@ public class ActionGUI : MonoBehaviour {
 		
 		
 		if (actionText.text.Equals("")) {
-			actionButton.SetSprite("");	
+			actionButton.SetSprite("gui_button_none");	
 		}
 		else {
 			actionButton.SetSprite("gui_button_shift");		
