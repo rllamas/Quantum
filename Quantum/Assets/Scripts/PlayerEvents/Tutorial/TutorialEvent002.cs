@@ -28,7 +28,7 @@ public class TutorialEvent002 : PlayerEvent {
 		}
 			
 		player.ShowDialogueBox();
-		player.SetDialogue("Is jumping [SPACE] again...?");
+		player.SetDialogue("Ouch, my brain is fried... Mmm, chicken fried...\n\nAnyways, is jumping ^cFF0F[spacebar]^cFFFF again...?");
 		
 		
 		alreadyActivated = true;	

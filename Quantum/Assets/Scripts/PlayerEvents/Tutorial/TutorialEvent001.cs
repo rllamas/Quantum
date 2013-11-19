@@ -29,7 +29,7 @@ public class TutorialEvent001 : PlayerEvent {
 		yield return new WaitForSeconds(0.125f);
 		
 		player.ShowDialogueBox();
-		player.SetDialogue("Time to get down and ^gF80F0F0FBOOGIE!^cFFFF \n\tIt seems I can move with [<-->].");
+		player.SetDialogue("No time machine... ^gF80F0F0FNO BOOZE!^cFFFF \n\tShoulda invented a hangover cure. \n\nAnyways, I can move with the \n^cFF0F[arrow keys]^cFFFF.");
 		
 		
 		alreadyActivated = true;	
