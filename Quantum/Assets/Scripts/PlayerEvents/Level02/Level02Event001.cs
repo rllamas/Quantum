@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LeapingCanyonEvent001 : PlayerEvent {
+public class Level02Event001 : PlayerEvent {
 	
 	
 	private bool alreadyActivated;
@@ -10,7 +10,7 @@ public class LeapingCanyonEvent001 : PlayerEvent {
 	
 	public override void OnActivate(Player player) {
 		
-		if (alreadyActivated) {
+		if (alreadyActivated || Level02Event002.alreadyActivated) {
 			return;	
 		}
 
@@ -27,16 +27,14 @@ public class LeapingCanyonEvent001 : PlayerEvent {
 		if (!player.IsDialogBoxHidden()) {
 			yield return new WaitForSeconds(1.0f);
 		}
-		else {
-			yield return new WaitForSeconds(0.25f);
-		}
 			
 		player.ShowDialogueBox();
-		player.SetDialogue("This must be one of those new-fangled ^c0DFFsolar jump pads^cFFFF! It's too dark to use here, tho.");
+		player.SetDialogue("There's no ^c0F0Fplant^cFFFF here, hmm...");
 		
 		alreadyActivated = true;	
 		
 		yield return new WaitForSeconds(1.0f);
+		
 		while (!leftTrigger) {
 			yield return null;	
 		}

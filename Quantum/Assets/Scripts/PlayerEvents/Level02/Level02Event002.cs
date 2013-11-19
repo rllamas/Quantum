@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MysteriousHeightsEvent002 : PlayerEvent {
+public class Level02Event002 : PlayerEvent {
 	
 	
 	public static bool alreadyActivated; // Looked at by other scripts.

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MysteriousHeightsEvent001 : PlayerEvent {
+public class Level04Event001 : PlayerEvent {
 	
 	
 	private bool alreadyActivated;
@@ -10,7 +10,7 @@ public class MysteriousHeightsEvent001 : PlayerEvent {
 	
 	public override void OnActivate(Player player) {
 		
-		if (alreadyActivated || MysteriousHeightsEvent002.alreadyActivated) {
+		if (alreadyActivated) {
 			return;	
 		}
 
@@ -27,19 +27,21 @@ public class MysteriousHeightsEvent001 : PlayerEvent {
 		if (!player.IsDialogBoxHidden()) {
 			yield return new WaitForSeconds(1.0f);
 		}
+		else {
+			yield return new WaitForSeconds(0.15f);
+		}
 			
 		player.ShowDialogueBox();
-		player.SetDialogue("There's no ^c0F0Fplant^cFFFF here, hmm...");
+		player.SetDialogue("WHHHEEEEEE!!!!");
 		
 		alreadyActivated = true;	
 		
-		yield return new WaitForSeconds(1.0f);
 		
 		while (!leftTrigger) {
 			yield return null;	
 		}
 		
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(0.25f);
 		player.HideDialogueBox();
 		
 	}

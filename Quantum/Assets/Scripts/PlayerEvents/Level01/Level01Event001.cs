@@ -2,7 +2,7 @@
 using System;
 using System.Collections;
 
-public class SlimyLakeEvent001 : PlayerEvent {
+public class Level01Event001: PlayerEvent {
 	
 	
 	private bool alreadyActivated;
