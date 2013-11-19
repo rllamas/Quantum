@@ -4,12 +4,20 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Contacts;
 using FVector2 = Microsoft.Xna.Framework.FVector2;
 
+
+
 public class HyperJump_2 : Pickup {
 	public float jumpFactor = 0f;
 	public float currentJumpFactor;
 		
 	private tk2dSprite sprite;
 	private tk2dSpriteAnimator anim;
+	
+	private tk2dCamera mainCamera;
+
+	string disintegrationAnimationPrefabPath = "Animations/resource_animation_hyperjump_disintegration";
+	string disintegrationReverseAnimationPrefabPath = "Animations/resource_animation_hyperjump_disintegration_reverse";
+
 
 	/* Use this for initialization */
 	public override void Start () {
@@ -17,7 +25,9 @@ public class HyperJump_2 : Pickup {
 		
 		sprite = GetComponent<tk2dSprite>();
 		anim = GetComponent<tk2dSpriteAnimator>();
-		
+
+		mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<tk2dCamera>();
+
 		body.FixtureList[0].UserData = "HyperJump";
 		body.FixtureList[0].UserTag = "HyperJump";
 		
@@ -112,7 +122,107 @@ public class HyperJump_2 : Pickup {
 		A.Body.BodyType = BodyType.Static;
 		return true;
 	}
-	
+
+
+
+	public override void HandleBeforeChangeEra(TimePeriod eraChangingTo) {
+		base.HandleBeforeChangeEra(eraChangingTo);
+		
+		/* Switch eras I'm in if player takes me through a portal. */
+		if (this.transform.parent) {
+			currentEraExistingIn = eraChangingTo;
+		}
+
+		/* Don't play animation if I'm held. */
+		if (transform.parent != null) {
+			return;	
+		}
+
+		/* If player is going to the future... */
+		if (eraChangingTo == TimePeriod.FUTURE) {
+			
+			/* And I'm in the past... */
+			if (currentEraExistingIn == TimePeriod.PAST) {
+				/* Deactivate Power. */
+				currentJumpFactor = 0f;
+				sprite.SetSprite("amimation_hyperjump_pad01");
+				GetComponent<MeshRenderer>().enabled = false;
+
+				/* Play disintegration animation. */
+				GameObject disintegrationAnimation = (GameObject)Instantiate(
+					Resources.Load(disintegrationAnimationPrefabPath),
+					new Vector3(transform.position.x, transform.position.y, mainCamera.transform.position.z+0.5f),
+					Quaternion.identity
+					);
+				
+//				plantAnimation.transform.localScale = new Vector3(0.75f, 0.75f, 1.0f);
+//				plantAnimation.transform.Translate(0.75f, 10.0f, 0.0f);
+			}
+			
+			/* And I'm in the future... */
+			else {
+				/* Currently Deactivated */
+				currentJumpFactor = 0f;
+				sprite.SetSprite("amimation_hyperjump_pad01");
+				GetComponent<MeshRenderer>().enabled = false;
+
+				/* Play disintegration reverse animation. */
+				GameObject disintegrationReverseAnimation = (GameObject)Instantiate(
+					Resources.Load(disintegrationReverseAnimationPrefabPath),
+					new Vector3(transform.position.x, transform.position.y, mainCamera.transform.position.z+0.5f),
+					Quaternion.identity
+					);
+				
+				//				plantAnimation.transform.localScale = new Vector3(0.75f, 0.75f, 1.0f);
+				//				plantAnimation.transform.Translate(0.75f, 10.0f, 0.0f);
+			}
+			
+		}
+		
+		/* Else if player is going to the past.. */
+		else {
+			
+			/* And I'm in the past... */
+			if (currentEraExistingIn == TimePeriod.PAST) {
+				/* Activate Power */
+				currentJumpFactor = jumpFactor;
+				GetComponent<MeshRenderer>().enabled = false;
+				if (sprite.spriteId == sprite.GetSpriteIdByName("amimation_hyperjump_pad01")
+					&& this.transform.parent == null) {
+					sprite.SetSprite("amimation_hyperjump_pad12");
+				}
+
+				/* Play disintegration animation. */
+				GameObject disintegrationReverseAnimation = (GameObject)Instantiate(
+					Resources.Load(disintegrationReverseAnimationPrefabPath),
+					new Vector3(transform.position.x, transform.position.y, mainCamera.transform.position.z+0.5f),
+					Quaternion.identity
+				);
+				
+				//				plantAnimation.transform.localScale = new Vector3(0.75f, 0.75f, 1.0f);
+				//				plantAnimation.transform.Translate(0.75f, 10.0f, 0.0f);
+			}
+
+			/* And I'm in the future... */
+			else {
+				/* Currently Deactivated */
+				currentJumpFactor = 0f;
+				sprite.SetSprite("amimation_hyperjump_pad01");
+				GetComponent<MeshRenderer>().enabled = false;
+
+				/* Play disintegration animation. */
+				GameObject disintegrationAnimation = (GameObject)Instantiate(
+					Resources.Load(disintegrationAnimationPrefabPath),
+					new Vector3(transform.position.x, transform.position.y, mainCamera.transform.position.z+0.5f),
+					Quaternion.identity
+				);
+		
+			}	
+		}
+	}
+
+
+
 	public override void HandleChangeEra(TimePeriod eraChangingTo) {
 		base.HandleChangeEra(eraChangingTo);
 		
@@ -120,7 +230,7 @@ public class HyperJump_2 : Pickup {
 		if (this.transform.parent) {
 			currentEraExistingIn = eraChangingTo;
 		}
-
+		
 		/* If player is going to the future... */
 		if (eraChangingTo == TimePeriod.FUTURE) {
 			
@@ -151,7 +261,7 @@ public class HyperJump_2 : Pickup {
 				currentJumpFactor = jumpFactor;
 				GetComponent<MeshRenderer>().enabled = true;
 				if (sprite.spriteId == sprite.GetSpriteIdByName("amimation_hyperjump_pad01")
-					&& this.transform.parent == null) {
+				    && this.transform.parent == null) {
 					sprite.SetSprite("amimation_hyperjump_pad12");
 				}
 			}
@@ -164,6 +274,8 @@ public class HyperJump_2 : Pickup {
 			}	
 		}
 	}
+
+
 	
 	void OnDestroy() {
 		this.transform.parent = null;

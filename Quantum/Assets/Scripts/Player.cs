@@ -389,9 +389,9 @@ public class Player : MonoBehaviour {
 		yield break;
 		
 		// Todo: Implement multi-line dialogue
-		while (!Input.GetButtonDown("Action1")) {
-			yield return null;	
-		}
+//		while (!Input.GetButtonDown("Action1")) {
+//			yield return null;	
+//		}
 		
 		
 	}

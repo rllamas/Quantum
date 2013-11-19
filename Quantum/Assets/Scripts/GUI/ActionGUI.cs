@@ -69,7 +69,6 @@ public class ActionGUI : MonoBehaviour {
 				actionButton.gameObject.SetActive(false);
 				actionText.text = "";
 				return;
-				break;
 			
 			case (Player.ActionButtonStates.NONE):		
 				actionText.text = "";

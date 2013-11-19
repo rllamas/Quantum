@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlantGrowAnimation : MonoBehaviour {
+public class OneShotAnimation : MonoBehaviour {
 	
 	tk2dSpriteAnimator animator;
+	public float timeUntilDestroyed = 2.0f;
 	
 	// Use this for initialization
 	void Start () {
@@ -14,7 +15,7 @@ public class PlantGrowAnimation : MonoBehaviour {
 	
 	IEnumerator DoAnimation() {
 		animator.Play();
-		yield return new WaitForSeconds(2.0f);
+		yield return new WaitForSeconds(timeUntilDestroyed);
 		Destroy(this.gameObject);
 	}
 }
