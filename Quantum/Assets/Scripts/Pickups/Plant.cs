@@ -13,6 +13,8 @@ public class Plant : Pickup {
 	private tk2dCamera mainCamera;
 	string growAnimationPrefabPath = "Animations/resource_animation_plant_grow";
 	string reverseGrowAnimationPrefabPath = "Animations/resource_animation_plant_reverse_grow";
+	string toSeedAnimationPrefabPath = "Animations/resource_animation_plant_to_seed";
+	string reverseToSeedAnimationPrefabPath = "Animations/resource_animation_plant_to_seed_reverse";
 	
 	
 	public override void Start() {
@@ -130,8 +132,16 @@ public class Plant : Pickup {
 			
 			/* And I'm in the future... */
 			else {
-
+				/* Play reverse plant to seed animation. */
+				pastPlant.SetActive(false);
 				
+				GameObject plantAnimation = (GameObject)Instantiate(
+					Resources.Load(reverseToSeedAnimationPrefabPath),
+					new Vector3(pastPlant.transform.position.x, pastPlant.transform.position.y, mainCamera.transform.position.z+0.5f),
+					Quaternion.identity
+					);
+				
+				plantAnimation.transform.localScale = new Vector3(0.75f, 0.75f, 1.0f);
 			}
 			
 			
@@ -155,7 +165,16 @@ public class Plant : Pickup {
 			}
 			/* And I'm in the future... */
 			else {
-				;
+				/* Play plant to seed animation. */
+				pastPlant.SetActive(false);
+				
+				GameObject plantAnimation = (GameObject)Instantiate(
+					Resources.Load(toSeedAnimationPrefabPath),
+					new Vector3(pastPlant.transform.position.x, pastPlant.transform.position.y, mainCamera.transform.position.z+0.5f),
+					Quaternion.identity
+					);
+				
+				plantAnimation.transform.localScale = new Vector3(0.75f, 0.75f, 1.0f);
 			}
 			
 			
