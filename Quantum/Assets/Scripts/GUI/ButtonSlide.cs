@@ -23,10 +23,10 @@ public class ButtonSlide : MonoBehaviour {
 	void Clicked(tk2dUIItem clickedUIItem) {
 		
 		if(transform.tag.Equals("left"))
-			wheel.GetComponent<LevelSlide>().ScrollLeft();
+			wheel.GetComponent<LevelSlide>().ScrollRight();
 		
 		if(transform.tag.Equals("right"))
-			wheel.GetComponent<LevelSlide>().ScrollRight();
+			wheel.GetComponent<LevelSlide>().ScrollLeft();
 		
 	}
 	

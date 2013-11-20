@@ -7,7 +7,8 @@ public class LevelSlide : MonoBehaviour {
 	bool levelPicked = false;
 	
 	int selectedLevel = 0;
-	GameObject[] tiles;
+	int highestLevelUnlocked = 0;
+	public GameObject[] tiles;
 	
 	
 	/* Used to control rotation speed when user holds down left/right/analog tilt. */
@@ -26,8 +27,10 @@ public class LevelSlide : MonoBehaviour {
 			
 			tiles[i] = currentTile;
 		}
-		
-		//tiles[0].GetComponent<Tile>().fade = false;
+
+		highestLevelUnlocked = 0; // TODO: Replace this with the furthest level the player has gotten to.
+
+		FadeUnavailableLevels();
 	}
 	
 	
@@ -36,11 +39,11 @@ public class LevelSlide : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		if(Input.GetKeyDown(KeyCode.LeftArrow)){
+		if(Input.GetKeyDown(KeyCode.RightArrow)){
 			ScrollLeft();	
 		}
 		
-		if(Input.GetKeyDown(KeyCode.RightArrow)){
+		if(Input.GetKeyDown(KeyCode.LeftArrow)){
 			ScrollRight();	
 		}
 		
@@ -48,27 +51,27 @@ public class LevelSlide : MonoBehaviour {
 			OnClick(tiles[selectedLevel].GetComponent<tk2dUIItem>());
 			levelPicked = true;
 		}
-		
-		if(Input.GetKeyDown(KeyCode.Escape)){
+
+		/* If hitting back button, load main menu. */
+		if (Input.GetKeyDown(KeyCode.Escape)) {
+
 			Application.LoadLevel("level_select_main");	
-			foreach (GameObject tile in tiles)
+
+			foreach (GameObject tile in tiles) {
 				tile.SetActive(false);
+			}
+
 			transform.FindChild("LeftButton").gameObject.SetActive(false);
 			transform.FindChild("RightButton").gameObject.SetActive(false);
 		}
-		
+
 	}
 	
 	
 	void OnClick(tk2dUIItem clickedUIItem) {
 		/* If clicked center button. */
-		if (tiles[selectedLevel] == clickedUIItem.gameObject) {
-			/* 
-			 * TODO: Do checking for if the level is available.
-			 * */
-
+		if (selectedLevel <= highestLevelUnlocked) {
 			LevelManager.LoadLevel(selectedLevel);
-				
 		}
 		
 	}
@@ -84,15 +87,16 @@ public class LevelSlide : MonoBehaviour {
 			selectedLevel = 0;
 		}
 
-			for(int i = 0; i < totalLevels; i++){
-					
-				if(i == selectedLevel)
-					iTween.MoveTo(tiles[i], new Vector3(0.0f,0.0f, 0.0f), 1.00f);
-				else{
-					float curX = tiles[i].transform.position.x;
-					iTween.MoveTo(tiles[i], new Vector3(curX - 2.0f,0.0f, 2.0f), 1.00f);
-				}
+		for (int i = 0; i < totalLevels; i++) {
+				
+			if (i == selectedLevel) {
+				iTween.MoveTo(tiles[i], new Vector3(0.0f,0.0f, 0.0f), 1.00f);
 			}
+			else {
+				float curX = tiles[i].transform.position.x;
+				iTween.MoveTo(tiles[i], new Vector3(curX - 2.0f,0.0f, 2.0f), 1.00f);
+			}
+		}
 	}
 	
 	
@@ -106,15 +110,36 @@ public class LevelSlide : MonoBehaviour {
 			selectedLevel = totalLevels - 1;
 		}
 
-			for(int i = 0; i < totalLevels; i++){
-					
-				if(i == selectedLevel)
-					iTween.MoveTo(tiles[i], new Vector3(0.0f,0.0f, 0.0f), 1.00f);
-				else{
-					float curX = tiles[i].transform.position.x;
-					iTween.MoveTo(tiles[i], new Vector3(curX + 2.0f,0.0f, 2.0f), 1.00f);
-				}
+		for (int i = 0; i < totalLevels; i++){
+				
+			if (i == selectedLevel) {
+				iTween.MoveTo(tiles[i], new Vector3(0.0f,0.0f, 0.0f), 1.00f);
 			}
+			else {
+				float curX = tiles[i].transform.position.x;
+				iTween.MoveTo(tiles[i], new Vector3(curX + 2.0f,0.0f, 2.0f), 1.00f);
+			}
+		}
+	}
+
+
+	public void FadeUnavailableLevels() {
+
+		Color fadeColor = new Color(1.0f, 1.0f, 1.0f, 0.5f);
+
+		/* Fade out any levels that haven't been unlocked. */
+		for (int i = 0; i < totalLevels; i++) {
+
+			tk2dSlicedSprite currentTileSprite = tiles[i].transform.Find("ButtonGraphic").GetComponent<tk2dSlicedSprite>();
+
+			if (i <= highestLevelUnlocked) {
+				currentTileSprite.color = Color.white; // Fully opaque if unlocked.
+			}
+			else {
+				currentTileSprite.color = fadeColor; // Transparent if not unlocked yet.
+			}
+		}
+
 	}
 
 }
