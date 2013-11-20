@@ -43,7 +43,7 @@ public class Level01Event001: PlayerEvent {
 	
 		player.ShowDialogueBox();
 //		player.SetDialogue("Lucky I've got my handy dandy ^cFF0FCOMPASS^cFFFF to point out those 'hard-to-see' ^cFF0Ftime machine pieces^cFFFF!");
-		player.SetDialogue("Lucky I've got my ^cFF0FTIME COMPASS^cFFFF! \n\nLazy geezers like me want help finding those 'hard-to-see' ^cFF0FTIME CRYSTALS^cFFFF.");
+		player.SetDialogue("Lucky I've got my ^cFF0FTIME COMPASS^cFFFF! \n\nLazy geezers like me NEED help finding 'hard-to-see' ^cFF0FTIME CRYSTALS^cFFFF.");
 		
 		compassGUI.gameObject.SetActive(true);
 		iTween.ScaleTo(compassGUI.gameObject, new Vector3(1.3f*compassOriginalSize.x, 1.3f*compassOriginalSize.y, 1.0f), 1.5f);

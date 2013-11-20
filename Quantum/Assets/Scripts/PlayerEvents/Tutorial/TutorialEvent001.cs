@@ -5,7 +5,7 @@ public class TutorialEvent001 : PlayerEvent {
 	
 	
 	private bool alreadyActivated;
-	
+	public static bool leftTrigger;
 	
 	
 	public override void OnActivate(Player player) {
@@ -15,8 +15,6 @@ public class TutorialEvent001 : PlayerEvent {
 		}
 
 		base.OnActivate(player);
-		
-		player.canMove = false;
 		
 		StartCoroutine( DoEvent() );
 		
@@ -37,14 +35,26 @@ public class TutorialEvent001 : PlayerEvent {
 		while (Input.GetAxis("Horizontal") == 0.0f) {
 			yield return null;	
 		}
-		player.canMove = true;
-		
-		yield return new WaitForSeconds(1.0f);
-		
+
+		float timeUntilHideDialogBox = 4.0f;
+		while (timeUntilHideDialogBox != 0.0f) {
+			
+			if (leftTrigger) {
+				yield break;	
+			}
+			
+			yield return null;
+			timeUntilHideDialogBox = Mathf.Max (timeUntilHideDialogBox - Time.deltaTime, 0.0f);
+			
+		}
+
 		player.HideDialogueBox(0.5f);
 		
 	}
 
+	void OnTriggerExit() {
+		leftTrigger = true;
+	}
 		
 	
 	

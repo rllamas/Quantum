@@ -39,7 +39,7 @@ public class TutorialEvent003 : PlayerEvent {
 		
 		/* Wait for a little while to hide the dialog box, but if the player enters a portal, then
 		 * hide the dialog box immediately. */
-		float timeUntilHideDialogBox = 4.0f;
+		float timeUntilHideDialogBox = 6.0f;
 		while (timeUntilHideDialogBox != 0.0f) {
 		
 			if (Vortex.CurrentlyWarping()) {

@@ -32,7 +32,7 @@ public class Level02Event002 : PlayerEvent {
 		}
 			
 		player.ShowDialogueBox();
-		player.SetDialogue("'Sup lil' guy? How'd you get here?\n\n^c888F*No response.*^cFFFF\n...Wait, I'm talking to ^c0F0Fplants^cFFFF now!?");
+		player.SetDialogue("'Sup lil' guy? How'd you get here?\n\n^c888F* No response. *^cFFFF\n\n...Wait, I'm talking to ^c0F0Fplants^cFFFF now!?");
 		
 		alreadyActivated = true;	
 		

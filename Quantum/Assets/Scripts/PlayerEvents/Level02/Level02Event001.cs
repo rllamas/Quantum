@@ -29,7 +29,7 @@ public class Level02Event001 : PlayerEvent {
 		}
 			
 		player.ShowDialogueBox();
-		player.SetDialogue("There's no ^c0F0Fsapling^cFFFF here, hmm... \n\nMaybe one fell through that ^cF08Fvortex^cFFFF. I would too if I were a ^c0F0Fplant^cFFFF. And green.");
+		player.SetDialogue("There's no ^c0F0Fsapling^cFFFF here, hmm... \n\nMaybe one fell through that ^cF08Fvortex^cFFFF.\n\nI guess I would too if I were a ^c0F0Fplant^cFFFF. And green.");
 		
 		alreadyActivated = true;	
 		

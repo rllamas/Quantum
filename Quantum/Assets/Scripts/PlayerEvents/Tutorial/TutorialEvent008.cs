@@ -36,12 +36,8 @@ public class TutorialEvent008 : PlayerEvent {
 		
 		/* Wait for a little while to hide the dialog box, but if the player gets the goal, then
 		 * hide the dialog box immediately. */
-		float timeUntilHideDialogBox = 2.0f;
+		float timeUntilHideDialogBox = 6.5f;
 		while (timeUntilHideDialogBox != 0.0f) {
-		
-			if (player.HasWon()) {
-				break;	
-			}
 			
 			yield return null;
 			timeUntilHideDialogBox = Mathf.Max (timeUntilHideDialogBox - Time.deltaTime, 0.0f);

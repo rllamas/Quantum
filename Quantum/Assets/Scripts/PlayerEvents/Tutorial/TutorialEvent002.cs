@@ -5,14 +5,19 @@ public class TutorialEvent002 : PlayerEvent {
 	
 	
 	private bool alreadyActivated;
-	
+	private bool leftTrigger;
 	
 	
 	public override void OnActivate(Player player) {
 		
-		if (alreadyActivated) {
+		if (alreadyActivated || !TutorialEvent001.leftTrigger) {
+
+			Debug.Log("alreadyActivated? " + alreadyActivated);
+			Debug.Log("TutorialEvent001.leftTrigger? " + TutorialEvent001.leftTrigger);
 			return;	
 		}
+
+		Debug.Log("Starting Event 2 Couroutine.");
 
 		base.OnActivate(player);
 		StartCoroutine( DoEvent() );
@@ -29,18 +34,32 @@ public class TutorialEvent002 : PlayerEvent {
 			
 		player.ShowDialogueBox();
 		player.SetDialogue("Ouch, my brain is fried... Mmm, chicken fried...\n\nAnyways, is jumping ^cFF0F[spacebar]^cFFFF again...?");
-		
-		
+
 		alreadyActivated = true;	
 		
-		while (!Input.GetButton("Jump")) {
+		while (!Input.GetButtonDown("Jump")) {
 			yield return null;	
 		}
 		
-		yield return new WaitForSeconds(2.0f);
+		float timeUntilHideDialogBox = 4.0f;
+		while (timeUntilHideDialogBox != 0.0f) {
+			
+			if (leftTrigger) {
+				yield break;	
+			}
+			
+			yield return null;
+			timeUntilHideDialogBox = Mathf.Max (timeUntilHideDialogBox - Time.deltaTime, 0.0f);
+			
+		}
+
+		player.HideDialogueBox(0.5f);
 		
-		player.HideDialogueBox();
-		
+	}
+
+
+	void OnTriggerExit() {
+		leftTrigger = true;
 	}
 
 	
