@@ -202,6 +202,16 @@ public class Player : MonoBehaviour {
 		if (IsVortex(other.gameObject)) {
 			nearVortex = true;	
 		}
+		else if (IsJump(other.gameObject)) {
+			if (LevelManager.IsPast()) {
+				if (maxVelocityY != 50.0f) {
+					maxVelocityY = 50.0f;
+				}
+				else {
+					maxVelocityY = 19.0f;
+				}
+			}
+		}
 		
 	}
 	
