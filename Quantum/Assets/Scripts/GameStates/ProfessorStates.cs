@@ -60,9 +60,13 @@ namespace Quantum.States {
 		
 		public override GameState NextState() {
 			float xAxisTilt = Input.GetAxis("Horizontal");
-			
+
+			/* If player has won stage, then switch to winning state. */
+			if (attachedPlayer.HasWon()) {
+				return new ProfessorWinningState(attachedPlayer);
+			}
 			/* If player isn't allow to move, then just stay in this state until he can. */
-			if (!attachedPlayer.canMove) {
+			else if (!attachedPlayer.canMove) {
 				return this;
 			}
 			/* If the player is now falling, then the next state is falling. */
@@ -341,7 +345,32 @@ namespace Quantum.States {
 		
 	} // end ProfesorFallingState class	
 	
-	
-	
+
+
+
+
+	public class ProfessorWinningState : PlayerState {
+
+		
+		/* Constructor. */
+		public ProfessorWinningState(Player player) : base(player) {
+			attachedPlayer.animator.Play("Thumbs Up");
+		}
+
+
+		public override void Logic() {
+			return;
+		}
+
+
+		public override GameState NextState() {
+			return this;	
+		}
+
+
+	} // end ProfessorWinningState class
+
+
+
 	
 }

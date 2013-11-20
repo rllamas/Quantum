@@ -79,7 +79,9 @@ public class Player : MonoBehaviour {
 	/* GUI used by player to say things. */
 	public GameObject dialogueGUI;
 	private Vector3 dialogueGUIExpandedScale;
-	
+
+	/* Main Camera. */
+	tk2dCamera mainCamera;
 	
 	/* The state the action button is currently in. */
 	public enum ActionButtonStates {
@@ -99,9 +101,14 @@ public class Player : MonoBehaviour {
 	
 	/* Am I allowed to move right now? */
 	public bool canMove;
-	
-	
-	
+
+	/* Has the camera already been moved for the player winning the level? */
+	private bool handledWinningCamera;
+
+
+
+
+
 	void Awake() {
 		gameObject.tag = "Player";	
 	}
@@ -133,12 +140,15 @@ public class Player : MonoBehaviour {
 		
 		nearVortex = false;
 		canMove = true;
+		handledWinningCamera = false;
 		
 		sfxPlayer = GetComponent<AudioSource>();
 		
 		dialogueGUI = GameObject.Find("Dialogue GUI").gameObject;
 		dialogueGUIExpandedScale = dialogueGUI.transform.localScale;
 		dialogueGUI.transform.localScale = Vector3.zero;
+
+		mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<tk2dCamera>();
 	}
 	
 	
@@ -160,6 +170,8 @@ public class Player : MonoBehaviour {
 		currentState.Logic();
 		HandleExtraLogic();
 		HandleVelocityCap();
+
+		HandleCamera();
 		
 		//Debug.Log (body.LinearVelocity);
 	}
@@ -210,9 +222,9 @@ public class Player : MonoBehaviour {
 			if (Input.GetButtonDown("Action1")) {
 				Goal goal = other.gameObject.GetComponent<Goal>();	
 				goal.OnActivate(this);
-				currentActionButtonState = ActionButtonStates.NONE;
+				currentActionButtonState = ActionButtonStates.WON;
 			}
-			else {
+			else if (currentActionButtonState != ActionButtonStates.WON) {
 				currentActionButtonState = ActionButtonStates.CAN_WIN;	
 			}
 		}
@@ -342,6 +354,28 @@ public class Player : MonoBehaviour {
 		/* Decrement cooldown time remaining for interacting with vortexes. */
 		vortexCooldownTimeRemaining -= Time.deltaTime;
 		vortexCooldownTimeRemaining = Math.Max(0.0f, vortexCooldownTimeRemaining);
+	}
+
+
+
+	/* Handle camera if player has won the level. */
+	private void HandleCamera() {
+
+		if (HasWon() && !handledWinningCamera) {
+			handledWinningCamera = true;
+			StartCoroutine( HandleWinningCameraHelper() );
+		}
+	}
+
+
+	IEnumerator HandleWinningCameraHelper() {
+		float targetZoomFactor = 4.0f;
+
+		while (mainCamera.ZoomFactor < targetZoomFactor) {
+			mainCamera.ZoomFactor += 0.05f;
+			yield return null;
+		}
+		yield break;
 	}
 	
 	
