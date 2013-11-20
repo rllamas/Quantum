@@ -65,15 +65,14 @@ public class LevelSlide : MonoBehaviour {
 			transform.FindChild("RightButton").gameObject.SetActive(false);
 		}
 
+		if (Input.GetButtonDown("Action1") || Input.GetButtonDown("Jump")) {
+			HandleButtonClick();
+		}
 	}
 	
 	
 	void OnClick(tk2dUIItem clickedUIItem) {
-		/* If clicked center button. */
-		if (selectedLevel <= highestLevelUnlocked) {
-			LevelManager.LoadLevel(selectedLevel);
-		}
-		
+		HandleButtonClick();
 	}
 	
 	
@@ -142,4 +141,11 @@ public class LevelSlide : MonoBehaviour {
 
 	}
 
+
+	public void HandleButtonClick() {
+	
+		if (selectedLevel <= highestLevelUnlocked) {
+			LevelManager.LoadLevel(selectedLevel);
+		}
+	}
 }
