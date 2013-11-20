@@ -13,6 +13,7 @@ public class LevelManager : MonoBehaviour {
 	public TimePeriod CurrentEra;
 	private static LevelManager singletonInstance = null;
 	private int CurrentLevel = 0; // -1 is used for controls scene
+
 	private string[] Levels = {
 		"scene_level_00",
 		"scene_level_01",
@@ -22,6 +23,8 @@ public class LevelManager : MonoBehaviour {
 		"scene_level_05",
 		"scene_level_06",
 	};
+	private string winScene = "scene_win_01";
+	private string levelSelectScene = "level_select_beta";
 
 	public MeshFilter animationCurtain;
 	private tk2dTextMesh levelNameText;
@@ -150,9 +153,14 @@ public class LevelManager : MonoBehaviour {
 		if (CurrentLevel == -1) {
 			throw new Exception("There's no subsequent level to go to!");
 		}
-		
+
 		++CurrentLevel;
-		Application.LoadLevel(Levels[CurrentLevel]);
+		if (CurrentLevel >= Levels.Length) {
+			Application.LoadLevel(winScene);
+		}
+		else {
+			Application.LoadLevel(Levels[CurrentLevel]);
+		}
 	}
 	
 
@@ -180,7 +188,7 @@ public class LevelManager : MonoBehaviour {
 	public static void LoadLevelSelect() {
 
 		Instance.CurrentLevel = -1;
-		Application.LoadLevel("level_select_beta");
+		Application.LoadLevel(Instance.levelSelectScene);
 	}
 	
 	
