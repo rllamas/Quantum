@@ -30,7 +30,7 @@ public class TutorialEvent003 : PlayerEvent {
 			
 		player.ShowDialogueBox();
 		player.SetDialogue("I can use that ^cF08Fvortex^cFFFF to [SHIFT] into the ^cF08Ffuture^cFFFF!");
-		
+		player.SetDialogue("Maybe they got booze in that ^cF08Fvortex^cFFFF thingy!\n\nI should use that ^cF08Fvortex^cFFFF to ^cFF0F[shift]^cFFFF to the ^cF08Ffuture^cFFFF and poke around."); 
 		alreadyActivated = true;	
 		
 		while (Input.GetAxis("Horizontal") == 0.0f) {

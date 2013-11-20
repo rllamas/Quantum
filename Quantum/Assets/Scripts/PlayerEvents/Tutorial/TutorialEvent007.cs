@@ -37,10 +37,11 @@ public class TutorialEvent007: PlayerEvent {
 		
 		
 		if (!alreadyActivated) {
-			player.SetDialogue("Was it helpful to take this ^c0F0Fsapling^cFFFF to the ^cF08Ffuture^cFFFF...?");	
+			//player.SetDialogue("Was it helpful to take this ^c0F0Fsapling^cFFFF to the ^cF08Ffuture^cFFFF...?");	
+			player.SetDialogue("Bringing this ^c0F0Fsapling^cFFFF to ^cF08Ffuture^cFFFF didn't seem too helpful, but... \n\n^cF80FYOU ARE NOW THE FIRST TIME TRAVELING PLANT!!!^cFFFF");
 		}
 		else {
-			player.SetDialogue("This again? Man, I'm getting old! At least I'm handsome.");
+			player.SetDialogue("This again? I’m getting too old for this sh...tuff. \n\nPuzzles and drunk old men don't mix.");
 		}
 		
 		alreadyActivated = true;	

@@ -29,7 +29,8 @@ public class TutorialEvent004 : PlayerEvent {
 		}
 			
 		player.ShowDialogueBox();
-		player.SetDialogue("Wowza, check out the size of that ^c0F0Fplant^cFFFF!");
+//		player.SetDialogue("Wowza, check out the size of that ^c0F0Fplant^cFFFF!");
+		player.SetDialogue("Crikey, that ^c0F0Fplant^cFFFF grew as big as a mouse... \n    Or a house...\n        Or whatever...");
 		
 		alreadyActivated = true;	
 		

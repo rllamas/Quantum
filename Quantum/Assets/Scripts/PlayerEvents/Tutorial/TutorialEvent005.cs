@@ -29,7 +29,7 @@ public class TutorialEvent005 : PlayerEvent {
 		}
 			
 		player.ShowDialogueBox();
-		player.SetDialogue("What's with these TVs...?");
+		player.SetDialogue("Educational television!?\n...\n....\n.....\nNOOOOOOOOOOOOOOOO!!!");
 		
 		alreadyActivated = true;	
 		

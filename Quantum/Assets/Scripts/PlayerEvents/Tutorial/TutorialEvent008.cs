@@ -29,8 +29,9 @@ public class TutorialEvent008 : PlayerEvent {
 		}
 			
 		player.ShowDialogueBox();
-		player.SetDialogue("Aha, a ^cFF0Ftime machine piece^cFFFF!");
-		
+		//player.SetDialogue("Aha, a ^cFF0Ftime machine piece^cFFFF!");
+		player.SetDialogue("BOOM BABY! ONE OF MY ^cFF0FTIME MACHINE CRYSTALS^cFFFF!\n\nI'll be back in my time in no time... pun intended.");
+
 		alreadyActivated = true;	
 		
 		/* Wait for a little while to hide the dialog box, but if the player gets the goal, then
