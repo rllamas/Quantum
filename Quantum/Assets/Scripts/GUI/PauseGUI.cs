@@ -27,7 +27,7 @@ public class PauseGUI : MonoBehaviour {
 			pause.changeCamera();
 		}else if(this.gameObject.name.Equals("Main Menu")){
 			//transform.Find("LevelManager").gameObject.GetComponent<LevelManager>().LoadLevelSelect();
-			Application.LoadLevel("level_select_main");
+			Application.LoadLevel("scene_title_with_level_select");
 			pause.pauseGame();
 		}else if(this.gameObject.name.Equals("Reset")){
 			//int level = transform.Find("LevelManager").gameObject.GetComponent<LevelManager>().GetCurrentLevelNumber();
