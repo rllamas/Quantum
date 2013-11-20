@@ -9,7 +9,11 @@ public class LevelSlide : MonoBehaviour {
 	int selectedLevel = 0;
 	int highestLevelUnlocked = 0;
 	public GameObject[] tiles;
-	
+
+	private Vector3 originalTile0Position;
+	public Color fadeColor = new Color(0.7f, 0.45f, 0.45f, 1.0f);
+
+	public bool buttonClicksLocked = false; // Can be set in other scripts.
 	
 	/* Used to control rotation speed when user holds down left/right/analog tilt. */
 	//float maxScrollTimeout = 0.2f;
@@ -28,6 +32,7 @@ public class LevelSlide : MonoBehaviour {
 			tiles[i] = currentTile;
 		}
 
+		originalTile0Position = tiles[0].transform.position;
 		highestLevelUnlocked = 0; // TODO: Replace this with the furthest level the player has gotten to.
 
 		FadeUnavailableLevels();
@@ -89,11 +94,11 @@ public class LevelSlide : MonoBehaviour {
 		for (int i = 0; i < totalLevels; i++) {
 				
 			if (i == selectedLevel) {
-				iTween.MoveTo(tiles[i], new Vector3(0.0f,0.0f, 0.0f), 1.00f);
+				iTween.MoveTo(tiles[i], originalTile0Position, 1.00f);
 			}
 			else {
 				float curX = tiles[i].transform.position.x;
-				iTween.MoveTo(tiles[i], new Vector3(curX - 2.0f,0.0f, 2.0f), 1.00f);
+				iTween.MoveTo(tiles[i], new Vector3(curX - 8.0f, originalTile0Position.y, originalTile0Position.z + 2.0f), 1.00f);
 			}
 		}
 	}
@@ -112,19 +117,17 @@ public class LevelSlide : MonoBehaviour {
 		for (int i = 0; i < totalLevels; i++){
 				
 			if (i == selectedLevel) {
-				iTween.MoveTo(tiles[i], new Vector3(0.0f,0.0f, 0.0f), 1.00f);
+				iTween.MoveTo(tiles[i], originalTile0Position, 1.00f);
 			}
 			else {
 				float curX = tiles[i].transform.position.x;
-				iTween.MoveTo(tiles[i], new Vector3(curX + 2.0f,0.0f, 2.0f), 1.00f);
+				iTween.MoveTo(tiles[i], new Vector3(curX + 8.0f, originalTile0Position.y, originalTile0Position.z + 2.0f), 1.00f);
 			}
 		}
 	}
 
 
 	public void FadeUnavailableLevels() {
-
-		Color fadeColor = new Color(1.0f, 1.0f, 1.0f, 0.5f);
 
 		/* Fade out any levels that haven't been unlocked. */
 		for (int i = 0; i < totalLevels; i++) {
@@ -144,8 +147,10 @@ public class LevelSlide : MonoBehaviour {
 
 	public void HandleButtonClick() {
 	
-		if (selectedLevel <= highestLevelUnlocked) {
-			LevelManager.LoadLevel(selectedLevel);
+		if (!buttonClicksLocked) {
+			if (selectedLevel <= highestLevelUnlocked) {
+				LevelManager.LoadLevel(selectedLevel);
+			}
 		}
 	}
 }
