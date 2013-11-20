@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Back : MonoBehaviour {
+public class ButtonSlide : MonoBehaviour {
 	tk2dUIItem uiItem;
 	GameObject wheel;
 	
@@ -12,25 +12,26 @@ public class Back : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown(KeyCode.Escape)){
-			Clicked(this.GetComponent<tk2dUIItem>());
-		}
+		
 	}
 	
 	void OnEnable() {
 		uiItem = GetComponent<tk2dUIItem>();
-    	uiItem.OnClickUIItem += Clicked;
+		uiItem.OnClickUIItem += Clicked;
 	}
-
+	
 	void Clicked(tk2dUIItem clickedUIItem) {
 		
-		Application.LoadLevel("scene_title_01");
-		wheel.SetActive(false);
+		if(transform.tag.Equals("left"))
+			wheel.GetComponent<LevelSlide>().ScrollLeft();
+		
+		if(transform.tag.Equals("right"))
+			wheel.GetComponent<LevelSlide>().ScrollRight();
 		
 	}
-
+	
 	//Also remember if you are adding event listeners to events you need to also remove them:
 	void OnDisable() {
-    	uiItem.OnClickUIItem -= Clicked;
+		uiItem.OnClickUIItem -= Clicked;
 	}
 }

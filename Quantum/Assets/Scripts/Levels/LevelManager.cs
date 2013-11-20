@@ -180,7 +180,7 @@ public class LevelManager : MonoBehaviour {
 	public static void LoadLevelSelect() {
 
 		Instance.CurrentLevel = -1;
-		Application.LoadLevel("level_select_main");
+		Application.LoadLevel("level_select_beta");
 	}
 	
 	
