@@ -247,7 +247,7 @@ public class Player : MonoBehaviour {
 			}
 			else {
 				if (IsPlant(other.gameObject)) {
-					Debug.Log ("IsPlant!");
+//					Debug.Log ("IsPlant!");
 					currentActionButtonState = ActionButtonStates.CAN_PICKUP_PLANT;
 				}
 				else {
