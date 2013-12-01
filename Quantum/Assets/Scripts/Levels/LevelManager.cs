@@ -42,7 +42,7 @@ public class LevelManager : MonoBehaviour {
 		        GameObject obj = new GameObject("LevelManager");
 		        singletonInstance = obj.AddComponent(typeof (LevelManager)) as LevelManager;
 				obj.name = "Level Manager";
-		        Debug.Log ("Could not find a LevelManager object, so automatically generated one.");
+		        //Debug.Log ("Could not find a LevelManager object, so automatically generated one.");
 		    }
 		
 		    return singletonInstance;

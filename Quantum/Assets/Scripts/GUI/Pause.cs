@@ -9,7 +9,7 @@ public class Pause : MonoBehaviour {
 	void Start () {
 		pCam = GameObject.Find("PauseCamera").gameObject;
 		normCam = GameObject.Find("tk2dCamera").gameObject;
-		Debug.Log("Hello");
+		//Debug.Log("Hello");
 		pCam.SetActive(false);
 	}
 	

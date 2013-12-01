@@ -17,7 +17,7 @@ public abstract class PlayerEvent : MonoBehaviour {
 	
 	/* The Player object is expected to call this method when activating up this object. */
 	public virtual void OnActivate(Player player) {
-		Debug.Log (this.name + ": OnActivate().");		
+		//Debug.Log (this.name + ": OnActivate().");		
 	}
 		
 	

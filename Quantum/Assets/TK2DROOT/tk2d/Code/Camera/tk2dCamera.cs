@@ -731,7 +731,7 @@ public class tk2dCamera : MonoBehaviour
 				}
 			}
 
-			Debug.Log("tk2dCamera '" + this.name + "' - Upgraded from version " + version.ToString());
+			//Debug.Log("tk2dCamera '" + this.name + "' - Upgraded from version " + version.ToString());
 			version = CURRENT_VERSION;
 		}
 	}

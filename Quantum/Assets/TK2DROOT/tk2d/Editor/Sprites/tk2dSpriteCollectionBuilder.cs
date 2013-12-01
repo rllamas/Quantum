@@ -1007,7 +1007,7 @@ public class tk2dSpriteCollectionBuilder
 			}
 
 			//sw.Stop();
-			//Debug.Log(string.Format("Time: {0}ms", sw.Elapsed.TotalMilliseconds));
+			////Debug.Log(string.Format("Time: {0}ms", sw.Elapsed.TotalMilliseconds));
 
 			// Find more duplicates based on the hash
 			for (int i = 0; i < spriteLuts.Count; ++i) {

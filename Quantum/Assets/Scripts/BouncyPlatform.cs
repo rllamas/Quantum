@@ -23,7 +23,7 @@ public class BouncyPlatform : MonoBehaviour {
 	bool OnCollisionEvent(Fixture A, Fixture B, Contact contact) {
 		/*if (contact.IsTouching() && A.Body.UserTag == "Player") {
 			A.Body.ApplyLinearImpulse(new FVector2(0, jumpFactor));
-			//Debug.Log("A: " + A.Body.LinearVelocity);
+			////Debug.Log("A: " + A.Body.LinearVelocity);
 			
 			/* Play jumping sound. *
 			Player attachedPlayer = GameObject.FindWithTag("Player").GetComponent<Player>();
@@ -37,7 +37,7 @@ public class BouncyPlatform : MonoBehaviour {
 		}
 		else*/ if (contact.IsTouching() && B.Body.UserTag == "Player") {
 			B.Body.ApplyLinearImpulse(new FVector2(0, jumpFactor));
-			//Debug.Log("B: " + B.Body.LinearVelocity);
+			////Debug.Log("B: " + B.Body.LinearVelocity);
 			
 			/* Play jumping sound. */
 			Player attachedPlayer = GameObject.FindWithTag("Player").GetComponent<Player>();

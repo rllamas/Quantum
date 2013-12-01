@@ -21,11 +21,11 @@ public class Test : MonoBehaviour {
 
 	void Clicked(tk2dUIItem clickedUIItem) {
 		//if(!fade){
-    		//Debug.Log("Clicked:" + clickedUIItem);
+    		////Debug.Log("Clicked:" + clickedUIItem);
 			//iTween.MoveTo(this.gameObject, new Vector3( 0.0f,0.0f,-1.3f), 1.5f);
 		//}
 		
-		Debug.Log("Click!");
+		//Debug.Log("Click!");
 	}
 	
 

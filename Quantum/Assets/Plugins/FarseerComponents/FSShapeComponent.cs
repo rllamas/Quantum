@@ -137,7 +137,7 @@ public class FSShapeComponent : MonoBehaviour
 				return null;
 			
 			Vector3 scale = transform.lossyScale;
-			//Debug.Log("SCALE: " + scale);
+			////Debug.Log("SCALE: " + scale);
 			
 			Vector3 v00l = new Vector3(-bc.size.x * 0.5f, -bc.size.y * 0.5f);
 			Vector3 v01l = new Vector3(bc.size.x * 0.5f, -bc.size.y * 0.5f);

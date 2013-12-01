@@ -52,7 +52,7 @@ public class Wheel3 : MonoBehaviour {
 			//iTween.ShakePosition(tiles[selectedLevel], new Vector3(Random.Range(-0.9f, 0.9f), Random.Range(-0.9f, 0.9f), Random.Range(-0.9f, 0.9f)), 2.0f);
 
 			Application.LoadLevel("level_select_group_" + selectedLevel);
-			Debug.Log("Loading:	level_select_group_" + selectedLevel);
+			//Debug.Log("Loading:	level_select_group_" + selectedLevel);
 //				foreach (GameObject tile in tiles)
 //					tile.SetActive(false);
 //				transform.FindChild("LeftButton").gameObject.SetActive(false);
@@ -92,7 +92,7 @@ public class Wheel3 : MonoBehaviour {
 	void ScrollAnimation() {
 		switch (selectedLevel) {
 			case 0:
-        		Debug.Log("Case 1");
+        		//Debug.Log("Case 1");
 				iTween.MoveTo(tiles[0], new Vector3( 0.0f,0.0f, 0.0f), 2.00f);	//tile1
 				tiles[0].GetComponent<Tile>().fade = false;
 				iTween.MoveTo(tiles[1], new Vector3( 2.0f,0.0f, 2.0f), 2.00f);	//tile2
@@ -101,7 +101,7 @@ public class Wheel3 : MonoBehaviour {
 				tiles[2].GetComponent<Tile>().fade = true;
         		break;
     		case 1:
-        		Debug.Log("Case 2");
+        		//Debug.Log("Case 2");
 				iTween.MoveTo(tiles[1], new Vector3( 0.0f,0.0f, 0.0f), 2.00f);	//tile2
 				tiles[1].GetComponent<Tile>().fade = false;
 				iTween.MoveTo(tiles[2], new Vector3( 2.0f,0.0f, 2.0f), 2.00f);	//tile3
@@ -110,7 +110,7 @@ public class Wheel3 : MonoBehaviour {
 				tiles[0].GetComponent<Tile>().fade = true;
         		break;
     		case 2:
-        		Debug.Log("Case 3");
+        		//Debug.Log("Case 3");
 				iTween.MoveTo(tiles[2], new Vector3( 0.0f,0.0f, 0.0f), 2.00f);	//tile3
 				tiles[2].GetComponent<Tile>().fade = false;
 				iTween.MoveTo(tiles[0], new Vector3( 2.0f,0.0f, 2.0f), 2.00f);	//tile1

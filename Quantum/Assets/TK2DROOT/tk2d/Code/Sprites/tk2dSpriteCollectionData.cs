@@ -608,7 +608,7 @@ public class tk2dSpriteCollectionData : MonoBehaviour
 	/// Make sure all sprites using this collection have already been destroyed.
 	/// </summary>
 	public void UnloadTextures() {
-		// Debug.Log(Resources.FindObjectsOfTypeAll(typeof(Texture2D)).Length);
+		// //Debug.Log(Resources.FindObjectsOfTypeAll(typeof(Texture2D)).Length);
 
 		tk2dSpriteCollectionData theInst = inst;
 		foreach (Texture2D texture in theInst.textures) {
@@ -617,7 +617,7 @@ public class tk2dSpriteCollectionData : MonoBehaviour
 
 		theInst.DestroyTextureInsts();
 
-		// Debug.Log(Resources.FindObjectsOfTypeAll(typeof(Texture2D)).Length);
+		// //Debug.Log(Resources.FindObjectsOfTypeAll(typeof(Texture2D)).Length);
 	}
 
 	void OnDestroy()

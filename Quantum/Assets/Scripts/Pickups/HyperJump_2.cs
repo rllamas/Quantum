@@ -15,6 +15,9 @@ public class HyperJump_2 : Pickup {
 	
 	private tk2dCamera mainCamera;
 
+	private GameObject activeParticles;
+	private GameObject inactiveParticles;
+
 	string disintegrationAnimationPrefabPath = "Animations/resource_animation_hyperjump_disintegration";
 	string disintegrationReverseAnimationPrefabPath = "Animations/resource_animation_hyperjump_disintegration_reverse";
 
@@ -27,6 +30,9 @@ public class HyperJump_2 : Pickup {
 		anim = GetComponent<tk2dSpriteAnimator>();
 
 		mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<tk2dCamera>();
+		activeParticles = transform.FindChild("Active Particles").gameObject;
+		inactiveParticles = transform.FindChild("Inactive Particles").gameObject;
+
 
 		body.FixtureList[0].UserData = "HyperJump";
 		body.FixtureList[0].UserTag = "HyperJump";
@@ -37,6 +43,15 @@ public class HyperJump_2 : Pickup {
 		}
 		else {
 			currentJumpFactor = 0f;
+		}
+
+		if (LevelManager.Instance.CurrentEra == currentEraExistingIn) {
+			activeParticles.SetActive(false);
+			inactiveParticles.SetActive(true);
+		}
+		else {
+			activeParticles.SetActive(false);
+			inactiveParticles.SetActive(false);
 		}
 	}
 	
@@ -138,11 +153,16 @@ public class HyperJump_2 : Pickup {
 			return;	
 		}
 
+		/* Disable all particle effects. */
+		activeParticles.SetActive(false);
+		inactiveParticles.SetActive(false);
+
 		/* If player is going to the future... */
 		if (eraChangingTo == TimePeriod.FUTURE) {
 			
 			/* And I'm in the past... */
 			if (currentEraExistingIn == TimePeriod.PAST) {
+
 				/* Deactivate Power. */
 				currentJumpFactor = 0f;
 				sprite.SetSprite("amimation_hyperjump_pad01");
@@ -154,13 +174,12 @@ public class HyperJump_2 : Pickup {
 					new Vector3(transform.position.x, transform.position.y, mainCamera.transform.position.z+0.5f),
 					Quaternion.identity
 					);
-				
-//				plantAnimation.transform.localScale = new Vector3(0.75f, 0.75f, 1.0f);
-//				plantAnimation.transform.Translate(0.75f, 10.0f, 0.0f);
+
 			}
 			
 			/* And I'm in the future... */
 			else {
+
 				/* Currently Deactivated */
 				currentJumpFactor = 0f;
 				sprite.SetSprite("amimation_hyperjump_pad01");
@@ -172,9 +191,7 @@ public class HyperJump_2 : Pickup {
 					new Vector3(transform.position.x, transform.position.y, mainCamera.transform.position.z+0.5f),
 					Quaternion.identity
 					);
-				
-				//				plantAnimation.transform.localScale = new Vector3(0.75f, 0.75f, 1.0f);
-				//				plantAnimation.transform.Translate(0.75f, 10.0f, 0.0f);
+
 			}
 			
 		}
@@ -198,9 +215,7 @@ public class HyperJump_2 : Pickup {
 					new Vector3(transform.position.x, transform.position.y, mainCamera.transform.position.z+0.5f),
 					Quaternion.identity
 				);
-				
-				//				plantAnimation.transform.localScale = new Vector3(0.75f, 0.75f, 1.0f);
-				//				plantAnimation.transform.Translate(0.75f, 10.0f, 0.0f);
+
 			}
 
 			/* And I'm in the future... */
@@ -240,6 +255,9 @@ public class HyperJump_2 : Pickup {
 				currentJumpFactor = 0f;
 				sprite.SetSprite("amimation_hyperjump_pad01");
 				GetComponent<MeshRenderer>().enabled = false;
+
+				activeParticles.SetActive(false);
+				inactiveParticles.SetActive(false);
 			}
 			
 			/* And I'm in the future... */
@@ -248,6 +266,9 @@ public class HyperJump_2 : Pickup {
 				currentJumpFactor = 0f;
 				sprite.SetSprite("amimation_hyperjump_pad01");
 				GetComponent<MeshRenderer>().enabled = true;
+
+				activeParticles.SetActive(false);
+				inactiveParticles.SetActive(true);
 			}
 			
 		}
@@ -263,6 +284,12 @@ public class HyperJump_2 : Pickup {
 				if (sprite.spriteId == sprite.GetSpriteIdByName("amimation_hyperjump_pad01")
 				    && this.transform.parent == null) {
 					sprite.SetSprite("amimation_hyperjump_pad12");
+
+				}
+
+				if (!this.transform.parent) {
+					activeParticles.SetActive(true);
+					inactiveParticles.SetActive(false);
 				}
 			}
 			/* And I'm in the future... */
@@ -271,6 +298,9 @@ public class HyperJump_2 : Pickup {
 				currentJumpFactor = 0f;
 				sprite.SetSprite("amimation_hyperjump_pad01");
 				GetComponent<MeshRenderer>().enabled = false;
+
+				activeParticles.SetActive(false);
+				inactiveParticles.SetActive(false);
 			}	
 		}
 	}
@@ -286,6 +316,9 @@ public class HyperJump_2 : Pickup {
 		
 		if (currentEraExistingIn == TimePeriod.PAST && LevelManager.IsPast()) {
 			anim.Play("deactivation");
+
+			activeParticles.SetActive(false);
+			inactiveParticles.SetActive(true);
 		}
 		
 		/* Play digging up sound. */
@@ -302,6 +335,9 @@ public class HyperJump_2 : Pickup {
 		
 		if (currentEraExistingIn == TimePeriod.PAST && LevelManager.IsPast()) {
 			anim.Play("activation");
+
+			activeParticles.SetActive(true);
+			inactiveParticles.SetActive(false);
 		}
 		
 		/* Play digging up sound. */

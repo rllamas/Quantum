@@ -256,7 +256,7 @@ public static class FSSettings
 	{
 		// path setup
 		string path = Application.dataPath + "/FarseerUnity/Editor/SerializedSettings";
-		//Debug.Log("PATH: " +path);
+		////Debug.Log("PATH: " +path);
 		if(!Directory.Exists(path))
 			Directory.CreateDirectory(path);
 		
@@ -264,15 +264,15 @@ public static class FSSettings
 		FileStream fs;
 		XmlSerializer xmls;
 		
-		//Debug.Log("PATH2: " +path + "/FSCoreSettings_" + platform.ToString() + ".cfg");
+		////Debug.Log("PATH2: " +path + "/FSCoreSettings_" + platform.ToString() + ".cfg");
 		//FSCoreSettings
 		if(File.Exists(path + "/FSCoreSettings_" + platform.ToString() + ".cfg"))
 		{
-			//Debug.Log("EXISTS");
+			////Debug.Log("EXISTS");
 			xmls = new XmlSerializer(typeof(FSCoreSettings));
 			fs = new FileStream(path + "/FSCoreSettings_" + platform.ToString() + ".cfg", FileMode.Open);
 			coreSettings = xmls.Deserialize(fs) as FSCoreSettings;
-			//Debug.Log(coreSettings);
+			////Debug.Log(coreSettings);
 			fs.Close();
 		}
 		else

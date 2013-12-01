@@ -22,8 +22,8 @@ public class PlayerCamera : MonoBehaviour {
 	void LateUpdate () {
 		
 		/* Follow the player. */
-		if (attachedPlayer) {
-			this.transform.position = attachedPlayer.transform.position + offsetFromPlayer;
-		}
+//		if (attachedPlayer) {
+//			this.transform.position = attachedPlayer.transform.position + offsetFromPlayer;
+//		}
 	}
 }

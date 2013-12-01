@@ -41,7 +41,7 @@ public class tk2dFont : MonoBehaviour
 		if (version >= CURRENT_VERSION) {
 			return;
 		}
-		Debug.Log("Font '" + this.name + "' - Upgraded from version " + version.ToString());
+		//Debug.Log("Font '" + this.name + "' - Upgraded from version " + version.ToString());
 
 		if (version == 0) {
 			sizeDef.CopyFromLegacy( useTk2dCamera, targetOrthoSize, targetHeight );

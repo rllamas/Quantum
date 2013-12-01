@@ -6840,7 +6840,7 @@ public class iTween : MonoBehaviour{
 				try {
 					namedcolorvalue=(NamedValueColor)Enum.Parse(typeof(NamedValueColor),(string)tweenArguments["namedcolorvalue"],true); 
 				} catch {
-					Debug.LogWarning("iTween: Unsupported namedcolorvalue supplied! Default will be used.");
+					//Debug.LogWarning("iTween: Unsupported namedcolorvalue supplied! Default will be used.");
 					namedcolorvalue = iTween.NamedValueColor._Color;
 				}
 			}			
@@ -6856,7 +6856,7 @@ public class iTween : MonoBehaviour{
 				try {
 					loopType=(LoopType)Enum.Parse(typeof(LoopType),(string)tweenArguments["looptype"],true); 
 				} catch {
-					Debug.LogWarning("iTween: Unsupported loopType supplied! Default will be used.");
+					//Debug.LogWarning("iTween: Unsupported loopType supplied! Default will be used.");
 					loopType = iTween.LoopType.none;	
 				}
 			}			
@@ -6872,7 +6872,7 @@ public class iTween : MonoBehaviour{
 				try {
 					easeType=(EaseType)Enum.Parse(typeof(EaseType),(string)tweenArguments["easetype"],true); 
 				} catch {
-					Debug.LogWarning("iTween: Unsupported easeType supplied! Default will be used.");
+					//Debug.LogWarning("iTween: Unsupported easeType supplied! Default will be used.");
 					easeType=Defaults.easeType;
 				}
 			}
@@ -6888,7 +6888,7 @@ public class iTween : MonoBehaviour{
 				try {
 					space=(Space)Enum.Parse(typeof(Space),(string)tweenArguments["space"],true); 	
 				} catch {
-					Debug.LogWarning("iTween: Unsupported space supplied! Default will be used.");
+					//Debug.LogWarning("iTween: Unsupported space supplied! Default will be used.");
 					space = Defaults.space;
 				}
 			}			

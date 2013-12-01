@@ -46,7 +46,7 @@ public class HyperJump : Pickup {
 		
 			/* And I'm in the past... */
 			if (currentEraExistingIn == TimePeriod.PAST) {
-				Debug.Log("1");
+				//Debug.Log("1");
 				/* Deactivate Power. */
 				activePlatform.SetActive(false);
 				//activePlatform.GetComponent<BouncyPlatform>().enabled = false;
@@ -55,7 +55,7 @@ public class HyperJump : Pickup {
 			
 			/* And I'm in the future... */
 			else {
-				Debug.Log("2");
+				//Debug.Log("2");
 				/* Currently Deactivated */
 				activePlatform.SetActive(true);
 				//activePlatform.GetComponent<BouncyPlatform>().enabled = false;
@@ -68,7 +68,7 @@ public class HyperJump : Pickup {
 			
 			/* And I'm in the past... */
 			if (currentEraExistingIn == TimePeriod.PAST) {
-				Debug.Log("3");
+				//Debug.Log("3");
 				/* Activate Power */
 				activePlatform.SetActive(true);
 				//activePlatform.GetComponent<BouncyPlatform>().enabled = true;
@@ -76,7 +76,7 @@ public class HyperJump : Pickup {
 			}
 			/* And I'm in the future... */
 			else {
-				Debug.Log("4");
+				//Debug.Log("4");
 				/* Currently Deactivated */
 				activePlatform.SetActive(false);
 				//activePlatform.GetComponent<BouncyPlatform>().enabled = false;

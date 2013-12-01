@@ -104,7 +104,7 @@ public class FSCollisionGroupEditor : Editor
 			EditorUtility.SetDirty(target0);
 			EditorApplication.SaveAssets();
 			AssetDatabase.SaveAssets();
-			//Debug.Log("collision group is dirty");
+			////Debug.Log("collision group is dirty");
 			AssetDatabase.Refresh();
 		}
 	}

@@ -154,7 +154,7 @@ public class tk2dPreferences {
 			x.Serialize( ms, this );
 			xml = System.Text.Encoding.UTF8.GetString(ms.ToArray());
 		}
-		Debug.Log(xml);
+		//Debug.Log(xml);
 	}
 }
 

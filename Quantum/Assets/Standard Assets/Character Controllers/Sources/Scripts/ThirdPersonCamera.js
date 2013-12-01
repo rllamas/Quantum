@@ -36,7 +36,7 @@ function Awake ()
 	if(!cameraTransform && Camera.main)
 		cameraTransform = Camera.main.transform;
 	if(!cameraTransform) {
-		Debug.Log("Please assign a camera to the ThirdPersonCamera script.");
+		//Debug.Log("Please assign a camera to the ThirdPersonCamera script.");
 		enabled = false;	
 	}
 			
@@ -55,7 +55,7 @@ function Awake ()
 		headOffset.y = characterController.bounds.max.y - _target.position.y;
 	}
 	else
-		Debug.Log("Please assign a target to the camera that has a ThirdPersonController script attached.");
+		//Debug.Log("Please assign a target to the camera that has a ThirdPersonController script attached.");
 
 	
 	Cut(_target, centerOffset);

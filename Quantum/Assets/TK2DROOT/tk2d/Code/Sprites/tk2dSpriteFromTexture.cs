@@ -16,7 +16,7 @@ public class tk2dSpriteFromTexture : MonoBehaviour {
 			if (_sprite == null) {
 				_sprite = GetComponent<tk2dBaseSprite>();
 				if (_sprite == null) {
-					Debug.Log("tk2dSpriteFromTexture - Missing sprite object. Creating.");
+					//Debug.Log("tk2dSpriteFromTexture - Missing sprite object. Creating.");
 					_sprite = gameObject.AddComponent<tk2dSprite>();
 				}
 			}

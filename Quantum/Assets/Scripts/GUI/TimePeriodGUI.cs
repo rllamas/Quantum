@@ -37,7 +37,7 @@ public class TimePeriodGUI : MonoBehaviour {
 			timePeriodImage.SetSprite("gui_past_text");
 		}	
 		
-		StartCoroutine("PlayTransitionAnimation");
+		//StartCoroutine("PlayTransitionAnimation");
 	}
 	
 	
@@ -70,7 +70,7 @@ public class TimePeriodGUI : MonoBehaviour {
 	
 	
 	
-	IEnumerator PlayTransitionAnimation() {
+	IEnumerator PlayTransitionAnimationHelper() {
 		
 		timeTravelAnimator.gameObject.SetActive(true);
 		
@@ -98,5 +98,18 @@ public class TimePeriodGUI : MonoBehaviour {
 		
 		timeTravelAnimator.gameObject.SetActive(false);	
 		
+	}
+
+
+	public void PlayTransitionAnimation() {
+		StartCoroutine("PlayTransitionAnimationHelper");
+	}
+
+	public void EnableTimePeriodImage() {
+		timePeriodImage.gameObject.SetActive(true);
+	}
+
+	public void DisableTimePeriodImage() {
+		timePeriodImage.gameObject.SetActive(false);
 	}
 }

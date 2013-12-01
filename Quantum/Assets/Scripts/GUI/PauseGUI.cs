@@ -22,7 +22,7 @@ public class PauseGUI : MonoBehaviour {
 	
 	void Clicked(tk2dUIItem clickedUIItem) {
 		if(this.gameObject.name.Equals("Resume")){
-			Debug.Log("Resuming game...");
+			//Debug.Log("Resuming game...");
 			pause.pauseGame();
 			pause.changeCamera();
 		}else if(this.gameObject.name.Equals("Main Menu")){

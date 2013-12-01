@@ -113,7 +113,7 @@ public class tk2dDemoAnimController : MonoBehaviour
 			animator.Play("demo_once");
 			animator.AnimationCompleted = delegate(tk2dSpriteAnimator sprite, tk2dSpriteAnimationClip clip) 
 				{ 
-					Debug.Log("Delegate");
+					//Debug.Log("Delegate");
 					animator.Play("demo_pingpong"); 
 					animator.AnimationCompleted = null;
 				};

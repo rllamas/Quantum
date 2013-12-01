@@ -29,7 +29,7 @@ public class FSMouseTest : MonoBehaviour {
 		Vector3 wp = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		MouseXWorldPhys = wp.x;// -parent.position.x;
 		MouseYWorldPhys = wp.y;// - parent.position.y;
-		//Debug.Log("MX: " + MouseXWorldPhys + " MY: " + MouseYWorldPhys);
+		////Debug.Log("MX: " + MouseXWorldPhys + " MY: " + MouseYWorldPhys);
 		//dynB.Position = new FVector2(MouseXWorldPhys, MouseYWorldPhys);
 	}
 	

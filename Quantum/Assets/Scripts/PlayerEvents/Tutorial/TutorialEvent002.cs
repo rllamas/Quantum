@@ -12,12 +12,12 @@ public class TutorialEvent002 : PlayerEvent {
 		
 		if (alreadyActivated || !TutorialEvent001.leftTrigger) {
 
-			Debug.Log("alreadyActivated? " + alreadyActivated);
-			Debug.Log("TutorialEvent001.leftTrigger? " + TutorialEvent001.leftTrigger);
+			//Debug.Log("alreadyActivated? " + alreadyActivated);
+			//Debug.Log("TutorialEvent001.leftTrigger? " + TutorialEvent001.leftTrigger);
 			return;	
 		}
 
-		Debug.Log("Starting Event 2 Couroutine.");
+		//Debug.Log("Starting Event 2 Couroutine.");
 
 		base.OnActivate(player);
 		StartCoroutine( DoEvent() );

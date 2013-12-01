@@ -178,7 +178,7 @@ public class Vortex : MonoBehaviour {
 	
 	
 	public void OnWarp() {
-		Debug.Log (this.name + ": OnWarp().");	
+		//Debug.Log (this.name + ": OnWarp().");	
 		StartCoroutine(PlayWarpAnimation());
 		sfxPlayer02.Play();
 		// TimeTravel() is called within PlayWarpAnimation();
@@ -188,7 +188,7 @@ public class Vortex : MonoBehaviour {
 	
 	
 	void OnTriggerEnter(Collider collider) {
-		Debug.Log ("Entering range of vortex...");
+		//Debug.Log ("Entering range of vortex...");
 		vortexInactiveParticles.startSize = 0.0f;	
 		vortexActiveParticles.startSize = particleStartSize;	
 		iTween.AudioTo(sfxPlayer01.gameObject, 1.0f, whenNearbySoundPitch, whenNearbySoundFadeTime);
@@ -198,7 +198,7 @@ public class Vortex : MonoBehaviour {
 	
 	
 	void OnTriggerExit(Collider collider) {
-		Debug.Log ("Exiting range of vortex...");
+		//Debug.Log ("Exiting range of vortex...");
 		vortexInactiveParticles.startSize = particleStartSize;	
 		vortexActiveParticles.startSize = 0.0f;	
 		iTween.AudioTo(sfxPlayer01.gameObject, 0.0f, -whenNearbySoundPitch, whenNearbySoundFadeTime);

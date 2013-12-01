@@ -259,7 +259,7 @@ public class tk2dUIManager : MonoBehaviour
             //can only be one tk2dUIManager at one-time, if another one is found Destroy it
             if (instance != this)
             {
-                Debug.Log("Discarding unnecessary tk2dUIManager instance.");
+                //Debug.Log("Discarding unnecessary tk2dUIManager instance.");
 
                 if (uiCamera != null) {
                     HookUpLegacyCamera(uiCamera);
@@ -286,7 +286,7 @@ public class tk2dUIManager : MonoBehaviour
 
     void Start() {
         if (uiCamera != null) {
-            Debug.Log("It is no longer necessary to hook up a camera to the tk2dUIManager. You can simply attach a tk2dUICamera script to the cameras that interact with UI.");
+            //Debug.Log("It is no longer necessary to hook up a camera to the tk2dUIManager. You can simply attach a tk2dUICamera script to the cameras that interact with UI.");
             HookUpLegacyCamera(uiCamera);
             uiCamera = null;
         }

@@ -270,7 +270,7 @@ public class tk2dSystemUtility
 				tk2dEditorUtility.CollectAndUnloadUnusedAssets();
 			}
 
-			Debug.Log(string.Format("Rebuilt {0} resources for tk2dSystem", sys.Editor__Toc.Length));
+			//Debug.Log(string.Format("Rebuilt {0} resources for tk2dSystem", sys.Editor__Toc.Length));
 		}
 
 		tk2dEditorUtility.CollectAndUnloadUnusedAssets();

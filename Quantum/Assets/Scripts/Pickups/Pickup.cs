@@ -69,7 +69,7 @@ public class Pickup : MonoBehaviour {
 	
 	/* The Player object is expected to call this method when picking up this object. */
 	public virtual void OnPickup(Player player) {
-		Debug.Log (this.name + ": OnPickup().");
+		//Debug.Log (this.name + ": OnPickup().");
 		
 		/* Throw exception if this method is called but the pickup is not possible to pick up right now. */
 		if (!CanPickup() ) {
@@ -92,7 +92,7 @@ public class Pickup : MonoBehaviour {
 	
 	/* The Player object is expected to call this method when dropping this object. */
 	public virtual void OnDrop() {
-		Debug.Log (this.name + ": OnDrop().");
+		//Debug.Log (this.name + ": OnDrop().");
 		
 		/* Re-enable collider triggering for this object when the player sets it down. */
 		this.collider.enabled = true;	
