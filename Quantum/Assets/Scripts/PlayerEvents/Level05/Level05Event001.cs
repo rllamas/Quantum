@@ -33,7 +33,7 @@ public class Level05Event001 : PlayerEvent {
 			
 		player.ShowDialogueBox();
 		//player.SetDialogue("This must be one of those new-fangled ^c0DFFsolar jump pads^cFFFF! It's too dark to use here, tho.");
-		player.SetDialogue("A ^c0DFFSOLAR POWERED JUMP PAD^cFFFF!  \nWhile the ^cF08Ffuture's^cFFFF bleak, foreboding darkness is easy on my hangover, it doesn't seem to activate this doohickey.");
+		player.SetDialogue("A ^c0DFFSOLAR POWERED JUMP PAD^cFFFF!  \nWhile the ^cF08Ffuture's bleak, foreboding darkness^cFFFF is easy on my hangover, it doesn't seem to power up this machine.");
 
 		alreadyActivated = true;	
 		

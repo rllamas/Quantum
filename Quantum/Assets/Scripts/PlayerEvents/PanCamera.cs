@@ -39,6 +39,7 @@ public class PanCamera: PlayerEvent {
 		cameraPanGUI = GameObject.Find("Camera Pan GUI");
 			
 		initialPosition = mainCamera.transform.localPosition;
+		cameraPanGUI.SetActive(false);
 	}
 	
 	
@@ -53,6 +54,7 @@ public class PanCamera: PlayerEvent {
 
 		if (OnActivatedDisablePlayerMovement) {
 			player.canMove = false;
+			player.GetComponent<FSWorldComponent>().enabled = false; // Pause Farseer Physics simulation.
 		}
 		if (OnActivatedDisableTimeGUI) {
 			timePeriodGUI.DisableTimePeriodImage();
@@ -127,6 +129,7 @@ public class PanCamera: PlayerEvent {
 		}
 		if (OnFinishedEnablePlayerMovement) {
 			player.canMove = true;
+			player.GetComponent<FSWorldComponent>().enabled = true; // Unpause Farseer Physics simulation.
 		}
 		if (OnFinishedDisableCameraPanGUI) {
 			cameraPanGUI.SetActive(false);
