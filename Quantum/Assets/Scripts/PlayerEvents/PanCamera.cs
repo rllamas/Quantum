@@ -6,8 +6,10 @@ public class PanCamera: PlayerEvent {
 	
 	
 	private bool alreadyActivated;
+	private bool finished;
 	private tk2dCamera mainCamera;
 	private TimePeriodGUI timePeriodGUI;
+	private GameObject cameraPanGUI;
 
 
 	public Vector3 [] keyframes;
@@ -23,12 +25,20 @@ public class PanCamera: PlayerEvent {
 	public bool OnActivatedDisablePlayerMovement = true;
 	public bool OnFinishedEnablePlayerMovement = true;
 
+	public bool OnActivatedEnableCameraPanGUI = true;
+	public bool OnFinishedDisableCameraPanGUI = true;
 
+	public bool canSkip = true;
+
+	private Vector3 initialPosition;
 
 	
 	void Start() {
 		mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<tk2dCamera>();
 		timePeriodGUI = GameObject.Find("Time Period GUI").GetComponent<TimePeriodGUI>();
+		cameraPanGUI = GameObject.Find("Camera Pan GUI");
+			
+		initialPosition = mainCamera.transform.localPosition;
 	}
 	
 	
@@ -47,8 +57,11 @@ public class PanCamera: PlayerEvent {
 		if (OnActivatedDisableTimeGUI) {
 			timePeriodGUI.DisableTimePeriodImage();
 		}
+		if (OnActivatedEnableCameraPanGUI) {
+			cameraPanGUI.SetActive(true);
+		}
 
-		StartCoroutine( DoEvent() );
+		StartCoroutine("DoEvent");
 		
 	}
 	
@@ -56,7 +69,6 @@ public class PanCamera: PlayerEvent {
 	
 	private IEnumerator DoEvent() {
 
-		//Debug.Log("In DoEvent()!");
 		alreadyActivated = true;
 
 		yield return new WaitForSeconds(initialWaitingTime);
@@ -71,8 +83,6 @@ public class PanCamera: PlayerEvent {
 			float distance = Vector3.Distance(currentCameraPosition, keyframes[i]);
 			float timeBetweenKeyframes = Mathf.Sqrt(distance)/keyframeTransitionSpeed;
 
-//			Debug.Log ("timeBetweenKeyFrames: " + timeBetweenKeyframes);
-
 			iTweenSettings["position"] = keyframes[i];
 			iTweenSettings["time"] = timeBetweenKeyframes;
 
@@ -81,6 +91,36 @@ public class PanCamera: PlayerEvent {
 			currentCameraPosition = keyframes[i];
 		}
 
+		OnFinish();
+	}
+
+
+
+	void Update() {
+		 if (!finished && Input.GetButtonDown("Action1")) {
+			StopCoroutine("DoEvent");
+
+			float distance = Vector3.Distance(mainCamera.transform.localPosition, Vector3.zero);
+			float timeBetweenKeyframes = Mathf.Sqrt(distance)/keyframeTransitionSpeed;
+
+			Hashtable iTweenSettings = new Hashtable();
+			iTweenSettings["islocal"] = true;
+			iTweenSettings["easetype"] = transitionEaseType;
+			iTweenSettings["position"] = initialPosition;
+			iTweenSettings["time"] = timeBetweenKeyframes;
+
+
+			iTween.MoveTo(mainCamera.gameObject, iTweenSettings);
+
+			OnFinish();
+
+		}
+
+	}
+
+
+	void OnFinish() {
+
 		if (OnFinishedEnableTimeGUI) {
 			timePeriodGUI.EnableTimePeriodImage();
 			timePeriodGUI.PlayTransitionAnimation();
@@ -88,8 +128,11 @@ public class PanCamera: PlayerEvent {
 		if (OnFinishedEnablePlayerMovement) {
 			player.canMove = true;
 		}
+		if (OnFinishedDisableCameraPanGUI) {
+			cameraPanGUI.SetActive(false);
+		}
+		finished = true;
 	}
 	
-
 	
 }
