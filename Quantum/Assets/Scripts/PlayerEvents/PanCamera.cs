@@ -16,6 +16,7 @@ public class PanCamera: PlayerEvent {
 	public float keyframeTransitionSpeed = 25.0f;
 	public float timeAtKeyframe = 0.0f;
 	public iTween.EaseType transitionEaseType = iTween.EaseType.easeInOutQuart;
+	public iTween.EaseType skipEaseType = iTween.EaseType.easeOutQuart;
 	
 	public float initialWaitingTime = 1.5f;
 
@@ -107,7 +108,7 @@ public class PanCamera: PlayerEvent {
 
 			Hashtable iTweenSettings = new Hashtable();
 			iTweenSettings["islocal"] = true;
-			iTweenSettings["easetype"] = transitionEaseType;
+			iTweenSettings["easetype"] = skipEaseType;
 			iTweenSettings["position"] = initialPosition;
 			iTweenSettings["time"] = timeBetweenKeyframes;
 
