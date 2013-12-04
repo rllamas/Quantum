@@ -4,10 +4,17 @@ using System.Collections;
 public class PauseGUI : MonoBehaviour {
 	tk2dUIItem uiItem;
 	Pause pause;
+	bool mapping = false;
+	GameObject resume;
+	GameObject menu;
+	GameObject reset;
 	
 	// Use this for initialization
 	void Start () {
 		pause = transform.parent.transform.parent.gameObject.GetComponent<Pause>();
+		resume = GameObject.Find("Resume").gameObject;
+		reset = GameObject.Find("Reset").gameObject;
+		menu = GameObject.Find("Main Menu").gameObject;
 	}
 	
 	// Update is called once per frame
@@ -33,6 +40,18 @@ public class PauseGUI : MonoBehaviour {
 			//int level = transform.Find("LevelManager").gameObject.GetComponent<LevelManager>().GetCurrentLevelNumber();
 			Application.LoadLevel(Application.loadedLevelName);
 			pause.pauseGame();
+		}else if(this.gameObject.name.Equals("Map")){
+			if(!mapping){
+				mapping = true;
+				resume.SetActive(false);
+				reset.SetActive(false);
+				menu.SetActive(false);
+			}else{
+				mapping = false;
+				resume.SetActive(true);
+				reset.SetActive(true);
+				menu.SetActive(true);
+			}
 		}
 	}
 	
