@@ -41,7 +41,7 @@ public class ActionGUI : MonoBehaviour {
 		switch (player.currentActionButtonState) {
 
 			case (Player.ActionButtonStates.CAN_WIN):
-				actionText.text = "Grab ^cFF0FMachine Piece^cFFFF";
+				actionText.text = "Get ^cFF0FTime Crystal^cFFFF";
 				break;
 
 			case (Player.ActionButtonStates.CAN_PICKUP_PLANT):
