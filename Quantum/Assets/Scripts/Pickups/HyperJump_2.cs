@@ -59,43 +59,15 @@ public class HyperJump_2 : Pickup {
 	public override void Update () {
 		base.Update();
 	}
-	
+
 	/* Are you allowed to pick up the pickup right now? */
 	public override bool CanPickup() {
-		return GetComponent<MeshRenderer>().enabled;// && currentJumpFactor == 0;
+		bool isGrounded = GameObject.FindWithTag("Player").GetComponent<Player>().IsGrounded();
+		return GetComponent<MeshRenderer>().enabled && isGrounded;// && currentJumpFactor == 0;
 	}
-	
+
 	protected override bool OnCollisionEvent(Fixture A, Fixture B, Contact contact) {
-		/*if (!GetComponent<MeshRenderer>().enabled && B.Body.UserTag == "Player") {
-			return false;
-		}
-		else if (CanPickup() && B.Body.UserTag == "Player") {
-			return false;
-		}
-		else if (!CanPickup() && this.transform.parent == null && 
-			contact.IsTouching() && B.Body.UserTag == "Player") {
-				B.Body.ApplyLinearImpulse(new FVector2(0, -B.Body.LinearVelocity.Y * currentJumpFactor));
-				
-				if (currentJumpFactor > 0 && B.Body.LinearVelocity.Y > 0) {
-					/* Play jumping sound. *
-					Player attachedPlayer = GameObject.FindWithTag("Player").GetComponent<Player>();
-					attachedPlayer.sfxPlayer.clip = attachedPlayer.jumpSound;
-					attachedPlayer.sfxPlayer.loop = false;
-					/* Give some variation to the jump pitch. *
-					if (!attachedPlayer.NearVortex()) {
-						attachedPlayer.sfxPlayer.pitch = 1.0f + 0.02f*UnityEngine.Random.Range(-11, 6);
-					}
-					attachedPlayer.sfxPlayer.Play();
-				}
-		}
-		else if (!CanPickup() && this.transform.parent == player.transform) {
-			return false;
-		}
-		else if (B.Body.UserTag == "Pickup") {
-			return false;
-		}*/
-		
-		if (B.Body.UserTag == "Player") {
+		/*if (B.Body.UserTag == "Player") {
 			if (!CanPickup()) {
 				return false;
 			}
@@ -113,11 +85,11 @@ public class HyperJump_2 : Pickup {
 					}
 				
 					if (currentJumpFactor > 0 && B.Body.LinearVelocity.Y > 0) {
-						/* Play jumping sound. */
+						/* Play jumping sound. *
 						Player attachedPlayer = GameObject.FindWithTag("Player").GetComponent<Player>();
 						attachedPlayer.sfxPlayer.clip = attachedPlayer.jumpSound;
 						attachedPlayer.sfxPlayer.loop = false;
-						/* Give some variation to the jump pitch. */
+						/* Give some variation to the jump pitch. *
 						if (!attachedPlayer.NearVortex()) {
 							attachedPlayer.sfxPlayer.pitch = 1.0f + 0.02f*UnityEngine.Random.Range(-11, 6);
 						}
@@ -134,11 +106,40 @@ public class HyperJump_2 : Pickup {
 			return false;
 		}
 		
+		A.Body.BodyType = BodyType.Static;*
+		return true;*/
+
+		if (B.Body.UserTag == "Player") {
+			if (this.transform.parent != null) {
+				return false;
+			}
+			else {
+				if (LevelManager.IsPast()) {
+					B.Body.ApplyLinearImpulse(new FVector2(0, Mathf.Abs(B.Body.LinearVelocity.Y * currentJumpFactor)));
+
+					if (currentJumpFactor > 0 && B.Body.LinearVelocity.Y > 0) {
+						/* Play jumping sound. */
+						Player attachedPlayer = GameObject.FindWithTag("Player").GetComponent<Player>();
+						attachedPlayer.sfxPlayer.clip = attachedPlayer.jumpSound;
+						attachedPlayer.sfxPlayer.loop = false;
+						/* Give some variation to the jump pitch. */
+						if (!attachedPlayer.NearVortex()) {
+							attachedPlayer.sfxPlayer.pitch = 1.0f + 0.02f*UnityEngine.Random.Range(-11, 6);
+						}
+						attachedPlayer.sfxPlayer.Play();
+					}
+				}
+
+				return false;
+			}
+		}
+		else if (B.Body.UserTag == "Pickup") {
+			return false;
+		}
+
 		A.Body.BodyType = BodyType.Static;
 		return true;
 	}
-
-
 
 	public override void HandleBeforeChangeEra(TimePeriod eraChangingTo) {
 		base.HandleBeforeChangeEra(eraChangingTo);
@@ -235,9 +236,7 @@ public class HyperJump_2 : Pickup {
 			}	
 		}
 	}
-
-
-
+	
 	public override void HandleChangeEra(TimePeriod eraChangingTo) {
 		base.HandleChangeEra(eraChangingTo);
 		
@@ -304,8 +303,6 @@ public class HyperJump_2 : Pickup {
 			}	
 		}
 	}
-
-
 	
 	void OnDestroy() {
 		this.transform.parent = null;
