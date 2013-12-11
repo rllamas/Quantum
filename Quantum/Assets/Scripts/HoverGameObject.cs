@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TimeCrystalHover : MonoBehaviour {
+public class HoverGameObject : MonoBehaviour {
 
 	public float hoverAmount = 1.0f;
 	public float hoverTime = 2.0f;
