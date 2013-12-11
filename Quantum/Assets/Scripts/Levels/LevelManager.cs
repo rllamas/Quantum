@@ -12,7 +12,7 @@ public class LevelManager : MonoBehaviour {
 
 	public TimePeriod CurrentEra;
 	private static LevelManager singletonInstance = null;
-	private int CurrentLevel = 0; // -1 is used for controls scene
+	private int CurrentLevel = -1; // -1 is used for intro scene
 
 	private string[] Levels = {
 		"scene_level_00",
@@ -24,7 +24,7 @@ public class LevelManager : MonoBehaviour {
 		"scene_level_06",
 	};
 	private string winScene = "scene_win_01";
-	private string levelSelectScene = "level_select_beta";
+	private string levelSelectScene = "scene_title_with_level_select";
 
 	public MeshFilter animationCurtain;
 	private tk2dTextMesh levelNameText;
@@ -121,7 +121,7 @@ public class LevelManager : MonoBehaviour {
 			levelNameText.text = "";
 		}
 		else if (CurrentLevel == 0) {
-			levelNameText.text = "Tutorial";
+			levelNameText.text = "Beginnings";
 		}
 		else if (CurrentLevel < 10) {
 			levelNameText.text = "Level 0" + CurrentLevel;
