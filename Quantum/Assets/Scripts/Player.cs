@@ -203,13 +203,17 @@ public class Player : MonoBehaviour {
 			nearVortex = true;	
 		}
 		else if (IsJump(other.gameObject)) {
-			if (LevelManager.IsPast()) {
+			/*if (LevelManager.IsPast()) {
 				if (maxVelocityY != 50.0f) {
 					maxVelocityY = 50.0f;
 				}
 				else {
 					maxVelocityY = 19.0f;
 				}
+			}*/
+			if (LevelManager.IsPast()) {
+				Debug.Log("Still here");
+				maxVelocityY = 50.0f;
 			}
 		}
 		
@@ -272,9 +276,7 @@ public class Player : MonoBehaviour {
 		}
 		
 		else if (IsJump(other.gameObject)) {
-			Debug.Log("In IsJump");
-			Debug.Log("Current children: " + this.transform.childCount);
-			float tempFactor = other.gameObject.GetComponent<HyperJump_2>().currentJumpFactor;
+			/*float tempFactor = other.gameObject.GetComponent<HyperJump_2>().currentJumpFactor;
 			if (LevelManager.IsPast()) {
 				if (this.transform.childCount > 4) {
 					Body tempBody = other.gameObject.GetComponent<FSBodyComponent>().PhysicsBody;
@@ -285,7 +287,19 @@ public class Player : MonoBehaviour {
 				else {
 					maxVelocityY = 50.0f;
 				}
+			}*
+			Debug.Log("Stapler: " + transform.childCount);
+
+			if (this.transform.childCount > 4) {
+				Debug.Log("Copier");
+				Body temp = transform.GetChild(4).GetComponent<FSBodyComponent>().PhysicsBody;
+				if (temp.UserTag == "HyperJump") {
+					Debug.Log("Why not?");
+					maxVelocityY = 19.0f;
+				}
 			}
+
+			Debug.Log("blah");*/
 		}
 		
     }

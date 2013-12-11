@@ -310,7 +310,8 @@ public class HyperJump_2 : Pickup {
 	
 	public override void OnPickup (Player player) {
 		base.OnPickup(player);
-		
+		player.maxVelocityY = 19.0f;
+
 		if (currentEraExistingIn == TimePeriod.PAST && LevelManager.IsPast()) {
 			anim.Play("deactivation");
 
