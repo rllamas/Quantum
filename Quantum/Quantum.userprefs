@@ -1,9 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/HoverGameObject.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Win Sceen/WinScreen.cs">
     <Files>
       <File FileName="Assets/Scripts/HoverGameObject.cs" Line="16" Column="25" />
-      <File FileName="Assets/Scripts/HoverGameObject.cs" Line="16" Column="25" />
+      <File FileName="Assets/Scripts/Win Sceen/WinScreen.cs" Line="22" Column="37" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

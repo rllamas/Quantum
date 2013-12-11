@@ -24,7 +24,8 @@ public class LevelManager : MonoBehaviour {
 		"scene_level_06",
 	};
 	private string winScene = "scene_win_01";
-	private string levelSelectScene = "scene_title_with_level_select";
+	private string introSequenceScene = "scene_intro_sequence";
+	private string mainMenuScene = "scene_title_with_level_select";
 
 	public MeshFilter animationCurtain;
 	private tk2dTextMesh levelNameText;
@@ -188,7 +189,21 @@ public class LevelManager : MonoBehaviour {
 	public static void LoadLevelSelect() {
 
 		Instance.CurrentLevel = -1;
-		Application.LoadLevel(Instance.levelSelectScene);
+		Application.LoadLevel(Instance.mainMenuScene);
+	}
+
+
+	public static void LoadIntroSequence() {
+		
+		Instance.CurrentLevel = -1;
+		Application.LoadLevel(Instance.introSequenceScene);
+	}
+
+
+	public static void LoadTutorial() {
+		
+		Instance.CurrentLevel = 0;
+		LoadLevel(0);
 	}
 	
 	

@@ -24,7 +24,7 @@ public class TitleScreenWithLevelSelect : MonoBehaviour {
 	void Update () {
 	
 		if (Input.anyKeyDown) {
-			LevelManager.LoadLevel(0);
+			LevelManager.LoadIntroSequence();
 //			StartCoroutine( PanCamera() );
 		}
 	}
